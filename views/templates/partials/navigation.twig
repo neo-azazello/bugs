@@ -1,0 +1,22 @@
+        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg order-lg-first">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                  
+                  <li class="nav-item">
+                    <a href="{{ path_for('home') }}" class="nav-link"><i class="fe fe-home"></i> Tasks & Bugs</a>
+                  </li>
+                  {% if auth.user.is_admin == "true" %} 
+                    <li class="nav-item dropdown">
+                      <a href="{{ path_for('create') }}" class="nav-link"><i class="fe fe-plus-circle"></i> New Task</a>
+                    </li>
+                  {% endif %}
+                  <li class="nav-item">
+                    <a href="{{ path_for('fixed') }}" class="nav-link"><i class="fe fe-thumbs-up"></i> Fixed & Finished</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>

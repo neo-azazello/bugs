@@ -1,0 +1,169 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+{% for data in edit %}
+<form action="{{ path_for('postedit') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+   <div class="container">
+                 <div class="page-header">
+              <h1 class="page-title">Update task </h1>
+            </div>
+            
+            <div class="row">
+            <div class="col-lg-4">
+        
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Task details</h3>
+                </div>
+                <div class="card-body">
+                 
+                  <div class="form-group">
+                        <label class="form-label">Task Status</label>
+                        <div class="selectgroup w-100">
+                          {% for status in statuses %}
+                            <label class="selectgroup-item">
+                              <input type="radio" name="taskstatus" value="{{status.statusid}}" class="selectgroup-input" {% if data.taskstatus == status.statusid %} checked="" {% endif %}> 
+                              <span class="selectgroup-button">{{status.statusname}}</span>
+                            </label>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                    
+                    <div class="form-group">
+                        <label class="form-label">Task Types</label>
+                            <div class="selectgroup selectgroup-pills">
+                              
+                              {% for type in types %}
+                                  <label class="selectgroup-item">
+                                    <input type="radio" name="tasktypeid" value="{{type.tasktypeid}}" class="selectgroup-input" {% if data.taskstatus == type.tasktypeid %} checked="" {% endif %}>
+                                    <span class="selectgroup-button selectgroup-button-icon">{{type.tasktypename}}</span>
+                                  </label>
+                              {% endfor %}
+                              
+                            </div>
+                      </div>
+
+                  
+
+                      <div class="form-group">
+                          <label class="form-label">Assigned to</label>
+                          <div class="row gutters-sm">
+                            {% for user in users %}
+                                <div class="col-6 col-sm-4">
+                                  <label class="imagecheck mb-4">
+                                    <input name="assigned[]" 
+                                           type="checkbox" 
+                                           value="{{ user.id }}" 
+                                           class="imagecheck-input"  
+                                           {% for assign in assigned %} 
+                                           {% if assign.id == user.id %} checked="" {% endif %}
+                                           {% endfor %}
+                                           >
+                                    <figure class="imagecheck-figure">
+                                      <img src="{{ user.photo }}" alt="}" class="imagecheck-image">
+                                    </figure>
+                                  </label>
+                                </div>
+                             {% endfor %}
+                          </div>
+                      </div>
+                  
+                </div>
+              </div>
+              
+              
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Task description</h3>
+                </div>
+                <div class="card-body">
+                  
+                <div class="row">
+                    <div class="form-group col-sm-8 col-md-10">
+                        <label class="form-label">Task title <span class="form-required">*</span></label>
+                        <input type="text" class="form-control" name="tasktitle" placeholder="Enter task title" value="{{data.tasktitle}}">
+                    </div>
+                    
+                    <div class="form-group col-sm-4 col-md-2">
+                      <label class="form-label">Project <span class="form-required">*</span>
+                      </label>
+                      <select class="custom-select" name="taskproject">
+                        {% for project in projects %}
+                          <option value="{{ project.projectid }}">{{ project.projectname }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    
+                    <div class="col-md-12">
+                      <div class="form-group mb-0">
+                        <label class="form-label">Task description <span class="form-required">*</span></label>
+                        <textarea rows="5" class="form-control" name="tasktext" id="addtask">{{data.tasktext}}</textarea>
+                      </div>
+                    </div>
+
+                    <script>
+                        var simplemde = new SimpleMDE({ element: document.getElementById("addtask"), showIcons: ["code", "table"], spellChecker: false });
+                    </script>
+
+               <div class="col-md-12">
+                  <div class="alert alert-icon alert-primary" role="alert">
+                    <i class="fe fe-bell mr-2" aria-hidden="true"></i> Please select bulk files to upload or leave blank. 
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                   <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" readonly>
+                          <div class="input-group-btn">
+                            <span class="fileUpload btn btn-info">
+                                <span class="upl" id="upload">Upload multiple file</span>
+                                <input type="file" name="taskfiles[]" class="upload up" id="up" onchange="readURL(this);" multiple/>
+                              </span>
+                          </div>
+                      </div>
+                   </div>
+                </div>
+                
+                {% if files %}
+                
+                <div class="col-md-12">
+                  <div class="alert alert-icon alert-warning" role="alert">
+                    <i class="fe fe-alert-circle mr-2" aria-hidden="true"></i> Please click <b class="fe fe-x-circle ikon"></b> after file to delete. 
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                      
+                        <div class="alert alert-icon alert-primary" role="alert">
+                          <i class="fe fe-download mr-2" aria-hidden="true"></i> 
+                            {% for file in files %}
+                              <span id="file_{{file.fileid}}"><a href="{{ base_url() }}/assets/uploads/{{file.filename}}" target="_blank">{{file.filename}}</a> <b onclick="files({{file.fileid}})"  class="fe fe-x-circle ikon"></b><br>
+                              </span>
+                            {% endfor %}
+                        </div>
+                </div>
+              {% endif %}
+
+                  </div>
+                </div>
+                <div class="card-footer text-right">
+                  <a href="{{ base_url() }}/view/{{data.taskid}}"><span class="btn btn-secondary">Cancel</span></a>
+                  <button type="submit" class="btn btn-primary">Update Task</button>
+                  <input type="hidden" name="taskid" value="{{data.taskid}}">
+                </div>
+              </div>
+                          
+            </div>
+
+          </div>
+        </div>
+</form>
+{% endfor %}
+{% endblock %}

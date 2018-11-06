@@ -1,0 +1,46 @@
+{% if not comments %} 
+
+<div class="alert alert-icon alert-primary no-comments" role="alert">
+ <i class="fe fe-bell mr-2" aria-hidden="true"></i> There is no any discussion started for this task. 
+</div>
+
+{% endif %}
+
+<ul class="list-group card-list-group" id="comments-list">
+{% for comment in comments %}
+<li class="list-group-item py-5" id="comment_{{comment.commentid}}">
+    <div class="media">
+      <div class="media-object avatar avatar-md mr-4" style="background-image: url({{comment.photo}})"></div>
+      <div class="media-body">
+        <div class="media-heading">
+          <small class="float-right text-muted">{{comment.created_at|date("d.m.Y H:i")}} {% if comment.name == auth.user.name %}<b onclick="comment({{comment.commentid}})"  class="fe fe-x-circle ikon"></b>{% endif %} </small>
+          <h5>{{comment.name}}</h5>
+        </div>
+        <div>{{ markdown(comment.commenttext) | raw }}</div>
+      </div>
+    </div>
+</li>  
+{% endfor %}
+
+<div id='response'></div>
+</ul>
+
+
+
+<form autocomplete="off" id="userForm" >
+
+  <div class="form-group mb-0">
+    <textarea rows="3" class="form-control" name="commenttext" id="newcomment"></textarea>
+  </div>
+  
+  <input type="hidden" name="taskid" value="{{one.taskid}}">
+  
+  <div class="text-right">
+      <input type='submit' class="btn btn-primary" value='Submit' />
+  </div>
+  
+</form>
+
+<script>
+    simplemde = new SimpleMDE({ element: document.getElementById("newcomment"), forceSync: true, showIcons: ["code", "table"], spellChecker: false });
+</script>
