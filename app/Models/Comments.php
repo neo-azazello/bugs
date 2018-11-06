@@ -37,14 +37,14 @@ class Comments extends Model {
     public function getCommentById($id){
         
             return $select = DB::select(
-            "SELECT
-            TC.commentid,
-            TC.commenttext AS text,
-            TC.created_at AS date,
-            U.name,
-            U.photo
-            FROM taskcomments TC
-            INNER JOIN users U On U.id = TC.authorid
-            WHERE commentid = $id");
+                "SELECT
+                TC.commentid,
+                TC.commenttext AS text,
+                TC.created_at AS date,
+                U.name,
+                U.photo
+                FROM taskcomments TC
+                INNER JOIN users U On U.id = TC.authorid
+                WHERE commentid = $id");
     }
 }

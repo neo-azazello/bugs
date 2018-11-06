@@ -13,10 +13,10 @@ class Telegram {
         $query = ["chat_id" => $this->channel, "text" => $txt];
         $url = "https://api.telegram.org/bot" . $token;
         $url .= "/sendMessage?" . http_build_query($query);
-    
-        $ch = curl_init($url);
-        curl_exec($ch);
-        curl_close($ch);
+        
+        file_get_contents($url, true);
+        
+
     }
     
     

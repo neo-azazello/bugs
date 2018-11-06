@@ -39,7 +39,7 @@
                                 </div>
                               </td>
                               <td>
-                                <div>{{ task.tasktitle }}</div>
+                                <div><a href="{{base_url()}}/view/{{ task.taskid }}" >{{ task.tasktitle }}</a></div>
                                 <div class="small text-muted">
                                  {{ task.created_at |date("d.m.Y H:i")}}
                                 </div>

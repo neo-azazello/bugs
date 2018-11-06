@@ -101,7 +101,7 @@ class TaskController extends Controller {
         
         $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
 
-        $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . " Link: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
+        $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
     
         //As soon as data will be in database it will redirect us to homepage
         return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id]));
