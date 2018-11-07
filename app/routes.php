@@ -54,4 +54,8 @@ $app->group('', function () {
     
     $this->post('/deletecomment', 'CommentController:deleteComment');
     
+    $this->get('/profile/{id}', 'ProfileController:getProfileDetails')->setName('profile');
+    
+    $this->post('/updateprofile', 'ProfileController:updateProfile')->setName('updateprofile');
+    
 })->add(new AuthMiddleware($container));

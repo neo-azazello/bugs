@@ -1,0 +1,90 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Update profile </h1>
+    </div>
+
+<div class="row">
+{% for u in user %}
+
+<div class="col-md-8 col-sm-12 offset-md-2">
+  
+{% include 'templates/partials/flash.twig' %} 
+  
+{% if u.id != auth.user.id %} 
+
+<div class="alert alert-icon alert-danger" role="alert">
+  <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i> You may not view profile details of other users.
+</div>
+
+{% else %} 
+
+  <div class="card">
+    <div class="card-body">
+      
+      <form action="{{ path_for('updateprofile') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+        
+        <div class="row">
+          
+          <div class="col-auto">
+            <img src="{{u.photo}}" class="avatar avatar-xxl" id="previewing_profile">
+              <input type="hidden" name="photo" id="photo" value="" />
+              <div class="browse-photo">
+                <label class="btn-bs-file btn btn-md btn-success">
+                    Change
+                    <input type="file" id="profile_file"/>
+                </label>
+              </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="form-label">Full name <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="name" value="{{u.name}}"  required disabled>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Pass code <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="code" value="{{u.code}}" maxlength="10" required disabled>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email address <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="email" value="{{u.email}}" required disabled>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Telegram name <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="telegramname" value="{{u.telegramname}}"  required disabled>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <div class="form-footer">
+          <div class="text-right">
+            <div class="btn btn-secondary editcancel" id="editcancel">Cancel</div>
+            <div class="btn btn-success editprofile" id="editprofile">Edit profile</div>
+            <button class="btn btn-primary" id="updateprofile" disabled>Update profile</button>
+          </div>
+        </div>
+        
+        
+      
+      </form>
+      
+    </div>
+  </div>
+  
+{% endif %}
+  
+  
+</div>
+{% endfor %}
+</div>
+</div>
+
+{% endblock %}

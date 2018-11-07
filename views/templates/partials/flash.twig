@@ -8,7 +8,8 @@
 
 {% if flash.getMessage('success') %}
 
-<div class="alert alert-icon alert-success" role="alert">
+<div class="alert alert-icon alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert"></button>
   <i class="fe fe-check mr-2" aria-hidden="true"></i>  {{ flash.getMessage('success') | first}}
 </div>
 

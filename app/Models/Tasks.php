@@ -117,6 +117,7 @@ class Tasks extends Model {
                   T.tasktitle,
                   T.tasktext,
                   T.taskstatus,
+                  T.tasktypeid,
                   T.created_at,
                   P.projectname,
                   U.name,

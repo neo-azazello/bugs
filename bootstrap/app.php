@@ -88,6 +88,10 @@ $container['validator'] = function ($container) {
     return new \App\Validation\Validator;
 };
 
+$container['ProfileController'] = function ($container) {
+    return new \App\Controllers\ProfileController($container);
+}; 
+
 $container['AuthController'] = function ($container) {
     return new \App\Controllers\AuthController($container);
 }; 

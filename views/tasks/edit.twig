@@ -33,10 +33,9 @@
                     <div class="form-group">
                         <label class="form-label">Task Types</label>
                             <div class="selectgroup selectgroup-pills">
-                              
                               {% for type in types %}
                                   <label class="selectgroup-item">
-                                    <input type="radio" name="tasktypeid" value="{{type.tasktypeid}}" class="selectgroup-input" {% if data.taskstatus == type.tasktypeid %} checked="" {% endif %}>
+                                    <input type="radio" name="tasktypeid" value="{{type.tasktypeid}}" class="selectgroup-input" {% if data.tasktypeid == type.tasktypeid %} checked="" {% endif %}>
                                     <span class="selectgroup-button selectgroup-button-icon">{{type.tasktypename}}</span>
                                   </label>
                               {% endfor %}

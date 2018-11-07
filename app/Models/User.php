@@ -5,14 +5,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class User extends Model {
 
         protected $table = 'users';
 
         protected $fillable = [
+            'name',
             'code',
+            'photo',
+            'email',
+            'telegramname',
+            'updated_at',
         ];
+        
+        public function getUserDetails($userId) {
+            
+            $id = implode('', $userId);
+            
+            return $select = DB::select("SELECT * FROM users WHERE id = $id");
+
+        }
 
 
 }

@@ -129,3 +129,70 @@ $(document).ready(function(){
       });
    
  }
+
+$(document).ready(function(){ 
+    
+    $('#editprofile').click(function(){
+        $('input').prop('disabled', false);
+        $('.editprofile').css( "display", "none" );
+        $('#updateprofile').prop('disabled', false);
+        $('.editcancel').css( "display", "inline-block" );
+        $('.browse-photo').css( "display", "inherit" );
+    });
+});
+
+$(document).ready(function(){ 
+    
+    $('#editcancel').click(function(){
+        $('input').prop('disabled', true);
+        $('.editcancel').css( "display", "none" );
+        $('.browse-photo').css( "display", "none" );
+        $('#updateprofile').prop('disabled', true);
+        $('.editprofile').css( "display", "inline-block" );
+        
+    });
+});
+
+$(function() {
+    $("#profile_file").change(function() {
+        
+        var file = this.files[0];
+        
+        var imagefile = file.type;
+        var imagesize = file.size;
+        
+        var match= ["image/jpeg","image/png","image/jpg"];
+
+        var allowed = 17000;
+
+        
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+        
+        {
+            alert('Image must be jpeg, png or jpg!');
+            
+            return false;
+        
+        }
+        
+        if(imagesize >= allowed) {
+    
+            alert('Image width size should be 100px or less!');
+            
+            return false;
+            
+        } 
+            var reader = new FileReader();
+            reader.onload = imageIsLoadedA;
+            reader.readAsDataURL(this.files[0]);
+        
+    });
+});
+
+function imageIsLoadedA(e) {
+    $('#profile_image_preview').css("display", "block");
+    $('#previewing_profile').attr('src', e.target.result);
+    $('#photo').attr('value', e.target.result);
+    $('#previewing_profile').attr('width', '250px');
+
+}

@@ -1886,6 +1886,7 @@ pre code {
 .form-control:disabled, .form-control[readonly] {
   background-color: #f8f9fa;
   opacity: 1;
+  cursor: no-drop;
 }
 
 select.form-control:not([size]):not([multiple]) {
@@ -2386,6 +2387,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #467fcf;
   border-color: #467fcf;
+  cursor: no-drop;
 }
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
@@ -18652,4 +18654,30 @@ svg {
 
 #userForm .CodeMirror-scroll {
 	min-height: 120px!important;
+}
+
+.btn-bs-file{
+    position:relative;
+    width: -webkit-fill-available;
+}
+
+.btn-bs-file input[type="file"]{
+    position: absolute;
+    top: -9999999;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    width:0;
+    height:0;
+    outline: none;
+    cursor: inherit;
+}
+
+.browse-photo {
+      margin-top: 10px;
+      -ms-flex-pack: center!important;
+      justify-content: center!important;
+}
+
+.editcancel, .browse-photo {
+  display: none;
 }
