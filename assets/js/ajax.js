@@ -65,8 +65,7 @@ $(document).ready(function(){
     
     $('#userForm').submit(function(){
     
-    // show that something is loading
-        //$('#response').html("<b>Loading response...</b>");
+   var currentCount = $('#comment-count').text();
     
     // Call ajax for pass data to other place
         $.ajax({
@@ -93,6 +92,7 @@ $(document).ready(function(){
             // show the response
             $('#comments-list').fadeIn( "slow", function(){ 
                     $(this).append(template);
+                    $('#comment-count').text(++currentCount);
                     $(".no-comments").remove();
                 });
             
@@ -112,6 +112,8 @@ $(document).ready(function(){
 });
 
  function comment(id) {
+     
+     var currentCount = $('#comment-count').text();
    
        $.ajax({
           url: '/deletecomment',
@@ -120,6 +122,7 @@ $(document).ready(function(){
           success: function () {
               $( "#comment_" + id ).fadeOut(400, function(){ 
                     $(this).remove();
+                    $('#comment-count').text(--currentCount);
                     
                 });
           },
