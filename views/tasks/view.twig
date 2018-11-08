@@ -15,7 +15,8 @@
 {% for one in task %}
    <div class="container">
                  <div class="page-header">
-              <h1 class="page-title">View task | Project: {{one.projectname}}</h1>
+              <h1 class="page-title">View task | Project: {{one.projectname}} </h1>  
+              {% if one.is_draft == 'true' %} &nbsp; &nbsp; <span class="badge badge-warning ">Viewing Draft Task</span>{% endif%}
             </div> 
             
             {% include 'templates/partials/flash.twig' %} 

@@ -29,14 +29,9 @@ class Auth {
              
              $user = User::where('code', $code)->first();
              
-             $date = new DateTime(null, new DateTimeZone('Asia/Baku'));
-             $time = ($date->getTimestamp() + $date->getOffset());
-             
              $_SESSION['user'] = $user->id;
              $_SESSION['is_admin'] = $user->is_admin;
              $_SESSION['name'] = $user->name;
-             
-             setcookie("start", $time, $time+86400); 
              
              return true;
             

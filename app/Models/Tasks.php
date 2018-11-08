@@ -18,9 +18,39 @@ class Tasks extends Model {
             'tasktypeid',
             'taskstatus',
             'taskproject',
+            'is_draft',
         ];
         
         public function getAllTasks() {
+            
+            return $select = DB::select(
+                "SELECT
+                  T.taskid,
+                  T.tasktitle,
+                  T.created_at,
+                  U.photo,
+                  TT.tasktypename,
+                  TT.tasktypecolor,
+                  TS.statusname,
+                  TS.statuscolor,
+                  P.projectname,
+                  P.projectsartdate,
+                  T.is_draft,
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                FROM tasks T
+                INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
+                INNER JOIN users U ON U.id = T.taskauthor
+                INNER JOIN projects P ON P.projectid = T.taskproject
+                INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
+                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
+                LEFT JOIN  users AU ON TA.userid = AU.id
+                WHERE T.taskstatus != 3 AND T.is_draft = 'false'
+                GROUP BY T.taskid
+                ORDER BY T.taskid DESC"
+                );
+        }
+        
+        public function getDraftTasks() {
             
             return $select = DB::select(
                 "SELECT
@@ -42,12 +72,39 @@ class Tasks extends Model {
                 INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
                 LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
                 LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus != 3
+                WHERE T.taskstatus != 3 AND T.is_draft = 'true'
                 GROUP BY T.taskid
                 ORDER BY T.taskid DESC"
                 );
         }
         
+        public function getFinishedTasks() {
+            
+            return $select = DB::select(
+                "SELECT
+                  T.taskid,
+                  T.tasktitle,
+                  T.created_at,
+                  U.photo,
+                  TT.tasktypename,
+                  TT.tasktypecolor,
+                  TS.statusname,
+                  TS.statuscolor,
+                  P.projectname,
+                  P.projectsartdate,
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                FROM tasks T
+                INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
+                INNER JOIN users U ON U.id = T.taskauthor
+                INNER JOIN projects P ON P.projectid = T.taskproject
+                INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
+                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
+                LEFT JOIN  users AU ON TA.userid = AU.id
+                WHERE T.taskstatus = 3 AND T.is_draft = 'false'
+                GROUP BY T.taskid
+                ORDER BY T.taskid DESC"
+                );
+        }
         
         
         public function getUsersTasks($userid){
@@ -78,33 +135,6 @@ class Tasks extends Model {
                 );
         }
         
-        public function getFinishedTasks() {
-            
-            return $select = DB::select(
-                "SELECT
-                  T.taskid,
-                  T.tasktitle,
-                  T.created_at,
-                  U.photo,
-                  TT.tasktypename,
-                  TT.tasktypecolor,
-                  TS.statusname,
-                  TS.statuscolor,
-                  P.projectname,
-                  P.projectsartdate,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
-                FROM tasks T
-                INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
-                INNER JOIN users U ON U.id = T.taskauthor
-                INNER JOIN projects P ON P.projectid = T.taskproject
-                INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
-                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
-                LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus = 3
-                GROUP BY T.taskid
-                ORDER BY T.taskid DESC"
-                );
-        }
         
         
         public function getConcreteTask($id){
@@ -124,6 +154,7 @@ class Tasks extends Model {
                   TT.tasktypename,
                   TT.tasktypecolor,
                   TS.statusname,
+                  T.is_draft,
                 GROUP_CONCAT(AU.name separator ', ') assignedUsers
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid

@@ -59,7 +59,7 @@ class TaskController extends Controller {
     
     //Here we create tasks
     public function createTask($request, $response) {
-
+        
         $task = Tasks::create([
             'tasktitle' => $request->getParam('tasktitle'),
             'tasktext' =>  $request->getParam('tasktext'),
@@ -67,6 +67,7 @@ class TaskController extends Controller {
             'tasktypeid' =>  $request->getParam('tasktypeid'),
             'taskstatus' =>  $request->getParam('taskstatus'),
             'taskproject' =>  $request->getParam('taskproject'),
+            'is_draft' =>  $request->getParam('is_draft'),
         ]);
         
         if(!empty($request->getParam('assigned'))) {
@@ -99,10 +100,11 @@ class TaskController extends Controller {
             $this->container->db->table('taskfiles')->insert($insert_bulk_files);
         }
         
-        $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
-
-        $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
-    
+        if($request->getParam('is_draft') == 'false') {
+            $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
+            $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
+        }
+        
         //As soon as data will be in database it will redirect us to homepage
         return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id]));
     }
@@ -134,7 +136,7 @@ class TaskController extends Controller {
             'assigned' => Tasks::getAssignedUsers($id), 
             'statuses' => Tasks::getTaskStatus(),
             'comments' => comment::viewTaskComments($id)
-            ));
+        ));
     }
     
     
@@ -173,6 +175,7 @@ class TaskController extends Controller {
                 'tasktypeid' =>  $request->getParam('tasktypeid'),
                 'taskstatus' =>  $request->getParam('taskstatus'),
                 'taskproject' =>  $request->getParam('taskproject'),
+                'is_draft' =>  $request->getParam('is_draft'),
         ]);
         
         $currentassigned = $this->container->db->table('taskassigns')->where('taskid', $request->getParam('taskid'))->delete();
@@ -205,10 +208,10 @@ class TaskController extends Controller {
             $this->container->db->table('taskfiles')->insert($insert_bulk_files);
         }
         
-        
-        $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
-        $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
-        
+        if($request->getParam('is_draft') == 'false') {
+            $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
+            $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
+        }
         $this->container->flash->addMessage('success', 'Task has been updated successfully.');
         
         return $response->withRedirect($this->router->pathFor('task', ['id' => $request->getParam('taskid')]));
@@ -244,5 +247,11 @@ class TaskController extends Controller {
         $this->container->db->table('taskfiles')->where('fileid', $request->getParam('file'))->delete();
     }
     
+    public function getDraftTasks($request, $response) {
+        
+        return $this->view->render($response, 'tasks/drafts.twig', array ('drafts' => Tasks::getDraftTasks()));
+    }
+    
+
     
 }

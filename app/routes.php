@@ -58,4 +58,6 @@ $app->group('', function () {
     
     $this->post('/updateprofile', 'ProfileController:updateProfile')->setName('updateprofile');
     
+    $this->get('/drafts', 'TaskController:getDraftTasks')->setName('drafts');
+    
 })->add(new AuthMiddleware($container));

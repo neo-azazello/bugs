@@ -9587,7 +9587,7 @@ button.bg-dark:focus {
 }
 
 .text-nowrap {
-  white-space: nowrap !important;
+  white-space: nowrap;
 }
 
 .text-truncate {
@@ -18680,4 +18680,8 @@ svg {
 
 .editcancel, .browse-photo {
   display: none;
+}
+
+.assignee {
+    white-space: normal;
 }

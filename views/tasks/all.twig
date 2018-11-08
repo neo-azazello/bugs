@@ -23,7 +23,7 @@
                           <th>Task title</th>
                           <th class="text-center">Task type</th>
                           <th>Assigned</th>
-                          <th>Project details</th>
+                          <th>Project</th>
                           <th>Status</th>
                           <th>Actions</th>
                         </tr>
@@ -48,7 +48,7 @@
                                 <span class="badge badge-{{ task.tasktypecolor }}">{{ task.tasktypename }}</span>
                               </td>
                               <td>
-                                <div>{{ task.assignedUsers }}</div>
+                                <div class="assignee">{{ task.assignedUsers }}</div>
                               </td>
                               
                               <td>
