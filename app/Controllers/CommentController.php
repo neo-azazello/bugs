@@ -21,8 +21,8 @@ class CommentController extends Controller {
             ]);
             
            $getcomment = Comments::getCommentById($yell->id);
-          // $tasktitle = $this->container->db->table('tasks')->select('tasktitle')->where('taskid', $request->getParam('taskid'))->value('tasktitle');
-          // $this->telegram->tg_msg($_SESSION['name'] . " added new comment for task: " . $tasktitle . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
+           $tasktitle = $this->container->db->table('tasks')->select('tasktitle')->where('taskid', $request->getParam('taskid'))->value('tasktitle');
+           $this->telegram->tg_msg($_SESSION['name'] . " added new comment for task: " . $tasktitle . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
             
         
         return json_encode(array_shift($getcomment)); die();
