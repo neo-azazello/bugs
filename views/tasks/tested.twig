@@ -33,20 +33,24 @@
                         
                         {% for t in tested %}
                             <tr>
+                              
                               <td class="text-center">
                                 <div class="avatar d-block" style="background-image: url({{ t.photo }})">
                                   {#<span class="avatar-status bg-green"></span>#}
                                 </div>
                               </td>
+                              
                               <td>
                                 <div><a href="{{base_url()}}/view/{{ t.taskid }}" >{{ t.tasktitle }}</a></div>
                                 <div class="small text-muted">
                                  {{ t.created_at |date("d.m.Y H:i")}}
                                 </div>
                               </td>
+                              
                               <td class="text-center">
                                 <span class="badge badge-{{ t.tasktypecolor }}">{{ t.tasktypename }}</span>
                               </td>
+                              
                               <td>
                                 <div class="assignee">{{ t.assignedUsers }}</div>
                               </td>
@@ -60,13 +64,14 @@
                               
                               <td>
                                   <span class="status-icon bg-{{ t.statuscolor }}"></span> {{ t.statusname }}
+                              </td>
+                                
                               <td>
                                 <a href="{{base_url()}}/view/{{ t.taskid }}" class="btn btn-secondary btn-sm">Open</a>
                                 {% if auth.user.is_admin == "true" %} 
                                   <a href="{{base_url()}}/edit/{{ t.taskid }}" class="btn btn-success btn-sm"><i class="fe fe-edit"></i></a>
                                   <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/{{ t.taskid }}" class="btn btn-danger btn-sm"><i class="fe fe-trash"></i></a>
                                 {% endif %}
-                              </td>
                               </td>
                             </tr>
                         {% endfor %}
