@@ -5,7 +5,7 @@
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   
                   <li class="nav-item">
-                    <a href="{{ path_for('home') }}" class="nav-link"><i class="fe fe-home"></i> Tasks & Bugs</a>
+                    <a href="{{ path_for('home') }}" class="nav-link"><i class="fe fe-home"></i>All Tasks</a>
                   </li>
                   {% if auth.user.is_admin == "true" %} 
                     <li class="nav-item dropdown">
@@ -16,7 +16,11 @@
                     </li>
                   {% endif %}
                   <li class="nav-item">
-                    <a href="{{ path_for('fixed') }}" class="nav-link"><i class="fe fe-thumbs-up"></i> Fixed & Finished</a>
+                    <a href="{{ path_for('fixed') }}" class="nav-link"><i class="fe fe-thumbs-up"></i> Fixed Tasks</a>
+                  </li>
+                  
+                   <li class="nav-item">
+                    <a href="{{ path_for('tested') }}" class="nav-link"><i class="fe fe-check-circle"></i> Tested Tasks</a>
                   </li>
                 </ul>
               </div>

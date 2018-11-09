@@ -60,4 +60,6 @@ $app->group('', function () {
     
     $this->get('/drafts', 'TaskController:getDraftTasks')->setName('drafts');
     
+    $this->get('/tested', 'TaskController:getTestedTasks')->setName('tested');
+    
 })->add(new AuthMiddleware($container));

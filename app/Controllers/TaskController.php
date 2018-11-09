@@ -252,6 +252,11 @@ class TaskController extends Controller {
         return $this->view->render($response, 'tasks/drafts.twig', array ('drafts' => Tasks::getDraftTasks()));
     }
     
+    public function getTestedTasks($request, $response) {
+        
+        return $this->view->render($response, 'tasks/tested.twig', array ('tested' => Tasks::getTestedTasks()));
+    }
+    
 
     
 }

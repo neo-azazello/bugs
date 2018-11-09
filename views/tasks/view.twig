@@ -42,24 +42,49 @@
                  
                   <div class="form-group">
                         <label class="form-label">Task Status</label>
-                        <div class="selectgroup w-100" {% if auth.user.id not in brands %} data-toggle="tooltip" title="" data-original-title="Only task assigned can change task status" {% endif %}>
+
                           
+                  {% if auth.user.is_admin == "true" %} 
 
-
+                    <div class="selectgroup w-100" >
+                      {% for status in statuses %}
+                              <label class="selectgroup-item">
+                                <input type="radio" 
+                                       onclick="send({{status.statusid}}, {{one.taskid}})" 
+                                       name="taskstatus" 
+                                       value="{{status.statusid}}" 
+                                       class="selectgroup-input" 
+                                       {% if one.taskstatus == status.statusid %} checked="" {% endif %}
+                                       > 
+                                <span class="selectgroup-button">{{status.statusname}}</span>
+                              </label>
+                      {% endfor %}
+                     
+                     </div>
+                   {% else %}
+                   
+                    <div class="selectgroup w-100" {% if auth.user.id not in brands %} data-toggle="tooltip" title="" data-original-title="Only task assigned can change task status" {% endif %}>
+                   
                           {% for status in statuses %}
                             <label class="selectgroup-item">
                               <input type="radio" 
-                                     onclick="send({{status.statusid}}, {{one.taskid}})" 
+                                     {% if (auth.user.id in brands) %} onclick="send({{status.statusid}}, {{one.taskid}})" {% endif %}
                                      name="taskstatus" 
                                      value="{{status.statusid}}" 
                                      class="selectgroup-input" 
                                      {% if one.taskstatus == status.statusid %} checked="" {% endif %}
-                                     {% if auth.user.id not in brands %} disabled {% endif %}
+                                     {% if (auth.user.id not in brands) %} disabled {% endif %}
                                      > 
                               <span class="selectgroup-button">{{status.statusname}}</span>
                             </label>
                           {% endfor %}
-                        </div>
+                        
+                      </div>
+                    {% endif %}    
+                        
+                        
+                        
+                        
                       </div>
               
                     
