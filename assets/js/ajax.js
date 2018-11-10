@@ -199,3 +199,20 @@ function imageIsLoadedA(e) {
     $('#previewing_profile').attr('width', '250px');
 
 }
+
+
+ function notification(id) {
+   
+       $.ajax({
+          url: '/updatenotify',
+          type: 'POST',
+          data: {'noty': id},
+          success: function () {
+
+          },
+          error: function () {
+              console.log('it failed!');
+          }
+      });
+   
+ }

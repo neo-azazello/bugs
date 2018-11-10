@@ -42,6 +42,11 @@ $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages;
 };
 
+$container['NotificationController'] = function ($container) {
+    return new \App\Controllers\NotificationController($container);
+}; 
+
+
 //Starting to bind everything with container
 //First the view
 $container['view'] = function ($container) { //when we would use view it will resolve from container
@@ -70,7 +75,7 @@ $container['view'] = function ($container) { //when we would use view it will re
    //Giving availibiity of flash functionality to our twig views
    $view->getEnvironment()->addGlobal('flash', $container->flash);
    
- 
+   $view->getEnvironment()->addGlobal('notify', $container->NotificationController->getUnreadNotifications());
    
    $markdown = new Twig_SimpleFunction('markdown', function ($text) {
           $mkparser = new \Parsedown();
@@ -103,6 +108,7 @@ $container['TaskController'] = function ($container) {
 $container['CommentController'] = function ($container) {
     return new \App\Controllers\CommentController($container);
 }; 
+
 
 
 // require the routing file

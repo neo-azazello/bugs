@@ -31,8 +31,20 @@ class TaskController extends Controller {
     
     //Load all fulfilled tasks
     public function finished($request, $response) {
+        
+        if(isset($_SESSION['is_admin'])) {
+            if($_SESSION['is_admin'] == "true" ){
 
-        return $this->view->render($response, 'tasks/finished.twig', array ('tasks' => Tasks::getFinishedTasks()));
+                $view = array ('tasks' => Tasks::getFinishedTasks());
+
+            } else {
+            
+                $userid = $_SESSION['user'];
+                $view = array ('tasks' => Tasks::getFinishedTasks($userid));
+            }
+        }
+
+        return $this->view->render($response, 'tasks/finished.twig', $view);
     }
     
     //Displays the create page 
@@ -101,6 +113,14 @@ class TaskController extends Controller {
         }
         
         if($request->getParam('is_draft') == 'false') {
+            
+            $this->container->NotificationController->setNotification(
+                $task->id, 
+                $request->getParam('taskauthor'), 
+                $request->getParam('assigned'), 
+                'false', 
+                $_SESSION['name'] . ' created a task and assigned it to you');
+            
             $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
             $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
         }
@@ -209,11 +229,19 @@ class TaskController extends Controller {
         }
         
         if($request->getParam('is_draft') == 'false') {
+            
+            $this->container->NotificationController->setNotification(
+                $request->getParam('taskid'), 
+                $request->getParam('taskauthor'), 
+                $request->getParam('assigned'), 
+                'false', 
+                $_SESSION['name'] . ' updated task where you are assigned');
+            
             $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
             $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
         }
-        $this->container->flash->addMessage('success', 'Task has been updated successfully.');
         
+        $this->container->flash->addMessage('success', 'Task has been updated successfully.');
         return $response->withRedirect($this->router->pathFor('task', ['id' => $request->getParam('taskid')]));
         
         
@@ -224,6 +252,7 @@ class TaskController extends Controller {
         $current = $this->container->db->table('tasks')->select('taskstatus')->where('taskid', $request->getParam('task'))->value('taskstatus');
         
         if($current != $request->getParam('status')) {
+            
             $this->container->db->table('tasks')->where('taskid', $request->getParam('task'))->update(['taskstatus' => $request->getParam('status'),]);
             
             $taskstatus = $this->container->db->table('taskstatus')->select('statusname')->where('statusid', $request->getParam('status'))->value('statusname');
@@ -238,7 +267,7 @@ class TaskController extends Controller {
     }
     
     
-        public function deleteTaskFile($request, $response){
+    public function deleteTaskFile($request, $response){
         
         $filename = $this->container->db->table('taskfiles')->select('filename')->where('fileid', $request->getParam('file'))->value('filename');
         $directory = $this->container->get('upload_directory');
@@ -254,7 +283,20 @@ class TaskController extends Controller {
     
     public function getTestedTasks($request, $response) {
         
-        return $this->view->render($response, 'tasks/tested.twig', array ('tested' => Tasks::getTestedTasks()));
+        if(isset($_SESSION['is_admin'])) {
+            if($_SESSION['is_admin'] == "true" ){
+
+                $view = array ('tested' => Tasks::getTestedTasks());
+
+            } else {
+            
+                $userid = $_SESSION['user'];
+                
+                $view = array ('tested' => Tasks::getTestedTasks($userid));
+            }
+        }
+        
+        return $this->view->render($response, 'tasks/tested.twig', $view);
     }
     
 

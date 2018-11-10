@@ -62,4 +62,7 @@ $app->group('', function () {
     
     $this->get('/tested', 'TaskController:getTestedTasks')->setName('tested');
     
+    $this->post('/updatenotify', 'NotificationController:updateNotification');
+
+    
 })->add(new AuthMiddleware($container));

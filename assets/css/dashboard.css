@@ -11617,7 +11617,7 @@ a.icon:hover {
   position: absolute;
   top: 0;
   right: 0;
-  padding: .2rem .25rem;
+  /*padding: .2rem .25rem;*/
   min-width: 1rem;
 }
 
@@ -18684,4 +18684,40 @@ svg {
 
 .assignee {
     white-space: normal;
+}
+
+.pulse {
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(205, 32, 31, 0.48);
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse 2s infinite
+}
+
+.pulse:hover {
+    -webkit-animation: none;
+    animation: none
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(205, 32, 31, 0.48)
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(205, 32, 31, 0)
+    }
+    to {
+        -webkit-box-shadow: 0 0 0 0 rgba(205, 32, 31, 0)
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(205, 32, 31, 0.48)
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(205, 32, 31, 0)
+    }
+    to {
+        box-shadow: 0 0 0 0 rgba(205, 32, 31, 0)
+    }
 }

@@ -44,11 +44,47 @@ class Tasks extends Model {
                 INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
                 LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
                 LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus != 3 AND T.taskstatus != 4 AND T.is_draft = 'false'
+                WHERE T.taskstatus != 3 
+                AND T.taskstatus != 4 
+                AND T.is_draft = 'false'
                 GROUP BY T.taskid
                 ORDER BY T.taskid DESC"
                 );
         }
+        
+        
+          public function getUsersTasks($userid){
+            
+            return $select = DB::select(
+                "SELECT
+                  T.taskid,
+                  T.tasktitle,
+                  T.taskauthor,
+                  T.created_at,
+                  U.photo,
+                  TT.tasktypename,
+                  TT.tasktypecolor,
+                  TS.statusname,
+                  TS.statuscolor,
+                  P.projectname,
+                  P.projectsartdate,
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                FROM tasks T
+                INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
+                INNER JOIN users U ON U.id = T.taskauthor
+                INNER JOIN projects P ON P.projectid = T.taskproject
+                INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
+                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
+                LEFT JOIN  users AU ON TA.userid = AU.id
+                WHERE TA.userid = $userid 
+                AND T.taskstatus != 3 
+                AND T.taskstatus != 4 
+                AND T.is_draft = 'false'
+                GROUP BY T.taskid
+                ORDER BY T.taskid DESC"
+                );
+        }  
+        
         
         public function getDraftTasks() {
             
@@ -72,13 +108,14 @@ class Tasks extends Model {
                 INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
                 LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
                 LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus != 3 AND T.is_draft = 'true'
+                WHERE T.taskstatus != 3 
+                AND T.is_draft = 'true'
                 GROUP BY T.taskid
                 ORDER BY T.taskid DESC"
                 );
         }
         
-        public function getFinishedTasks() {
+        public function getFinishedTasks($userid) {
             
             return $select = DB::select(
                 "SELECT
@@ -100,13 +137,15 @@ class Tasks extends Model {
                 INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
                 LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
                 LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus = 3 AND T.is_draft = 'false'
+                WHERE T.taskstatus = 3 
+                AND T.is_draft = 'false'
+                AND (TA.userid = ? OR ? IS NULL)
                 GROUP BY T.taskid
-                ORDER BY T.taskid DESC"
+                ORDER BY T.taskid DESC", [$userid, $userid]
                 );
         }
         
-        public function getTestedTasks() {
+        public function getTestedTasks($userid) {
             
             return $select = DB::select(
                 "SELECT
@@ -129,41 +168,13 @@ class Tasks extends Model {
                 INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
                 LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
                 LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus = 4 AND T.is_draft = 'false'
+                WHERE T.taskstatus = 4 
+                AND T.is_draft = 'false'
+                AND (TA.userid = ? OR ? IS NULL)
                 GROUP BY T.taskid
-                ORDER BY T.taskid DESC"
+                ORDER BY T.taskid DESC", [$userid, $userid]
                 );
         }
-        
-        public function getUsersTasks($userid){
-            
-            return $select = DB::select(
-                "SELECT
-                  T.taskid,
-                  T.tasktitle,
-                  T.taskauthor,
-                  T.created_at,
-                  U.photo,
-                  TT.tasktypename,
-                  TT.tasktypecolor,
-                  TS.statusname,
-                  TS.statuscolor,
-                  P.projectname,
-                  P.projectsartdate,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
-                FROM tasks T
-                INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
-                INNER JOIN users U ON U.id = T.taskauthor
-                INNER JOIN projects P ON P.projectid = T.taskproject
-                INNER JOIN taskstatus TS ON TS.statusid = T.taskstatus
-                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
-                LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE T.taskstatus != 3 AND TA.userid = $userid
-                GROUP BY T.taskid
-                ORDER BY T.taskid DESC"
-                );
-        }
-        
         
         
         public function getConcreteTask($id){
@@ -173,6 +184,7 @@ class Tasks extends Model {
             return $select = DB::select(
                 "SELECT
                   T.taskid,
+                  T.taskauthor,
                   T.tasktitle,
                   T.tasktext,
                   T.taskstatus,
@@ -237,6 +249,19 @@ class Tasks extends Model {
             
             $taskid = implode('', $id);
             return $select = DB::select("SELECT fileid, filename FROM taskfiles WHERE taskid = $taskid");
+        }
+        
+        
+        public function getTaskAssigners($taskid, $userid){
+            
+             $select = DB::select("SELECT userid FROM taskassigns WHERE taskid = $taskid AND userid != $userid ");
+                
+                foreach($select as $key => $value) {
+                    $new[] = $value->userid;
+                }
+            
+            
+            return $new;
         }
 
 }
