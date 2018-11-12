@@ -36,6 +36,11 @@ $container['telegram'] = function ($container) {
     return new \App\Misc\Telegram;
 };
 
+$container['pagination'] = function ($container) {
+    return new \App\Misc\Pagination;
+};
+
+
 
 //Adding to container flash messages
 $container['flash'] = function ($container) {

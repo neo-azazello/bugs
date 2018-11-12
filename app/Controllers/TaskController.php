@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\Models\Tasks;
 use App\Models\User;
+
 use Slim\Http\UploadedFile;
 use App\Controllers\CommentController as comment;
+
+use App\Misc\Pagination;
 
 class TaskController extends Controller {
 
@@ -281,18 +284,24 @@ class TaskController extends Controller {
         return $this->view->render($response, 'tasks/drafts.twig', array ('drafts' => Tasks::getDraftTasks()));
     }
     
+    
     public function getTestedTasks($request, $response) {
         
+        $page = $this->container->pagination->data(4);
+  
         if(isset($_SESSION['is_admin'])) {
             if($_SESSION['is_admin'] == "true" ){
 
-                $view = array ('tested' => Tasks::getTestedTasks());
+                $view = array (
+                    'tested' => Tasks::getTestedTasks(null, $page),
+                    'paginator' => Pagination::pageSwitcher(4));
 
             } else {
             
                 $userid = $_SESSION['user'];
-                
-                $view = array ('tested' => Tasks::getTestedTasks($userid));
+                $view = array (
+                    'tested' => Tasks::getTestedTasks($userid, $page),
+                    'paginator' => Pagination::pageSwitcher(4));
             }
         }
         

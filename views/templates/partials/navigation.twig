@@ -1,29 +1,47 @@
         <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
           <div class="container">
             <div class="row align-items-center">
+            
+            {% if auth.user.is_admin == "true" %} 
+              <div class="col-lg-3 ml-auto">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                    <li class="nav-item">
+                      <a href="{#{{ path_for('settings') }}#}" class="nav-link"><i class="fe fe-settings"></i>Settings</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{#{{ path_for('statistics') }}#}" class="nav-link"><i class="fe fe-bar-chart-2"></i>Statistics</a>
+                    </li>
+                  </ul>
+                </div>
+            {% endif %}
+              
+ 
+              
               <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   
                   <li class="nav-item">
-                    <a href="{{ path_for('home') }}" class="nav-link"><i class="fe fe-home"></i>Current Tasks</a>
+                    <a href="{{ path_for('home') }}" class="nav-link {% if is_current_path('home') %} active{% endif %}"><i class="fe fe-home"></i>Current Tasks</a>
                   </li>
                   {% if auth.user.is_admin == "true" %} 
                     <li class="nav-item dropdown">
-                      <a href="{{ path_for('create') }}" class="nav-link"><i class="fe fe-plus-circle"></i> New Task</a>
+                      <a href="{{ path_for('create') }}" class="nav-link {% if is_current_path('create') %} active{% endif %}"><i class="fe fe-plus-circle"></i> New Task</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="{{ path_for('drafts') }}" class="nav-link"><i class="fe fe-feather"></i> Draft Tasks</a>
+                      <a href="{{ path_for('drafts') }}" class="nav-link {% if is_current_path('drafts') %} active{% endif %}"><i class="fe fe-feather"></i> Draft Tasks</a>
                     </li>
                   {% endif %}
                   <li class="nav-item">
-                    <a href="{{ path_for('fixed') }}" class="nav-link"><i class="fe fe-thumbs-up"></i> Fixed Tasks</a>
+                    <a href="{{ path_for('fixed') }}" class="nav-link {% if is_current_path('fixed') %} active{% endif %}"><i class="fe fe-thumbs-up"></i> Fixed Tasks</a>
                   </li>
                   
                    <li class="nav-item">
-                    <a href="{{ path_for('tested') }}" class="nav-link"><i class="fe fe-check-circle"></i> Tested Tasks</a>
+                    <a href="{{ path_for('tested') }}" class="nav-link {% if is_current_path('tested') %} active{% endif %}"><i class="fe fe-check-circle"></i> Tested Tasks</a>
                   </li>
+                  
                 </ul>
               </div>
+              
             </div>
           </div>
         </div>

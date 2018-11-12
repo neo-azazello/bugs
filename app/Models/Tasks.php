@@ -115,7 +115,7 @@ class Tasks extends Model {
                 );
         }
         
-        public function getFinishedTasks($userid) {
+        public function getFinishedTasks($userid = null) {
             
             return $select = DB::select(
                 "SELECT
@@ -145,7 +145,9 @@ class Tasks extends Model {
                 );
         }
         
-        public function getTestedTasks($userid) {
+        public function getTestedTasks($userid = null, $page = array()) {
+            
+            $limitation = implode(', ', $page);
             
             return $select = DB::select(
                 "SELECT
@@ -172,7 +174,8 @@ class Tasks extends Model {
                 AND T.is_draft = 'false'
                 AND (TA.userid = ? OR ? IS NULL)
                 GROUP BY T.taskid
-                ORDER BY T.taskid DESC", [$userid, $userid]
+                ORDER BY T.taskid DESC
+                LIMIT $limitation ", [$userid, $userid]
                 );
         }
         
