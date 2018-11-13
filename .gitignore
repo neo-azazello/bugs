@@ -4,3 +4,4 @@ bootstrap/settings.php
 error_log
 php.ini
 .well-known/
+test.php

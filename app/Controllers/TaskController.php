@@ -53,7 +53,6 @@ class TaskController extends Controller {
     //Displays the create page 
     public function createPage($request, $response) {
 
-        //Now index method will render home.twig file.
         return $this->view->render($response, 'tasks/new.twig', array (
             'users' => Tasks::getUsers(), 
             'types' => Tasks::getTaskTypes(),
@@ -128,7 +127,7 @@ class TaskController extends Controller {
             $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
         }
         
-        //As soon as data will be in database it will redirect us to homepage
+        
         return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id]));
     }
     

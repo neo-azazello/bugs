@@ -6,7 +6,7 @@
               <div class="col-lg-3 ml-auto">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                     <li class="nav-item">
-                      <a href="{#{{ path_for('settings') }}#}" class="nav-link"><i class="fe fe-settings"></i>Settings</a>
+                      <a href="{{ path_for('settings') }}" class="nav-link {% if is_current_path('settings') %} active{% endif %}"><i class="fe fe-settings"></i>Settings</a>
                     </li>
                     <li class="nav-item">
                       <a href="{#{{ path_for('statistics') }}#}" class="nav-link"><i class="fe fe-bar-chart-2"></i>Statistics</a>

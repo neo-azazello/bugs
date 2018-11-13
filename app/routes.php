@@ -64,5 +64,8 @@ $app->group('', function () {
     
     $this->post('/updatenotify', 'NotificationController:updateNotification');
 
+    $this->get('/settings', 'SettingsController:getAllSettings')->setName('settings');
+    
+    $this->post('/addproject', 'SettingsController:newProjectAdd')->setName('addproject');
     
 })->add(new AuthMiddleware($container));

@@ -31,9 +31,10 @@ class AuthController extends Controller {
         }
 
         $auth = $this->auth->attempt(
+            
             $request->getParam('code')
+        
         );
-
 
         if(!$auth){
             
@@ -41,8 +42,12 @@ class AuthController extends Controller {
             return $response->withRedirect($this->router->pathFor('auth.signin'));
 
         }
+        
+            
+        //var_dump($_SERVER['REQUEST_URI']); die();
+        $redirect = $response->withRedirect($this->router->pathFor('home'));
 
-        return $response->withRedirect($this->router->pathFor('home'));
+        return $redirect;
 
     }
 

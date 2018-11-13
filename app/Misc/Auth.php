@@ -25,18 +25,18 @@ class Auth {
 
     public function attempt($code) {
         
-        try {
-             
-             $user = User::where('code', $code)->first();
+        $user = User::where('code', $code)->first();
+        
+        if($user) {
              
              $_SESSION['user'] = $user->id;
              $_SESSION['is_admin'] = $user->is_admin;
              $_SESSION['name'] = $user->name;
              
              return true;
-            
-            } catch (Exception $e) {
-            
+        
+        } else {
+             
              return false;
         }
         

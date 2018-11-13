@@ -114,6 +114,9 @@ $container['CommentController'] = function ($container) {
     return new \App\Controllers\CommentController($container);
 }; 
 
+$container['SettingsController'] = function ($container) {
+    return new \App\Controllers\SettingsController($container);
+}; 
 
 
 // require the routing file

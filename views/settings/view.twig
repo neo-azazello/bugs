@@ -1,0 +1,129 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %} 
+
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">
+        System Settings
+      </h1>
+    </div> 
+        
+            
+    <div class="row">
+              
+            <div class="col-lg-4">
+              
+              <div class="card">
+               <div class="card-status bg-red"></div>
+                <div class="card-header">
+                  <h3 class="card-title">Projects</h3>
+                  <div class="card-options">
+                      <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addProject">Add new</a>
+                  </div>
+                </div>
+                {% include 'templates/partials/flash.twig' %} 
+                <table class="table card-table">
+                  <tbody>
+                  {% for p in projects%}
+                    <tr>
+                      <td width="1"><span class="avatar avatar-sm" style="background-image: url({{p.projectlogo}})"></span></td>
+                      <td>{{p.projectname}}</td>
+                      <td class="text-right"><span class="text-muted">{{p.projectsartdate|date("d.m.Y")}}</span></td>
+                      <td class="text-right"><a href="#" class="icon"><i class="fe fe-edit"></i></a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              
+
+              <div class="card">
+               <div class="card-status bg-teal"></div>
+                <div class="card-header">
+                  <h3 class="card-title">Task types</h3>
+                  <div class="card-options">
+                      <a href="#" class="btn btn-success btn-sm">Add new</a>
+                  </div>
+                </div>
+                <table class="table card-table">
+                  <tbody>
+                  {% for t in types%}
+                    <tr>
+                      <td width="1"><span class="avatar avatar-sm bg-{{t.tasktypecolor}}"></span></td>
+                      <td>{{t.tasktypename}}</td>
+                      <td class="text-right"><a href="#" class="icon"><i class="fe fe-edit"></i></a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+            
+
+              <div class="card">
+               <div class="card-status bg-orange"></div>
+                <div class="card-header">
+                  <h3 class="card-title">Task statuses</h3>
+                  <div class="card-options">
+                      <a href="#" class="btn btn-success btn-sm">Add new</a>
+                  </div>
+                </div>
+                <table class="table card-table">
+                  <tbody>
+                  {% for s in statuses%}
+                    <tr>
+                      <td width="1"><span class="avatar avatar-sm bg-{{s.statuscolor}}"></span></td>
+                      <td>{{s.statusname}}</td>
+                      <td class="text-right"><a href="#" class="icon"><i class="fe fe-edit"></i></a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div class="col-lg-8">
+              <div class="card">
+               <div class="card-status bg-purple"></div>
+                <div class="card-header">
+                  <h3 class="card-title">Users</h3>
+                  <div class="card-options">
+                      <a href="#" class="btn btn-success btn-sm">Add new</a>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table card-table table-striped table-vcenter">
+                      <thead>
+                        <tr>
+                          <th colspan="2">User</th>
+                          <th>Telegram</th>
+                          <th>Email</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for u in users %}      
+                        <tr>
+                          <td class="w-1"><span class="avatar" style="background-image: url({{u.photo}})"></span></td>
+                          <td>{{u.name}}</td>
+                          <td>{{u.telegramname}}</td>
+                          <td class="text-nowrap">{{u.email}}</td>
+                          <td class="w-1"><a href="#" class="icon"><i class="fe fe-edit"></i></a></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+            </div>
+              
+    </div>
+    
+     {% include 'templates/partials/modals.twig' %} 
+    
+</div>
+
+{% endblock %}

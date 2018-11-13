@@ -14,3 +14,7 @@
 </div>
 
 {% endif %}
+
+{% if flash.getMessage('project') %}
+  <div class="card-alert alert alert-success mb-0">{{ flash.getMessage('project') | first}}</div>
+{% endif %}
