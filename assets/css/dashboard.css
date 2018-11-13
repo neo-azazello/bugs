@@ -18721,3 +18721,12 @@ svg {
         box-shadow: 0 0 0 0 rgba(205, 32, 31, 0)
     }
 }
+
+.form-control-plaintext table {
+    margin-bottom: 1em;
+}
+.form-control-plaintext td, .form-control-plaintext th {
+    border: 1px solid #dee2e6;
+    padding: .2rem;
+    vertical-align: top;
+}
