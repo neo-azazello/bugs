@@ -63,9 +63,18 @@ $app->group('', function () {
     $this->get('/tested', 'TaskController:getTestedTasks')->setName('tested');
     
     $this->post('/updatenotify', 'NotificationController:updateNotification');
+    $this->post('/markallread', 'NotificationController:markAllRead')->setName('markallread');
 
     $this->get('/settings', 'SettingsController:getAllSettings')->setName('settings');
     
     $this->post('/addproject', 'SettingsController:newProjectAdd')->setName('addproject');
+    $this->post('/addtasktype', 'SettingsController:newTaskType')->setName('addtasktype');
+    $this->post('/addtaskstatus', 'SettingsController:newTaskStatus')->setName('addtaskstatus');
+    $this->post('/adduser', 'ProfileController:addNewUser')->setName('adduser');
+    
+    $this->get('/delete/{table}/{column}/{id}', 'SettingsController:deleteSettingsData');
+    
+    $this->post('/settingsprofile', 'ProfileController:settingsProfile')->setName('settingsprofile');
+
     
 })->add(new AuthMiddleware($container));

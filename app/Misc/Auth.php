@@ -25,7 +25,7 @@ class Auth {
 
     public function attempt($code) {
         
-        $user = User::where('code', $code)->first();
+        $user = User::where('code', $code)->where('is_active', 1)->first();
         
         if($user) {
              

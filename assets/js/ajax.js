@@ -137,6 +137,7 @@ $(document).ready(function(){
     
     $('#editprofile').click(function(){
         $('input').prop('disabled', false);
+        $('select').prop('disabled', false);
         $('.editprofile').css( "display", "none" );
         $('#updateprofile').prop('disabled', false);
         $('.editcancel').css( "display", "inline-block" );
@@ -148,6 +149,7 @@ $(document).ready(function(){
     
     $('#editcancel').click(function(){
         $('input').prop('disabled', true);
+        $('select').prop('disabled', true);
         $('.editcancel').css( "display", "none" );
         $('.browse-photo').css( "display", "none" );
         $('#updateprofile').prop('disabled', true);
@@ -180,7 +182,7 @@ $(function() {
         
         if(imagesize >= allowed) {
     
-            alert('Image width size should be 100px or less!');
+            alert('Image size should be 17kb or less!');
             
             return false;
             
@@ -216,3 +218,49 @@ function imageIsLoadedA(e) {
       });
    
  }
+ 
+ 
+ 
+ $(function() {
+    $("#upload_image").change(function() {
+        
+        var file = this.files[0];
+        
+        var imagefile = file.type;
+        var imagesize = file.size;
+        
+        var match= ["image/jpeg","image/png","image/jpg"];
+
+        var allowed = 17000;
+
+        
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+        
+        {
+            alert('Image must be jpeg, png or jpg!');
+            
+            return false;
+        
+        }
+        
+        if(imagesize >= allowed) {
+    
+            alert('Image size should be 17kb or less!');
+            
+            return false;
+            
+        } 
+            var reader = new FileReader();
+            reader.onload = newimage;
+            reader.readAsDataURL(this.files[0]);
+        
+    });
+});
+
+function newimage(e) {
+    $('#profile_image_preview').css("display", "block");
+    $('#new_photo_preview').attr('src', e.target.result);
+    $('#new_photo').attr('value', e.target.result);
+    $('#new_photo_preview').attr('width', '250px');
+
+}

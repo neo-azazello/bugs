@@ -39,5 +39,19 @@ class NotificationController extends Controller {
         
     }
     
+    public function markAllRead($request, $response) {
+        
+        if(isset($_SESSION['user'])){
+            
+          $this->container->db->table('notifications')->where('assignedid', $_SESSION['user'])->update([
+            'has_read' => 'true',
+          ]);
+            
+        }
+        
+        $this->container->flash->addMessage('info', 'All notifications are marked as read.');
+        return $response->withRedirect($this->router->pathFor('home'));
+    }
+    
     
 }

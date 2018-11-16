@@ -10,12 +10,12 @@
         
         <div class="form-group">
             <label class="form-label">Project Name</label>
-            <input type="text" class="form-control" name="projectname" placeholder="Text..">
+            <input type="text" class="form-control" name="projectname" required>
         </div>
         
         <div class="form-group">
           <label class="form-label">Project start date</label>
-          <input type="text" name="projectsartdate" class="form-control" data-mask="00.00.0000" data-mask-clearifnotmatch="true" placeholder="00.00.0000" autocomplete="off" maxlength="10">
+          <input type="text" name="projectsartdate" class="form-control" data-mask="00.00.0000" data-mask-clearifnotmatch="true" placeholder="00.00.0000" autocomplete="off" maxlength="10" required>
         </div>
         
         <div class="form-group">
@@ -27,12 +27,137 @@
       
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary">Create</button>
       </div>
       </form>
       <script>
         require(['input-mask']);
       </script>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addTaskType" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Task Type</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      <form action="{{ path_for('addtasktype') }}" method="post" autocomplete="off">
+      <div class="modal-body">
+        
+        <div class="form-group">
+            <label class="form-label">Task type name</label>
+            <input type="text" class="form-control" name="tasktypename" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Task type color</label>
+            <input type="text" class="form-control" name="tasktypecolor" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addTaskStatus" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Task Status</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      <form action="{{ path_for('addtaskstatus') }}" method="post" autocomplete="off">
+      <div class="modal-body">
+        
+        <div class="form-group">
+            <label class="form-label">Status name</label>
+            <input type="text" class="form-control" name="statusname" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Status color</label>
+            <input type="text" class="form-control" name="statuscolor" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addUser" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add new User</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      
+      <div class="modal-body">
+      
+      <form action="{{ path_for('adduser') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+        
+        <div class="row">
+          
+          <div class="col-auto">
+            <img src="{{base_url()}}/assets/images/no_photo.png" class="avatar avatar-xxl" id="new_photo_preview">
+              
+              <input type="hidden" name="photo" id="new_photo" value="" />
+              
+              <div class="new-photo">
+                <label class="btn-bs-file btn btn-md btn-success">
+                    New Photo
+                    <input type="file" id="upload_image"/>
+                </label>
+              </div>
+          </div>
+          
+          <div class="col">
+            
+            <div class="form-group">
+              <label class="form-label">Full name <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="name"  required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Pass code <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="code"  maxlength="10" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email address <span class="form-required">*</span></label>
+              <input class="form-control" type="email" name="email"  required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Telegram name <span class="form-required">*</span></label>
+              <input class="form-control" type="text" name="telegramname" required>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+      
+      </form>
+        
+
     </div>
   </div>
 </div>

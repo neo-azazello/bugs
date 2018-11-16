@@ -15,6 +15,11 @@
 
 {% endif %}
 
-{% if flash.getMessage('project') %}
-  <div class="card-alert alert alert-success mb-0">{{ flash.getMessage('project') | first}}</div>
+{% if flash.getMessage('info') %}
+
+<div class="alert alert-icon alert-primary alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert"></button>
+  <i class="fe fe-bell mr-2" aria-hidden="true"></i>  {{ flash.getMessage('info') | first}}
+</div>
+
 {% endif %}

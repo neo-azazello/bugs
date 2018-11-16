@@ -18,6 +18,7 @@ class User extends Model {
             'email',
             'telegramname',
             'updated_at',
+            'created_at',
         ];
         
         public function getUserDetails($userId) {
