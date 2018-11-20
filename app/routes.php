@@ -75,6 +75,10 @@ $app->group('', function () {
     $this->get('/delete/{table}/{column}/{id}', 'SettingsController:deleteSettingsData');
     
     $this->post('/settingsprofile', 'ProfileController:settingsProfile')->setName('settingsprofile');
+    
+    $this->post('/addcheklist', 'ChecklistController:addNewChecklist');
+    $this->post('/deletechecklist', 'ChecklistController:deleteChecklist');
+    $this->post('/done', 'ChecklistController:markAsDone');
 
     
 })->add(new AuthMiddleware($container));

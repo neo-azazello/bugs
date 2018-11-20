@@ -7,6 +7,7 @@ use App\Models\User;
 
 use Slim\Http\UploadedFile;
 use App\Controllers\CommentController as comment;
+use App\Controllers\ChecklistController as checks;
 
 use App\Misc\Pagination;
 
@@ -157,7 +158,8 @@ class TaskController extends Controller {
             'files' => Tasks::getTaskFiles($id),
             'assigned' => Tasks::getAssignedUsers($id), 
             'statuses' => Tasks::getTaskStatus(),
-            'comments' => comment::viewTaskComments($id)
+            'comments' => comment::viewTaskComments($id),
+            'checks' => checks::viewTaskChecklist($id, $_SESSION['user'])
         ));
     }
     

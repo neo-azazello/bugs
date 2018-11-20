@@ -137,10 +137,10 @@
                           <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                             <i class="fe fe-message-square"></i> Task discussion <span class="text-right tab-comment-count" id="comment-count">{{comments|length}}</span></a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                           <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                            <i class="fe fe-download-cloud"></i> Files attached</a>
-                        </li>-->
+                            <i class="fe fe-check-square"></i> User's Checklist <span class="text-right tab-comment-count" id="checklist-count">{{checks|length}}</span></a>
+                        </li>
                       </ul>
                       
                       
@@ -170,7 +170,11 @@
                           
                         </div>
                         
-                       <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
+                       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                         
+                          {% include 'checklist/view.twig' %}
+                       
+                       </div>
                       </div>
                       
                     </div>

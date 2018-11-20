@@ -36,7 +36,8 @@ class Tasks extends Model {
                   P.projectname,
                   P.projectsartdate,
                   T.is_draft,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers,
+                (SELECT  COUNT(*) FROM taskcomments tc WHERE tc.taskid = T.taskid) AS commentcount
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
                 INNER JOIN users U ON U.id = T.taskauthor
@@ -68,7 +69,8 @@ class Tasks extends Model {
                   TS.statuscolor,
                   P.projectname,
                   P.projectsartdate,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers,
+                (SELECT  COUNT(*) FROM taskcomments tc WHERE tc.taskid = T.taskid) AS commentcount
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
                 INNER JOIN users U ON U.id = T.taskauthor
@@ -129,7 +131,8 @@ class Tasks extends Model {
                   TS.statuscolor,
                   P.projectname,
                   P.projectsartdate,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers,
+                (SELECT  COUNT(*) FROM taskcomments tc WHERE tc.taskid = T.taskid) AS commentcount
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
                 INNER JOIN users U ON U.id = T.taskauthor
@@ -162,7 +165,8 @@ class Tasks extends Model {
                   P.projectname,
                   P.projectsartdate,
                   T.is_draft,
-                GROUP_CONCAT(AU.name separator ', ') assignedUsers
+                GROUP_CONCAT(AU.name separator ', ') assignedUsers,
+                (SELECT  COUNT(*) FROM taskcomments tc WHERE tc.taskid = T.taskid) AS commentcount
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
                 INNER JOIN users U ON U.id = T.taskauthor

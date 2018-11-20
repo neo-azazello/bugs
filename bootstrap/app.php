@@ -114,6 +114,10 @@ $container['CommentController'] = function ($container) {
     return new \App\Controllers\CommentController($container);
 }; 
 
+$container['ChecklistController'] = function ($container) {
+    return new \App\Controllers\ChecklistController($container);
+}; 
+
 $container['SettingsController'] = function ($container) {
     return new \App\Controllers\SettingsController($container);
 }; 

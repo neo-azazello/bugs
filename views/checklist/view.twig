@@ -1,0 +1,47 @@
+
+<ul class="task-list" id="task-list">
+    {% for ch in checks %}
+      <li class="{% if ch.done == 'true' %}task-done{% endif %}" id="list_{{ch.id}}">
+          <div class="task-checkbox">
+              <input type="checkbox" class="checklist__checkbox" {% if ch.done == 'true' %} checked  {% endif %} onclick="done({{ch.id}})">
+          </div>
+          <div class="task-title">
+              <span class="task-title-sp">{{ch.text}}</span>
+              <div class="pull-right hidden-phone">
+                  {#<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>#}
+                  <button class="btn btn-danger btn-xs" onclick="chlist({{ch.id}})"  ><i class="fa fa-trash-o "></i></button>
+              </div>
+          </div>
+      </li>
+    {% endfor %}
+</ul>
+
+
+
+{% if (auth.user.id not in brands) %} 
+
+<div class="alert alert-danger">
+  <h4>Access denied</h4>
+  <p>
+    Only Task assigned guys can add checklists further.
+  </p>
+</div>
+
+{% else %}
+
+<form autocomplete="off" id="checklist">
+    <div class="form-group">
+      <div class="input-group">
+          <span class="input-group-prepend">
+           <span class="input-group-text">
+               <img src="{{ auth.user.photo }}" class="avatar" /></span>
+            </span>
+        <input type="text" class="form-control" name="text" max-length="255" required>
+        <input type="hidden" name="taskid" value="{{one.taskid}}">
+        <span class="input-group-append">
+          <input type='submit' class="btn btn-primary" value='Add Check list' />
+        </span>
+      </div>
+    </div>
+</form>
+{% endif %}

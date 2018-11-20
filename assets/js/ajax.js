@@ -264,3 +264,110 @@ function newimage(e) {
     $('#new_photo_preview').attr('width', '250px');
 
 }
+
+
+$(document).ready(function(){
+    
+    var templateCheclistItem = '<li class="" id="list_%id%">\
+          <div class="task-checkbox">\
+              <input type="checkbox" class="checklist__checkbox" onclick="done(%id%)">\
+          </div>\
+          <div class="task-title">\
+              <span class="task-title-sp">%text%</span>\
+              <div class="pull-right hidden-phone">\
+                  <button class="btn btn-danger btn-xs" onclick="chlist(%id%)"><i class="fa fa-trash-o "></i></button>\
+              </div>\
+          </div>\
+      </li>';
+    
+    $('#checklist').submit(function(){
+    
+   var currentCount = $('#checklist-count').text();
+    
+    // Call ajax for pass data to other place
+        $.ajax({
+        type: 'POST',
+        url: '/addcheklist',
+        data: $(this).serialize() // getting filed value in serialize form
+        })
+            
+            .done(function(data){ 
+                data = JSON.parse(data);
+        
+        var template = parseTpl(templateCheclistItem, {
+               'text': data.text,
+               'id': data.id
+           });
+            
+            //templateCommentItem = replace(templateCommentItem);
+            
+            // show the response
+            $('#task-list').fadeIn( "slow", function(){
+                $("#checklist")[0].reset();
+                    $(this).append(template);
+                    $('#checklist-count').text(++currentCount);
+                });
+            
+            })
+            
+            .fail(function() { // if fail then getting message
+            
+            // just in case posting your form failed
+            alert( "Posting failed." );
+            
+            });
+    
+    // to prevent refreshing the whole page page
+    return false;
+    
+    });
+});
+
+
+ function chlist(id) {
+     
+     var currentCount = $('#checklist-count').text();
+   
+       $.ajax({
+          url: '/deletechecklist',
+          type: 'POST',
+          data: {'id': id},
+          success: function () {
+              $( "#list_" + id ).fadeOut(400, function(){ 
+                    $(this).remove();
+                    $('#checklist-count').text(--currentCount);
+                    
+                });
+          },
+          error: function () {
+              console.log('it failed!');
+          }
+      });
+   
+ }
+ 
+  function done(id) {
+
+       $.ajax({
+          url: '/done',
+          type: 'POST',
+          data: {'id': id},
+          
+          success: function (data) {
+              data = JSON.parse(data);
+              
+              if(data.status == "true") {
+                $( "#list_" + id ).addClass('task-done');
+                  
+              } else {
+                $( "#list_" + id ).removeClass('task-done');
+              }
+          },
+          
+          error: function () {
+              console.log('it failed!');
+          }
+      });
+   
+ }
+ 
