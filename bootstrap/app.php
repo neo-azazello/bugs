@@ -1,6 +1,10 @@
 <?php
 
 use Respect\Validation\Validator as v;
+use Odan\Slim\Session\Adapter\MemorySessionAdapter;
+use Odan\Slim\Session\Adapter\PhpSessionAdapter;
+use Odan\Slim\Session\Session;
+
 
 //Starting new session in aour application
 session_start();
@@ -32,6 +36,15 @@ $container['auth'] = function ($container) {
     return new \App\Misc\Auth;
 };
 
+$container['session'] = function ($container) {
+    $settings = $container->get('settings');
+    $adapter = new PhpSessionAdapter();
+    $session = new Session($adapter);
+    $session->setOptions($settings['session']);
+    
+    return $session;
+};
+
 $container['telegram'] = function ($container) {
     return new \App\Misc\Telegram;
 };
@@ -39,8 +52,6 @@ $container['telegram'] = function ($container) {
 $container['pagination'] = function ($container) {
     return new \App\Misc\Pagination;
 };
-
-
 
 //Adding to container flash messages
 $container['flash'] = function ($container) {
@@ -121,7 +132,6 @@ $container['ChecklistController'] = function ($container) {
 $container['SettingsController'] = function ($container) {
     return new \App\Controllers\SettingsController($container);
 }; 
-
 
 // require the routing file
 require __DIR__ . "/../app/routes.php";

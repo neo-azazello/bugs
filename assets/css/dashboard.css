@@ -66,7 +66,9 @@ article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, s
 
 body {
   margin: 0;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /*font-family: 'Lora', serif;*/
+  font-family: 'Ubuntu', sans-serif;
+  /*font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;*/
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.5;
@@ -7469,6 +7471,7 @@ button.bg-dark:focus {
 
 .m-0 {
   margin: 0 !important;
+  color: blue;
 }
 
 .mt-0,
@@ -7834,6 +7837,7 @@ button.bg-dark:focus {
 .pt-5,
 .py-5 {
   padding-top: 1.5rem !important;
+  list-style: none;
 }
 
 .pr-5,
@@ -13015,7 +13019,7 @@ a.icon:hover {
 .card {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   position: relative;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -18781,4 +18785,15 @@ svg {
 .task-done .task-title-sp {
     text-decoration: line-through;
     color: #bbbbbb;
+}
+
+.form-control-plaintext table {
+    width: 100%;
+    display: block;
+    overflow: auto;
+}
+
+.task-finished p {
+  text-decoration: line-through;
+  color: #bbbbbb;
 }

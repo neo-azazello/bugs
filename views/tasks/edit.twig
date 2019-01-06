@@ -114,8 +114,85 @@
                   
                   </div>
                   
+                  <div id="sections">   
+                    <label class="form-label">Task checklist <span class="form-required">*</span></label>
+                    {%if taskcheklist %}
+                      {% for ch in taskcheklist %}
+                        <div class="section row" >
+
+                          <div class="col-sm-12 col-md-2">
+
+                            <select name="is_done[]" class="form-control custom-select">
+                              <option value="true" {% if ch.is_done == "true" %} selected {% endif %}>Done</option>
+                              <option value="false" {% if ch.is_done == "false" %} selected {% endif %}>Not</option>
+                            </select>
+
+                            </select>
+
+                          </div>
+                          
+                            <div class="col-sm-12 col-md-8">
+
+                                <div class="input-group" style="margin-bottom:10px;">
+                                  <span class="input-group-prepend " id="basic-addon1">
+                                    <span class="input-group-text remove"><i class="fa fa-window-close" aria-hidden="true"></i></span>
+                                  </span>
+                                  <input type="text" name="text[]" class="form-control" id="id_{{ch.id}}" value="{{ch.text}}" required>
+                                </div>
+
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-2">
+                        
+                              <select class="form-control custom-select" name="byuser[]">
+                                {% for u in users %}
+                                  <option value="{{ u.id }}" {% if u.id == ch.byuser %} selected {% endif%}>{{ u.name }}</option>
+                                {% endfor %}
+                              </select>
+                            
+                            </div>
+   
+                        </div>
+                      {% endfor %}
+                      
+                      {% else %}
+                      
+                      <div class="section row" >
+                          <div class="col-sm-12 col-md-9">
+                              
+                              <div class="input-group" style="margin-bottom:10px;">
+                                <span class="input-group-prepend " id="basic-addon1">
+                                  <span class="input-group-text remove"><i class="fa fa-window-close" aria-hidden="true"></i></span>
+                                </span>
+                                <input type="text" name="text[]" class="form-control" id="id_0" required>
+                              </div>
+                            
+                              <input type="hidden" name="is_done[]" value="false">
+                          </div>
+                          
+                          <div class="col-sm-12 col-md-3">
+                      
+                            <select class="form-control custom-select" name="byuser[]">
+                              {% for u in users %}
+                                <option value="{{ u.id }}">{{ u.name }}</option>
+                              {% endfor %}
+                            </select>
+                          
+                          </div>
+ 
+                      </div>
+                      
+                      {% endif %}
+                  </div>
+                   
+                   <div class="row">
+                      <div class="col-sm-12 col-md-8">
+                        <p><a href="#" class="addsection btn btn-success">New Line</a></p>
+                      </div>
+                  </div>
+                  
+                  
                   <div class="row">
-                    
                     <div class="col-md-12">
                       <div class="form-group mb-0">
                         <label class="form-label">Task description <span class="form-required">*</span></label>

@@ -37,6 +37,11 @@ class ComposerStaticInit8302c89e3ef97cca40d9d2a19c769388
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'O' => 
+        array (
+            'Odan\\Test\\' => 10,
+            'Odan\\' => 5,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
@@ -103,6 +108,14 @@ class ComposerStaticInit8302c89e3ef97cca40d9d2a19c769388
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Odan\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/odan/slim-session/tests',
+        ),
+        'Odan\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/odan/slim-session/src',
         ),
         'Interop\\Container\\' => 
         array (

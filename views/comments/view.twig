@@ -8,9 +8,9 @@
 
 <ul class="list-group card-list-group" id="comments-list">
 {% for comment in comments %}
-<li class="list-group-item py-5" id="comment_{{comment.commentid}}">
+<li class="py-5" id="comment_{{comment.commentid}}">
     <div class="media">
-      <div class="media-object avatar avatar-md mr-4" style="background-image: url({{comment.photo}})"></div>
+      <div class="d-none d-sm-none d-md-table-cell media-object avatar avatar-md mr-4 " style="background-image: url({{comment.photo}})"></div>
       <div class="media-body">
         <div class="media-heading">
           <small class="float-right text-muted">{{comment.created_at|date("d.m.Y H:i")}} {% if comment.name == auth.user.name %}<b onclick="comment({{comment.commentid}})"  class="fe fe-x-circle ikon"></b>{% endif %} </small>

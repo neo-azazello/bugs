@@ -371,3 +371,90 @@ $(document).ready(function(){
    
  }
  
+$(document).ready(function(){
+    
+    //define template
+var template = $('#sections .section:first').clone();
+
+var ids = [];
+var newId;
+var selectedItem = {};
+var total_price = 0;
+
+
+//define counter
+var sectionsCount = 0;
+
+//add new section
+$('body').on('click', '.addsection', function() {
+
+    //increment
+    sectionsCount++;
+
+    //loop through each input.val
+    var section = template.clone().find(':input').each(function(e){
+        
+        $(this).val('');
+
+        //set id to store the updated section number
+        newId = sectionsCount;
+
+        //update for label
+        $(this).prev().attr('for', newId);
+
+        //update id
+        this.id = "id_" + newId;
+    
+
+    }).end()
+
+    //inject new section
+    .appendTo('#sections');
+    
+    
+    var obj = {};
+        obj.id = sectionsCount;
+        obj.value= 0;
+        obj.is_custom = true;
+        obj.id_db = 0;
+        
+        ids.push(obj);
+    
+    
+    return false;
+});
+
+//remove section
+$('#sections').on('click', '.remove', function() {
+    //fade out section
+    $(this).parent().fadeOut(300, function(){
+        $(this).closest('.row').remove();
+    });
+});
+});
+
+
+function finished(id) {
+
+   $.ajax({
+      url: '/finished',
+      type: 'POST',
+      data: {'id': id},
+      
+      success: function (data) {
+          data = JSON.parse(data);
+          
+          if(data.status == "true") {
+            $( "#check_" + id ).addClass('task-finished');
+              
+          } else {
+            $( "#check_" + id ).removeClass('task-finished');
+          }
+      },
+      
+      error: function () {
+          console.log('it failed!');
+      }
+  });
+
+}

@@ -19,14 +19,13 @@
                      
                       <thead>
                         <tr>
-                          <th class="text-center w-1">Author</th>
                           <th>Task title</th>
                           <th class="text-center">Task type</th>
-                          <th>Assigned</th>
-                          <th>Comments</th>
-                          <th>Project</th>
-                          <th>Status</th>
-                          <th>Actions</th>
+                          <th class="d-none d-sm-none d-md-table-cell">Assigned</th>
+                          <th class="d-none d-sm-none d-md-table-cell">Comments</th>
+                          <th class="d-none d-sm-table-cell">Project</th>
+                          <th class="d-none d-sm-table-cell">Status</th>
+                          <th class="d-none d-sm-table-cell">Actions</th>
                         </tr>
                       </thead>
                       
@@ -37,16 +36,10 @@
                         {% for task in tasks %}
                             <tr>
                               
-                              <td class="text-center">
-                                <div class="avatar d-block" style="background-image: url({{ task.photo }})">
-                                  {#<span class="avatar-status bg-green"></span>#}
-                                </div>
-                              </td>
-                              
                               <td>
                                 <div><a href="{{base_url()}}/view/{{ task.taskid }}" >{{ task.tasktitle }}</a></div>
                                 <div class="small text-muted">
-                                 {{ task.created_at |date("d.m.Y H:i")}}
+                                 {{ task.created_at |date("d.m.Y H:i")}} by {{task.name}}
                                 </div>
                               </td>
                               
@@ -54,26 +47,26 @@
                                 <span class="badge badge-{{ task.tasktypecolor }}">{{ task.tasktypename }}</span>
                               </td>
                               
-                              <td>
+                              <td class="d-none d-sm-none d-md-table-cell">
                                 <div class="assignee">{{ task.assignedUsers }}</div>
                               </td>
                               
-                              <td>
+                              <td class="d-none d-sm-none d-md-table-cell">
                                 <div class="assignee">{{ task.commentcount }}</div>
                               </td>
                               
-                              <td>
+                              <td class="d-none d-sm-table-cell">
                                 <div>{{ task.projectname }}</div>
                                 <div class="small text-muted">
-                                 {{ task.projectsartdate |date("d.m.Y")}}
+                                 {{ task.projectsartdate |date("d.m.Y")}} 
                                 </div>
                               </td>
                               
-                              <td>
+                              <td class="d-none d-sm-table-cell">
                                   <span class="status-icon bg-{{ task.statuscolor }}"></span> {{ task.statusname }}
                               </td>
                                 
-                              <td>
+                              <td class="d-none d-sm-table-cell">
                                 <a href="{{base_url()}}/view/{{ task.taskid }}" class="btn btn-secondary btn-sm">Open</a>
                                 {% if auth.user.is_admin == "true" %} 
                                   <a href="{{base_url()}}/edit/{{ task.taskid }}" class="btn btn-success btn-sm"><i class="fe fe-edit"></i></a>

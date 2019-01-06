@@ -147,6 +147,32 @@
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                       
+                      {% if taskcheklist %}
+                       <div class="row">
+                        {% for checks in taskcheklist %}
+                    			<div class="col-md-12" >
+                            <div class="card p-3">
+                              <div class="d-flex align-items-center">
+                                <span class="stamp stamp-md bg-green mr-3">
+                                  <input type="checkbox" 
+                                         value="" 
+                                         class="" 
+                                         {% if checks.is_done == 'true' %} checked  {% endif %}
+                                         {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %} 
+                                  >
+                                </span>
+                                <div class="{% if checks.is_done == 'true' %} task-finished {% endif %}" id="check_{{checks.id}}">
+                                  <span class="m-0">{{checks.name}}</span>
+                                  <p class="list-group-item-text">{{ markdown(checks.text) | raw }}</p>	
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                        </div>
+                      {% endif %}
+                      
+
                       
                       <div class="form-group mb-0">
                          <div class="form-control-plaintext">{{ markdown(one.tasktext) | raw }}</div>

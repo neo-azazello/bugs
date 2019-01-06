@@ -28,7 +28,7 @@ class Tasks extends Model {
                   T.taskid,
                   T.tasktitle,
                   T.created_at,
-                  U.photo,
+                  U.name,
                   TT.tasktypename,
                   TT.tasktypecolor,
                   TS.statusname,
@@ -215,6 +215,25 @@ class Tasks extends Model {
                 GROUP BY T.taskid"
                 );
             
+        }
+        
+        public function getTaskChecklist($id) {
+            
+        $taskid = implode('', $id);
+            
+           return $select = DB::select(
+                "SELECT
+                  TC.id,
+                  TC.byuser,
+                  TC.text,
+                  TC.is_done,
+                  U.name
+                  FROM taskchecklist TC
+                  INNER JOIN users U ON TC.byuser = U.id
+                  WHERE TC.taskid = $taskid"
+                  
+               
+                );
         }
         
         

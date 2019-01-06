@@ -80,5 +80,6 @@ $app->group('', function () {
     $this->post('/deletechecklist', 'ChecklistController:deleteChecklist');
     $this->post('/done', 'ChecklistController:markAsDone');
 
-    
+    $this->post('/finished', 'TaskController:markTaskChecklist');
+
 })->add(new AuthMiddleware($container));

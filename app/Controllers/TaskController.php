@@ -59,7 +59,7 @@ class TaskController extends Controller {
             'types' => Tasks::getTaskTypes(),
             'statuses' => Tasks::getTaskStatus(),
             'projects' => Tasks::getProjects()
-            ));
+        ));
     }
     
     public function moveUploadedFile($directory, $uploadedFile) {
@@ -83,8 +83,24 @@ class TaskController extends Controller {
             'taskstatus' =>  $request->getParam('taskstatus'),
             'taskproject' =>  $request->getParam('taskproject'),
             'is_draft' =>  $request->getParam('is_draft'),
-        ]);
+        ]); 
         
+         //Adding task checklist
+        if(!empty($request->getParam('text'))) {
+            
+            foreach($request->getParam('text') as $key=>$text) {
+                $bulk[] = array(
+                    'taskid' => $task->id,
+                    'text' => $text,
+                    'byuser' => (int)$request->getParam('byuser')[$key]
+                    );
+            }
+    
+            $this->container->db->table('taskchecklist')->insert($bulk);
+        }
+        
+        
+        //Adding task assigned users
         if(!empty($request->getParam('assigned'))) {
             
             foreach($request->getParam('assigned') as $userId) {
@@ -94,9 +110,8 @@ class TaskController extends Controller {
                     );
             }
     
-                
             $this->container->db->table('taskassigns')->insert($insert_bulk);
-        } 
+        }
         
         //Adding files to task if avvailable
         if(!empty($request->getUploadedFiles()['taskfiles'][0]->getClientFilename())) {
@@ -125,11 +140,11 @@ class TaskController extends Controller {
                 $_SESSION['name'] . ' created a task and assigned it to you');
             
             $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
-            $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
+           $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
         }
         
         
-        return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id]));
+        return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id])); 
     }
     
     
@@ -154,7 +169,8 @@ class TaskController extends Controller {
     public function details($request, $response, $id) {
         
         return $this->view->render($response, 'tasks/view.twig', array (
-            'task' => Tasks::getConcreteTask($id), 
+            'task' => Tasks::getConcreteTask($id),
+            'taskcheklist' => Tasks::getTaskChecklist($id),
             'files' => Tasks::getTaskFiles($id),
             'assigned' => Tasks::getAssignedUsers($id), 
             'statuses' => Tasks::getTaskStatus(),
@@ -163,7 +179,21 @@ class TaskController extends Controller {
         ));
     }
     
-    
+    public function markTaskChecklist($request, $response) {
+       
+       $is_done = $this->container->db->table('taskchecklist')->select('is_done')->where('id', $request->getParam('id'))->value('is_done');
+        
+        if($is_done == 'false') {
+           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => 'true',]);
+           $status = 'true';
+            
+        } else {
+           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => 'false',]);
+           $status = 'false';
+        }
+            return json_encode(array("status" => $status)); die();
+    }
+
     
     public function editTaskPageDatas($request, $response, $id) {
         
@@ -174,6 +204,7 @@ class TaskController extends Controller {
                     'edit' => Tasks::getConcreteTask($id), 
                     'assigned' => Tasks::getAssignedUsers($id),
                     'files' => Tasks::getTaskFiles($id),
+                    'taskcheklist' => Tasks::getTaskChecklist($id),
                     'users' => Tasks::getUsers(), 
                     'types' => Tasks::getTaskTypes(),
                     'projects' => Tasks::getProjects(),
@@ -210,10 +241,26 @@ class TaskController extends Controller {
                 'userid' => $userId
                 );
         }
-
             
         $this->container->db->table('taskassigns')->insert($insert_bulk);
         
+        
+        if(!empty($request->getParam('text'))) {
+            
+            $current = $this->container->db->table('taskchecklist')->where('taskid', $request->getParam('taskid'))->delete();
+            
+            foreach($request->getParam('text') as $key=>$text) {
+                $bulk[] = array(
+                    'taskid' => $request->getParam('taskid'),
+                    'text' => $text,
+                    'is_done' => $request->getParam('is_done')[$key],
+                    'byuser' => (int)$request->getParam('byuser')[$key]
+                    );
+            }
+            
+            $this->container->db->table('taskchecklist')->insert($bulk);
+    
+        }
         
         //Adding files to task if avvailable
         if(!empty($request->getUploadedFiles()['taskfiles'][0]->getClientFilename())) {
@@ -241,11 +288,11 @@ class TaskController extends Controller {
                 'false', 
                 $_SESSION['name'] . ' updated task where you are assigned');
             
-            $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
-            $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: http://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
+            //$users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
+            //$this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
         }
         
-        $this->container->flash->addMessage('success', 'Task has been updated successfully.');
+        //$this->container->flash->addMessage('success', 'Task has been updated successfully.');
         return $response->withRedirect($this->router->pathFor('task', ['id' => $request->getParam('taskid')]));
         
         
