@@ -183,12 +183,12 @@ class TaskController extends Controller {
        
        $is_done = $this->container->db->table('taskchecklist')->select('is_done')->where('id', $request->getParam('id'))->value('is_done');
         
-        if($is_done == 'false') {
-           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => 'true',]);
+        if($is_done == '1') {
+           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => '2',]);
            $status = 'true';
             
         } else {
-           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => 'false',]);
+           $task = $this->container->db->table('taskchecklist')->where('id', $request->getParam('id'))->update(['is_done' => '1',]);
            $status = 'false';
         }
             return json_encode(array("status" => $status)); die();

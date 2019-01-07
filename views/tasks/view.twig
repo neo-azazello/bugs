@@ -157,11 +157,11 @@
                                   <input type="checkbox" 
                                          value="" 
                                          class="" 
-                                         {% if checks.is_done == 'true' %} checked  {% endif %}
+                                         {% if checks.is_done == '2' %} checked  {% endif %}
                                          {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %} 
                                   >
                                 </span>
-                                <div class="{% if checks.is_done == 'true' %} task-finished {% endif %}" id="check_{{checks.id}}">
+                                <div class="{% if checks.is_done == '2' %} task-finished {% endif %}" id="check_{{checks.id}}">
                                   <span class="m-0">{{checks.name}}</span>
                                   <p class="list-group-item-text">{{ markdown(checks.text) | raw }}</p>	
                                 </div>
