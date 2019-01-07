@@ -19,7 +19,6 @@
                      
                       <thead>
                         <tr>
-                          <th class="text-center w-1">Author</th>
                           <th>Task title</th>
                           <th class="text-center">Task type</th>
                           <th>Assigned</th>
@@ -35,12 +34,6 @@
                         
                         {% for draft in drafts %}
                             <tr>
-                              
-                              <td class="text-center">
-                                <div class="avatar d-block" style="background-image: url({{ draft.photo }})">
-                                  {#<span class="avatar-status bg-green"></span>#}
-                                </div>
-                              </td>
                               
                               <td>
                                 <div><a href="{{base_url()}}/view/{{ draft.taskid }}" >{{ draft.tasktitle }}</a></div>

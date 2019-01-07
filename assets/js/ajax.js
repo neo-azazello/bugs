@@ -392,7 +392,7 @@ $('body').on('click', '.addsection', function() {
     sectionsCount++;
 
     //loop through each input.val
-    var section = template.clone().find(':input').each(function(e){
+    var section = template.clone().find('textarea').each(function(e){
         
         $(this).val('');
 
@@ -458,3 +458,18 @@ function finished(id) {
   });
 
 }
+
+
+$(document).ready(function(){
+    
+    var simplemde = {};
+    
+        $('[id^="id_"]').each(function(idx, ele) {
+            simplemde[ele.id] = new SimpleMDE({
+                element: ele, forceSync: true, 
+                showIcons: ["code", "table"], 
+                hideIcons: ["guide", "heading"], 
+                spellChecker: false
+        });
+    })
+});

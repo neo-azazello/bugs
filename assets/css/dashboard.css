@@ -18653,12 +18653,31 @@ svg {
     color: #cd201f;
 }
 
+/* All SimpleMDE Forms hight */
+
 #userForm .CodeMirror {
 	min-height: 120px!important;
 }
 
 #userForm .CodeMirror-scroll {
 	min-height: 120px!important;
+}
+
+
+.simple-mde .CodeMirror {
+	min-height: 120px!important;
+}
+
+.simple-mde .CodeMirror-scroll {
+	min-height: 120px!important;
+}
+
+.main-description .CodeMirror {
+	min-height: 200px!important;
+}
+
+.main-description .CodeMirror-scroll {
+	min-height: 200px!important;
 }
 
 .btn-bs-file{
@@ -18736,7 +18755,19 @@ svg {
 .form-control-plaintext table {
     margin-bottom: 1em;
 }
-.form-control-plaintext td, .form-control-plaintext th {
+.form-control-plaintext td, 
+.form-control-plaintext th {
+    border: 1px solid #dee2e6;
+    padding: .2rem;
+    vertical-align: top;
+}
+
+.tableview table {
+    margin-bottom: 1em;
+}
+
+.tableview td, 
+.tableview th {
     border: 1px solid #dee2e6;
     padding: .2rem;
     vertical-align: top;
