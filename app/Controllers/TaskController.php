@@ -288,11 +288,11 @@ class TaskController extends Controller {
                 'false', 
                 $_SESSION['name'] . ' updated task where you are assigned');
             
-           // $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
-            //$this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
+            $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
+            $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
         }
         
-        //$this->container->flash->addMessage('success', 'Task has been updated successfully.');
+        $this->container->flash->addMessage('success', 'Task has been updated successfully.');
         return $response->withRedirect($this->router->pathFor('task', ['id' => $request->getParam('taskid')]));
         
         

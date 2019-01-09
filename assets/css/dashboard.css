@@ -166,6 +166,9 @@ sub {
 
 sup {
   top: -.5em;
+  margin-left: 2px;
+  color: #cd201f;
+  font-weight: bold;
 }
 
 a {
