@@ -116,6 +116,26 @@
                 </div>
               </div>
               
+              {% if anothertasks %}
+              <div class="card">
+                  <div class="card-status card-status-left bg-{{one.tasktypecolor}}"></div>
+                  <div class="card-header">
+                    <h3 class="card-title">Another {{one.tasktypename}} tasks</h3>
+                    <div class="card-options">
+                      <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <ul style="margin-left: -30px;">
+                    {% for a in anothertasks %}
+                    <li><a href="{{base_url()}}/view/{{ a.taskid }}">{{a.tasktitle}}</a> 
+                        {% if a.checklist %}<sup {%if a.checklistdone == a.checklist%} style="color:#5eba00;"{%endif%}>{{a.checklistdone}}/{{a.checklist}}</sup>{% endif %}
+                    </li>
+                    {% endfor%}
+                    </ul>
+                  </div>
+                </div>
+              {%endif%}
               
             </div>
             <div class="col-lg-8">

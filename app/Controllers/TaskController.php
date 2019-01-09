@@ -168,6 +168,8 @@ class TaskController extends Controller {
     
     public function details($request, $response, $id) {
         
+        $tasktype = $this->container->db->table('tasks')->select('tasktypeid')->where('taskid', $id)->value('tasktypeid');
+        
         return $this->view->render($response, 'tasks/view.twig', array (
             'task' => Tasks::getConcreteTask($id),
             'taskcheklist' => Tasks::getTaskChecklist($id),
@@ -175,7 +177,8 @@ class TaskController extends Controller {
             'assigned' => Tasks::getAssignedUsers($id), 
             'statuses' => Tasks::getTaskStatus(),
             'comments' => comment::viewTaskComments($id),
-            'checks' => checks::viewTaskChecklist($id, $_SESSION['user'])
+            'checks' => checks::viewTaskChecklist($id, $_SESSION['user']),
+            'anothertasks' => Tasks::getUsersAnotherTasks($_SESSION['user'], $tasktype, $id)
         ));
     }
     
