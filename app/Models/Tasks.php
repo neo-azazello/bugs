@@ -230,9 +230,8 @@ class Tasks extends Model {
                   U.name
                   FROM taskchecklist TC
                   INNER JOIN users U ON TC.byuser = U.id
-                  WHERE TC.taskid = $taskid"
-                  
-               
+                  WHERE TC.taskid = $taskid
+                  ORDER BY TC.is_done ASC"
                 );
         }
         
