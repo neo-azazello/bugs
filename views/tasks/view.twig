@@ -161,7 +161,7 @@
                                   <label class="colorinput">
                                     <input type="checkbox" class="colorinput-input" {% if checks.is_done == '2' %} checked  {% endif %}
                                    {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %}/>
-                                    <span class="colorinput-color bg-{{one.tasktypecolor}}"></span>
+                                    <span class="colorinput-color {% if auth.user.id == checks.byuser %} bg-{{one.tasktypecolor}} {% else %} bg-secondary {% endif %}"></span>
                                   </label>
                                 </span>
                                 <div class="{% if checks.is_done == '2' %} task-finished {% endif %}" id="check_{{checks.id}}">

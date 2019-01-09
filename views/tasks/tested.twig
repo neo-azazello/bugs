@@ -38,7 +38,9 @@
 
                               
                               <td>
-                                <div><a href="{{base_url()}}/view/{{ t.taskid }}" >{{ t.tasktitle }}</a></div>
+                                <div><a href="{{base_url()}}/view/{{ t.taskid }}" >{{ t.tasktitle }}</a>
+                                {% if t.checklist %}<sup {%if t.checklistdone == t.checklist%} style="color:#5eba00;"{%endif%}>{{t.checklistdone}}/{{t.checklist}}</sup>{% endif %}
+                                </div>
                                 <div class="small text-muted">
                                  {{ t.created_at |date("d.m.Y H:i")}}
                                 </div>
