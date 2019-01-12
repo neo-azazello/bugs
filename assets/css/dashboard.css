@@ -209,6 +209,11 @@ pre {
   margin-top: 0;
   margin-bottom: 1rem;
   overflow: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
   -ms-overflow-style: scrollbar;
 }
 
