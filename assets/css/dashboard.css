@@ -18837,3 +18837,13 @@ svg {
   text-decoration: line-through;
   color: #bbbbbb;
 }
+
+.commen-counter {
+padding: 0px 5px;
+color: white;
+border-radius: 4px;
+font-size: 15px;
+font-weight: bold;
+background: #467fcf;
+background-color: rgb(70, 127, 207);
+}
