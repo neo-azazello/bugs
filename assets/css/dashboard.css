@@ -18838,6 +18838,11 @@ svg {
   color: #bbbbbb;
 }
 
+.task-finished li {
+  text-decoration: line-through;
+  color: #bbbbbb;
+}
+
 .commen-counter {
 padding: 0px 5px;
 color: white;
