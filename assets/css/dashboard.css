@@ -18843,6 +18843,10 @@ svg {
   color: #bbbbbb;
 }
 
+.task-finished img {
+    opacity: 0.5;
+}
+
 .commen-counter {
 padding: 0px 5px;
 color: white;
