@@ -7,7 +7,9 @@ use Odan\Slim\Session\Session;
 
 
 //Starting new session in aour application
+$lifetime = 86400;
 session_start();
+setcookie(session_name(), session_id(), time() + $lifetime);
 
 // require the main Slim 3 Framework file
 require __DIR__ . "/../vendor/autoload.php";
