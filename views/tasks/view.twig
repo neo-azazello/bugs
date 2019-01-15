@@ -177,13 +177,23 @@
                                 <div class="d-flex align-items-center">
                                   <span class="stamp-md mr-3">
                                     <label class="colorinput">
-                                      <input type="checkbox" class="colorinput-input" {% if checks.is_done == '2' %} checked  {% endif %}
-                                     {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %}/>
+                                      <input type="checkbox" 
+                                             class="colorinput-input" 
+                                             {% if checks.is_done == '2' %} checked  {% endif %}
+                                             {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %}/>
                                       <span class="colorinput-color {% if auth.user.id == checks.byuser %} bg-{{one.tasktypecolor}} {% else %} bg-secondary {% endif %}"></span>
                                     </label>
                                   </span>
                                   <div class="{% if checks.is_done == '2' %} task-finished {% endif %}" id="check_{{checks.id}}">
                                     <span class="m-0">{{checks.name}}</span>
+                                    {% if auth.user.is_admin == "true" %}
+                                      <span class="pull-right">
+                                        <label class="colorinput">
+                                          <input type="checkbox" class="colorinput-input"  {% if checks.is_done == '2' %} checked  {% endif %} onclick="finished({{checks.id}})" />
+                                          <span class="colorinput-color bg-red"></span>
+                                        </label>
+                                      </span>
+                                    {% endif %}
                                     <p class="list-group-item-text">{{ markdown(checks.text) | raw }}</p>	
                                   </div>
                                 </div>
