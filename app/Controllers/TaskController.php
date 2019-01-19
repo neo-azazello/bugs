@@ -147,6 +147,15 @@ class TaskController extends Controller {
         return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id])); 
     }
     
+    public function addNewTaskChecklist($request, $response) {
+        
+        $taskid = $request->getParam('taskid');
+        $text = $request->getParam('text');
+        $byuser = $request->getParam('byuser');
+        
+        $this->container->db->table('taskchecklist')->insert(array('taskid'=>$taskid, 'text'=>$text, 'byuser'=>$byuser));
+        return $response->withRedirect($this->router->pathFor('task', ['id' => $taskid])); 
+    }
     
     public function daleteTask($request, $response, $id){
         
@@ -177,6 +186,7 @@ class TaskController extends Controller {
             'assigned' => Tasks::getAssignedUsers($id), 
             'statuses' => Tasks::getTaskStatus(),
             'comments' => comment::viewTaskComments($id),
+            'users' => Tasks::getUsers(), 
             'checks' => checks::viewTaskChecklist($id, $_SESSION['user']),
             'anothertasks' => Tasks::getUsersAnotherTasks($_SESSION['user'], $tasktype, $id)
         ));

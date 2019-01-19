@@ -81,5 +81,6 @@ $app->group('', function () {
     $this->post('/done', 'ChecklistController:markAsDone');
 
     $this->post('/finished', 'TaskController:markTaskChecklist');
+    $this->post('/addnewtaskcheklist', 'TaskController:addNewTaskChecklist')->setName('addnewtaskcheklist');
 
 })->add(new AuthMiddleware($container));

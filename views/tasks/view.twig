@@ -145,7 +145,55 @@
                   <div class="card border-{{one.tasktypecolor}}">
                   <div class="card-header {% if one.tasktypecolor != "default" %} text-white {% endif %} bg-{{one.tasktypecolor}}" >
                     <h3 class="card-title">{{one.tasktitle}}</h3>
+                    
+                    {% if auth.user.is_admin == "true" %}
+                      <div class="card-options">
+                        <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewTaskChecklist">New Checklist</a>
+                        
+                          <div class="modal fade" id="addNewTaskChecklist" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header text-white bg-{{one.tasktypecolor}}">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">New Checklist</h5>
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+                                  </div>
+                                  <form action="{{ path_for('addnewtaskcheklist') }}" method="post" autocomplete="off">
+                                  <div class="modal-body">
+                                 <div class="row" >
+                                    
+                                    <div class="col-md-12">
+                                      <div class="form-group">
+                                        <select class="form-control custom-select" name="byuser">
+                                          {% for u in users %}
+                                            <option value="{{ u.id }}">{{ u.name }}</option>
+                                          {% endfor %}
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-12 simple-mde"> 
+                                      <div class="form-group">
+                                          <textarea rows="3" class="form-control textarea" name="text" id="id_0" ></textarea>
+                                      </div>
+                                    </div>       
+  
+                                       <input type="hidden" name="taskid" value="{{one.taskid}}">
+                                       
+                                  </div>
+
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                  </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                    {% endif %}
+                    
                   </div>
+                  
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-12">
