@@ -73,8 +73,8 @@ class Tasks extends Model {
                   P.projectsartdate,
                 GROUP_CONCAT(AU.name separator ', ') assignedUsers,
                 (SELECT  COUNT(*) FROM taskcomments tc WHERE tc.taskid = T.taskid) AS commentcount,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid) AS checklist,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND is_done = 2) AS checklistdone
+                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND tch.byuser = $userid) AS checklist,
+                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND is_done = 2  AND tch.byuser = $userid) AS checklistdone
                 FROM tasks T
                 INNER JOIN tasktypes TT ON T.tasktypeid = TT.tasktypeid
                 INNER JOIN users U ON U.id = T.taskauthor
@@ -99,8 +99,8 @@ class Tasks extends Model {
                 "SELECT
                   T.taskid,
                   T.tasktitle,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid) AS checklist,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND is_done = 2) AS checklistdone
+                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND tch.byuser = $userid) AS checklist,
+                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND is_done = 2 AND tch.byuser = $userid) AS checklistdone
                 FROM tasks T
                 INNER JOIN users U ON U.id = T.taskauthor
                 INNER JOIN projects P ON P.projectid = T.taskproject
