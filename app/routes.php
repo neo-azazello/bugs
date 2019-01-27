@@ -47,6 +47,9 @@ $app->group('', function () {
     //status updates
     $this->post('/status', 'TaskController:updateStatus')->setName('status');
     
+    //Publish status update
+    $this->post('/is_draft', 'TaskController:updatePublishStatus')->setName('is_draft');
+    
     //remove files
     $this->post('/files', 'TaskController:deleteTaskFile')->setName('files');
 

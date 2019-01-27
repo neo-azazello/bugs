@@ -330,6 +330,20 @@ class TaskController extends Controller {
         }
     }
     
+    public function updatePublishStatus($request, $response){
+        
+        $current = $this->container->db->table('tasks')->select('is_draft')->where('taskid', $request->getParam('taskid'))->value('is_draft');
+        
+        if($current != $request->getParam('is_draft')) {
+            
+        $this->container->db->table('tasks')->where('taskid', $request->getParam('taskid'))->update(['is_draft' => $request->getParam('is_draft'),]);
+        
+        } else {
+            
+            echo "The same status";
+        }
+    }
+    
     
     public function deleteTaskFile($request, $response){
         

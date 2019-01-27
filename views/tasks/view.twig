@@ -39,6 +39,38 @@
                   </div>
                     <div class="card-body">
                       
+                     
+                    {% if auth.user.is_admin == "true" %} 
+                      <div class="form-group">
+                            <label class="form-label">Publish status</label>
+                        <div class="selectgroup w-100" >
+
+                          <label class="selectgroup-item">
+                            <input type="radio" onclick="is_draft(false, {{one.taskid}})" 
+                                   name="is_draft" 
+                                   value="false"
+                                   class="selectgroup-input" 
+                                   {% if  one.is_draft == 'false' %} checked="" {% endif %}
+                                   > 
+                            <span class="selectgroup-button">Published</span>
+                          </label>
+                          <label class="selectgroup-item">
+                            <input type="radio" 
+                                   onclick="is_draft(true, {{one.taskid}})" 
+                                   name="is_draft" 
+                                   value="true" 
+                                   class="selectgroup-input" 
+                                   {% if  one.is_draft == 'true' %} checked="" {% endif %}
+                                   > 
+                            <span class="selectgroup-button">Draft</span>
+                          </label>
+
+                         </div>
+                         </div>
+                       
+                       {% endif %}
+                     
+                     
                       <div class="form-group">
                             <label class="form-label">Created at</label>
                       <span>{{one.created_at|date("d.m.Y H:i")}} </span>

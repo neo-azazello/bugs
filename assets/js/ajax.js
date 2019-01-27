@@ -473,3 +473,20 @@ $(document).ready(function(){
         });
     })
 });
+
+
+ function is_draft(id, id2) {
+   
+       $.ajax({
+          url: '/is_draft',
+          type: 'POST',
+          data: {'is_draft': id, 'taskid': id2},
+          success: function () {
+              console.log('it worked!');
+          },
+          error: function () {
+              console.log('it failed!');
+          }
+      });
+   
+ }
