@@ -9,9 +9,9 @@ class AuthMiddleware extends Middleware {
     {
 
         if(!$this->container->auth->check()){
-
+            $_SESSION['redirect'] = $_SERVER['REQUEST_URI'];
             $this->container->flash->addMessage('error', 'Please sign in with your code.');
-            return $response->withRedirect($this->container->router->pathFor('auth.signin'));
+            return $response->withRedirect($this->container->router->pathFor('auth.signin') . '?redirect='. $_SESSION['redirect']);
         }
 
         $response = $next($request, $response);

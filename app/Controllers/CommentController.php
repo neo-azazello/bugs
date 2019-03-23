@@ -8,7 +8,7 @@ use App\Models\Tasks;
 
 class CommentController extends Controller {
     
-    public function viewTaskComments($id) {
+    public static function viewTaskComments($id) {
         $getcomments = Comments::getTaskComments($id);
             return $getcomments;
         

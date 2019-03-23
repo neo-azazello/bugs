@@ -16,7 +16,7 @@ class Comments extends Model {
             'commentid',
         ];
     
-    public function getTaskComments($id) {
+    public static function getTaskComments($id) {
         
            $taskid = implode('', $id);
             
@@ -34,7 +34,7 @@ class Comments extends Model {
         
     }
     
-    public function getCommentById($id){
+    public static function getCommentById($id){
         
             return $select = DB::select(
                 "SELECT

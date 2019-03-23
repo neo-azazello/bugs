@@ -17,7 +17,7 @@ class Notifications extends Model {
             'text',
         ];
     
-    public function getNotifications() {
+    public static function getNotifications() {
         
         if(isset($_SESSION['user'])) {
             

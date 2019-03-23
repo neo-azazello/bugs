@@ -11,6 +11,12 @@ class AuthController extends Controller {
     //Renders Login page
     public function getSignIn($request, $response) {
         
+        if(!empty($request->getParam('redirect'))){
+            $_SESSION['redirect'] = $request->getParam('redirect');
+        } else {
+            unset($_SESSION['redirect']);
+        }
+
         return $this->view->render($response, 'auth/signin.twig');
     
     }
@@ -43,11 +49,11 @@ class AuthController extends Controller {
 
         }
         
-            
-        //var_dump($_SERVER['REQUEST_URI']); die();
-        $redirect = $response->withRedirect($this->router->pathFor('home'));
+        if(isset($_SESSION['redirect'])) {
+            return $response->withRedirect($_SESSION['redirect']);
+        }
 
-        return $redirect;
+        return $response->withRedirect($this->router->pathFor('home'));
 
     }
 

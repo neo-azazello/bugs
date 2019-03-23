@@ -21,11 +21,11 @@ class User extends Model {
             'created_at',
         ];
         
-        public function getUserDetails($userId) {
+        public static function getUserDetails($userId) {
             
             $id = implode('', $userId);
             
-            return $select = DB::select("SELECT * FROM users WHERE id = $id");
+            return DB::select("SELECT * FROM users WHERE id = $id");
 
         }
 

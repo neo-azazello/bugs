@@ -17,7 +17,7 @@ class Checklists extends Model {
             'created_at',
         ];
     
-    public function getTaskChecklist($id, $userid) {
+    public static function getTaskChecklist($id, $userid) {
         
            $taskid = implode('', $id);
             
@@ -37,7 +37,7 @@ class Checklists extends Model {
         }
         
     
-    public function getTaskChecklistById($id) {
+    public static function getTaskChecklistById($id) {
         
          return $select = DB::select(
              "SELECT

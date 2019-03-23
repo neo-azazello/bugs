@@ -21,7 +21,7 @@ class Tasks extends Model {
             'is_draft',
         ];
         
-        public function getAllTasks() {
+        public static function getAllTasks() {
             
             return $select = DB::select(
                 "SELECT
@@ -56,7 +56,7 @@ class Tasks extends Model {
         }
         
         
-          public function getUsersTasks($userid){
+          public static function getUsersTasks($userid){
             
             return $select = DB::select(
                 "SELECT
@@ -91,7 +91,7 @@ class Tasks extends Model {
                 );
         } 
         
-        public function getUsersAnotherTasks($userid, $tasktype, $taskid){
+        public static function getUsersAnotherTasks($userid, $tasktype, $taskid){
             
             $id = implode(', ', $taskid);
             
@@ -118,7 +118,7 @@ class Tasks extends Model {
         }  
         
         
-        public function getDraftTasks() {
+        public static function getDraftTasks() {
             
             return $select = DB::select(
                 "SELECT
@@ -147,7 +147,7 @@ class Tasks extends Model {
                 );
         }
         
-        public function getFinishedTasks($userid = null) {
+        public static function getFinishedTasks($userid = null) {
             
             return $select = DB::select(
                 "SELECT
@@ -180,7 +180,7 @@ class Tasks extends Model {
                 );
         }
         
-        public function getTestedTasks($userid = null, $page = array()) {
+        public static function getTestedTasks($userid = null, $page = array()) {
             
             $limitation = implode(', ', $page);
             
@@ -218,7 +218,7 @@ class Tasks extends Model {
         }
         
         
-        public function getConcreteTask($id){
+        public static function getConcreteTask($id){
             
             $taskid = implode('', $id);
             
@@ -251,7 +251,7 @@ class Tasks extends Model {
             
         }
         
-        public function getTaskChecklist($id) {
+        public static function getTaskChecklist($id) {
             
         $taskid = implode('', $id);
             
@@ -270,29 +270,29 @@ class Tasks extends Model {
         }
         
         
-        public function getTaskTypes() {
+        public static function getTaskTypes() {
             
             return $select = DB::select("SELECT tasktypeid, tasktypename FROM tasktypes ORDER BY tasktypeid ASC");
         }
         
-        public function getTaskStatus() {
+        public static function getTaskStatus() {
             
             return $select = DB::select("SELECT statusid, statusname FROM taskstatus ORDER BY statusid ASC");
         }
         
-        public function getProjects() {
+        public static function getProjects() {
             
             return $select = DB::select("SELECT projectid, projectname FROM projects ORDER BY projectid ASC");
         }
         
-        public function getUsers(){
+        public static function getUsers(){
             
             return $select = DB::select(
                 "SELECT id, name, photo, is_active FROM users WHERE is_active = true"
                 );
         }
         
-        public function getAssignedUsers($id){
+        public static function getAssignedUsers($id){
             
             $taskid = implode('', $id);
             
@@ -304,14 +304,14 @@ class Tasks extends Model {
                 );
         }
 
-        public function getTaskFiles($id){
+        public static function getTaskFiles($id){
             
             $taskid = implode('', $id);
             return $select = DB::select("SELECT fileid, filename FROM taskfiles WHERE taskid = $taskid");
         }
         
         
-        public function getTaskAssigners($taskid, $userid){
+        public static function getTaskAssigners($taskid, $userid){
             
              $select = DB::select("SELECT userid FROM taskassigns WHERE taskid = $taskid AND userid != $userid ");
                 

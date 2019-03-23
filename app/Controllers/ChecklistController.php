@@ -6,7 +6,7 @@ use App\Models\Checklists;
 
 class ChecklistController extends Controller {
     
-    public function viewTaskChecklist($id, $userid) {
+    public static function viewTaskChecklist($id, $userid) {
         $checklist = Checklists::getTaskChecklist($id, $userid);
             return $checklist;
         
