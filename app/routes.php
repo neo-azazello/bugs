@@ -3,6 +3,7 @@
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
 
+$app->get('/', 'LandingController:index')->setName('home');
 
 //If guest go to signin
 $app->group('', function () {
@@ -14,76 +15,60 @@ $app->group('', function () {
 })->add(new GuestMiddleware($container));
 
 
-
 $app->group('', function () {
-    
-    //Shows all bug lists in home page
-    $this->get('/', 'TaskController:all')->setName('home');
-    
-    //These list are all fixed ones
-    $this->get('/fixed', 'TaskController:finished')->setName('fixed');
+
     
     //Logging out user
     $this->get('/signout', 'AuthController:getSignOut')->setName('auth.signout');
     
-    //Create link for a new bug
+
+    //General Task Routes
+    $this->get('/all', 'TaskController:all')->setName('all');
     $this->get('/create', 'TaskController:createPage')->setName('create');
-     
-     //Post new data
     $this->post('/create', 'TaskController:createTask');
-    
-    //When bug created or user clicks on list it open detail view
     $this->get('/view/{id}', 'TaskController:details')->setName('task');
-    
-     //Delete task
-    $this->get('/delete/{id}', 'TaskController:daleteTask');
-    
-    //Edit tasks page
     $this->get('/edit/{id}', 'TaskController:editTaskPageDatas')->setName('edit');
-    
-    //Post updates
     $this->post('/edit', 'TaskController:updateTask')->setName('postedit');
-    
-    //status updates
+    $this->get('/delete/{id}', 'TaskController:daleteTask');
     $this->post('/status', 'TaskController:updateStatus')->setName('status');
-    
-    //Publish status update
     $this->post('/is_draft', 'TaskController:updatePublishStatus')->setName('is_draft');
-    
-    //remove files
     $this->post('/files', 'TaskController:deleteTaskFile')->setName('files');
-
-    $this->post('/addcomment', 'CommentController:addNewComment');
-    
-    $this->post('/deletecomment', 'CommentController:deleteComment');
-    
-    $this->get('/profile/{id}', 'ProfileController:getProfileDetails')->setName('profile');
-    
-    $this->post('/updateprofile', 'ProfileController:updateProfile')->setName('updateprofile');
-    
     $this->get('/drafts', 'TaskController:getDraftTasks')->setName('drafts');
-    
+    $this->get('/fixed', 'TaskController:finished')->setName('fixed');
     $this->get('/tested', 'TaskController:getTestedTasks')->setName('tested');
-    
-    $this->post('/updatenotify', 'NotificationController:updateNotification');
-    $this->post('/markallread', 'NotificationController:markAllRead')->setName('markallread');
 
-    $this->get('/settings', 'SettingsController:getAllSettings')->setName('settings');
-    
-    $this->post('/addproject', 'SettingsController:newProjectAdd')->setName('addproject');
-    $this->post('/addtasktype', 'SettingsController:newTaskType')->setName('addtasktype');
-    $this->post('/addtaskstatus', 'SettingsController:newTaskStatus')->setName('addtaskstatus');
-    $this->post('/adduser', 'ProfileController:addNewUser')->setName('adduser');
-    
-    $this->get('/delete/{table}/{column}/{id}', 'SettingsController:deleteSettingsData');
-    
-    $this->post('/settingsprofile', 'ProfileController:settingsProfile')->setName('settingsprofile');
-    
+    //Task Comments Routes
+    $this->post('/addcomment', 'CommentController:addNewComment');
+    $this->post('/deletecomment', 'CommentController:deleteComment');
+
+    //Task checklists routes
+    $this->post('/finished', 'TaskChecklistController:markTaskChecklist');
+    $this->post('/addnewtaskcheklist', 'TaskChecklistController:addNewTaskChecklist')->setName('addnewtaskcheklist');
+    $this->get('/editchecklist/', 'TaskChecklistController:editTaskChecklistModal');
+    $this->post('/edittaskcheklist', 'TaskChecklistController:editTaskChecklist')->setName('edittaskcheklist');
+    $this->get('/addchecklistcomment/', 'TaskChecklistController:addNewTaskChecklistCommentModal');
+    $this->post('/addnewtaskcheklistcomment', 'TaskChecklistController:addNewTaskChecklistComment')->setName('addnewtaskcheklistcomment');
+    $this->get('/editchecklistcomment/', 'TaskChecklistController:editTaskChecklistComment');
+    $this->post('/editnewtaskcheklistcomment', 'TaskChecklistController:editChecklistComment')->setName('editnewtaskcheklistcomment');
+    $this->get('/deletechecklistcomment/{id}', 'TaskChecklistController:deleteChecklistComment');
+
+
+    //User Own checklists
     $this->post('/addcheklist', 'ChecklistController:addNewChecklist');
     $this->post('/deletechecklist', 'ChecklistController:deleteChecklist');
     $this->post('/done', 'ChecklistController:markAsDone');
 
-    $this->post('/finished', 'TaskController:markTaskChecklist');
-    $this->post('/addnewtaskcheklist', 'TaskController:addNewTaskChecklist')->setName('addnewtaskcheklist');
+    //Routes for Profile settings
+    $this->post('/adduser', 'ProfileController:addNewUser')->setName('adduser');
+    $this->post('/settingsprofile', 'ProfileController:settingsProfile')->setName('settingsprofile');
+    $this->get('/profile/{id}', 'ProfileController:getProfileDetails')->setName('profile');
+    $this->post('/updateprofile', 'ProfileController:updateProfile')->setName('updateprofile');
+
+    //Routes for Settings
+    $this->get('/settings', 'SettingsController:getAllSettings')->setName('settings');
+    $this->post('/addproject', 'SettingsController:newProjectAdd')->setName('addproject');
+    $this->post('/addtasktype', 'SettingsController:newTaskType')->setName('addtasktype');
+    $this->post('/addtaskstatus', 'SettingsController:newTaskStatus')->setName('addtaskstatus');
+    $this->get('/delete/{table}/{column}/{id}', 'SettingsController:deleteSettingsData');
 
 })->add(new AuthMiddleware($container));

@@ -1,0 +1,141 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+<div class="container"> 
+<div class="page-header">
+    <h1 class="page-title">Statistics</h1>
+</div>
+
+    <div class="row row-cards">
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="h5">Frontend Tasks</div>
+                    <div class="display-4 font-weight-bold mb-4">{{frontenddone + frontendnotdone}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="h5">Backend Tasks</div>
+                    <div class="display-4 font-weight-bold mb-4">{{backenddone + backendnotdone}}</div>
+                </div>
+            </div>
+        </div>
+        
+</div>
+
+   <div class="row row-cards">   
+			
+            <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Frontend Chart</h3>
+                  </div>
+                  <div class="card-body">
+                    <div id="frontend" style="height: 16rem"></div>
+                  </div>
+                </div>
+                <script>
+                  require(['c3', 'jquery'], function(c3, $) {
+                  	$(document).ready(function(){
+                  		var chart = c3.generate({
+                  			bindto: '#frontend', // id of chart wrapper
+                  			data: {
+                  				columns: [
+                  				    // each columns data
+                  					['data1', '{{frontenddone}}'],
+                  					['data2', '{{frontendnotdone}}']
+                  				],
+                  				type: 'donut', // default type of chart
+                  				colors: {
+                  					'data1': tabler.colors["green"],
+                  					'data2': tabler.colors["red"]
+                  				},
+                  				names: {
+                  				    // name of each serie
+                  					'data1': 'Done',
+                  					'data2': 'Open'
+                  				}
+                  			},
+                  			axis: {
+                  			},
+                  			legend: {
+                                  show: true, 
+                  			},
+                  			padding: {
+                  				bottom: 0,
+                  				top: 0
+                  			},
+                  		});
+                  	});
+                  });
+                </script>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Backend Chart</h3>
+                  </div>
+                  <div class="card-body">
+                    <div id="backend" style="height: 16rem"></div>
+                  </div>
+                </div>
+                <script>
+                  require(['c3', 'jquery'], function(c3, $) {
+                  	$(document).ready(function(){
+                  		var chart = c3.generate({
+                  			bindto: '#backend', // id of chart wrapper
+                  			data: {
+                  				columns: [
+                  				    // each columns data
+                  					['data1', '{{backenddone}}'],
+                  					['data2', '{{backendnotdone}}']
+                  				],
+                  				type: 'donut', // default type of chart
+                  				colors: {
+                  					'data1': tabler.colors["green"],
+                  					'data2': tabler.colors["red"]
+                  				},
+                  				names: {
+                  				    // name of each serie
+                  					'data1': 'Done',
+                  					'data2': 'Open'
+                  				}
+                  			},
+                  			axis: {
+                  			},
+                  			legend: {
+                                  show: true,
+                  			},
+                  			padding: {
+                  				bottom: 0,
+                  				top: 0
+                  			},
+                  		});
+                  	});
+                  });
+                </script>
+            </div>
+              
+				
+   </div>
+
+    <div class="row row-cards">    
+    {% if auth.user %}
+        <div class="col-xs-6 offset-5 offset-md-6">
+            <a class="btn btn-success btn-lg" href="{{path_for('all')}}">View Tasks</a>
+        </div>
+    {% else %}
+        <div class="col-xs-6 offset-5 offset-md-6">
+            <a class="btn btn-danger btn-lg" href="{{path_for('auth.signin')}}">Siginin</a>
+        </div>
+    {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

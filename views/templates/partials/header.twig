@@ -7,32 +7,8 @@
               </a>
 
               <div class="d-flex order-lg-2 ml-auto">
-              {% if notify %}
-                <div class="dropdown d-none d-md-flex">
-                    <a class="nav-link icon" data-toggle="dropdown" aria-expanded="false">
-                      <span class="badge badge-danger pulse">{{notify|length}}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" x-placement="bottom-end" style="position: absolute; transform: translate3d(-444px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    
-                    {% for n in notify %}
-                      <a onclick="notification({{n.id}})" href="{{base_url()}}/view/{{ n.taskid }}" class="dropdown-item d-flex">
-                        <span class="avatar mr-3 align-self-center" style="background-image: url({{n.photo}})"></span>
-                        <div>
-                          {{ n.text }}
-                          <div class="small text-muted">{{n.created_at|date("F jS \\a\\t H:i")}}</div>
-                        </div>
-                      </a>
-                    {% endfor %}
-  
-                      <div class="dropdown-divider"></div>
-                      <form action="{{ path_for('markallread') }}" method="post">
-                       <button type="submit" class="dropdown-item text-center text-muted-dark">Mark all as read</button>
-                      </form>
-                    </div>
-                    
-                  </div>
-               {% endif %}
-                
+               
+                {% if auth.user %}
                 <div class="dropdown">
                   <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                     <span class="avatar" style="background-image: url({{ auth.user.photo }})"></span>
@@ -51,11 +27,17 @@
                     </a>
                   </div>
                 </div>
+                {% else %}
+                <div class="nav-item d-none d-md-flex">
+                  <a href="{{ path_for('auth.signin') }}" class="btn btn-sm btn-outline-primary">Signin</a>
+                </div>
+                {% endif %}
               </div>
               
               <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
                 <span class="header-toggler-icon"></span>
               </a>
+              
             </div>
           </div>
         </div>

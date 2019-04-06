@@ -31,14 +31,7 @@ class CommentController extends Controller {
            $taskassigned = Tasks::getTaskAssigners($request->getParam('taskid'), $_SESSION['user']);
            $receivers[] = $this->container->db->table('tasks')->select('taskauthor')->where('taskid', $request->getParam('taskid'))->value('taskauthor');
             
-           $notifiers = array_merge($taskassigned, $receivers);
-            
-            $this->container->NotificationController->setNotification(
-                $request->getParam('taskid'), 
-                $_SESSION['user'], 
-                $notifiers, 
-                'false', 
-                $_SESSION['name'] . ' left a comment to task: ' . $tasktitle);
+
         
         return json_encode(array_shift($getcomment)); die();
         

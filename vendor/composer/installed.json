@@ -103,17 +103,17 @@
     },
     {
         "name": "erusev/parsedown",
-        "version": "v1.7.2",
-        "version_normalized": "1.7.2.0",
+        "version": "1.7.3",
+        "version_normalized": "1.7.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/erusev/parsedown.git",
-            "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf"
+            "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/erusev/parsedown/zipball/d60bcdc46978357759ecb13cb4b078da783f8faf",
-            "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf",
+            "url": "https://api.github.com/repos/erusev/parsedown/zipball/6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
+            "reference": "6d893938171a817f4e9bc9e86f2da1e370b7bcd7",
             "shasum": ""
         },
         "require": {
@@ -123,7 +123,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8.35"
         },
-        "time": "2019-03-17T17:19:46+00:00",
+        "time": "2019-03-17T18:48:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -151,8 +151,8 @@
     },
     {
         "name": "illuminate/container",
-        "version": "v5.8.4",
-        "version_normalized": "5.8.4.0",
+        "version": "v5.8.9",
+        "version_normalized": "5.8.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/container.git",
@@ -198,17 +198,17 @@
     },
     {
         "name": "illuminate/contracts",
-        "version": "v5.8.4",
-        "version_normalized": "5.8.4.0",
+        "version": "v5.8.9",
+        "version_normalized": "5.8.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/contracts.git",
-            "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde"
+            "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/contracts/zipball/3e3a9a654adbf798e05491a5dbf90112df1effde",
-            "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde",
+            "url": "https://api.github.com/repos/illuminate/contracts/zipball/7224ed316427ae5f67c4888679bbf7f6e7773660",
+            "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660",
             "shasum": ""
         },
         "require": {
@@ -216,7 +216,7 @@
             "psr/container": "^1.0",
             "psr/simple-cache": "^1.0"
         },
-        "time": "2019-02-18T18:37:54+00:00",
+        "time": "2019-03-06T19:39:19+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -244,17 +244,17 @@
     },
     {
         "name": "illuminate/database",
-        "version": "v5.8.4",
-        "version_normalized": "5.8.4.0",
+        "version": "v5.8.9",
+        "version_normalized": "5.8.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/database.git",
-            "reference": "d327d51f103d2579ca163cfe21dc6f8723b36623"
+            "reference": "4d5fd9170c8e8afba599cffd20744b7d8787ac79"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/database/zipball/d327d51f103d2579ca163cfe21dc6f8723b36623",
-            "reference": "d327d51f103d2579ca163cfe21dc6f8723b36623",
+            "url": "https://api.github.com/repos/illuminate/database/zipball/4d5fd9170c8e8afba599cffd20744b7d8787ac79",
+            "reference": "4d5fd9170c8e8afba599cffd20744b7d8787ac79",
             "shasum": ""
         },
         "require": {
@@ -272,7 +272,7 @@
             "illuminate/filesystem": "Required to use the migrations (5.8.*).",
             "illuminate/pagination": "Required to paginate the result set (5.8.*)."
         },
-        "time": "2019-03-10T22:31:50+00:00",
+        "time": "2019-04-01T05:04:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -306,17 +306,17 @@
     },
     {
         "name": "illuminate/support",
-        "version": "v5.8.4",
-        "version_normalized": "5.8.4.0",
+        "version": "v5.8.9",
+        "version_normalized": "5.8.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "07062f5750872a31e086ff37a7c50ac18b8c417c"
+            "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/07062f5750872a31e086ff37a7c50ac18b8c417c",
-            "reference": "07062f5750872a31e086ff37a7c50ac18b8c417c",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/e275519c58246cc4011c798f9b0a0f83aae2aab7",
+            "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7",
             "shasum": ""
         },
         "require": {
@@ -338,7 +338,7 @@
             "symfony/var-dumper": "Required to use the dd function (^4.2).",
             "vlucas/phpdotenv": "Required to use the env helper (^3.3)."
         },
-        "time": "2019-03-12T13:17:00+00:00",
+        "time": "2019-04-01T19:02:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -369,17 +369,17 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "2.16.0",
-        "version_normalized": "2.16.0.0",
+        "version": "2.16.2",
+        "version_normalized": "2.16.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "dd16fedc022180ea4292a03aabe95e9895677911"
+            "reference": "720a9c36927396efeeb48a972e9d129d44b6dc28"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/dd16fedc022180ea4292a03aabe95e9895677911",
-            "reference": "dd16fedc022180ea4292a03aabe95e9895677911",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/720a9c36927396efeeb48a972e9d129d44b6dc28",
+            "reference": "720a9c36927396efeeb48a972e9d129d44b6dc28",
             "shasum": ""
         },
         "require": {
@@ -395,7 +395,7 @@
             "phpunit/phpunit": "^7.5 || ^8.0",
             "squizlabs/php_codesniffer": "^3.4"
         },
-        "time": "2019-03-12T09:31:40+00:00",
+        "time": "2019-03-29T12:23:12+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -736,17 +736,17 @@
     },
     {
         "name": "respect/validation",
-        "version": "1.1.29",
-        "version_normalized": "1.1.29.0",
+        "version": "1.1.30",
+        "version_normalized": "1.1.30.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Respect/Validation.git",
-            "reference": "f8c90fa36859ca41c766efcf0c476d58913a7767"
+            "reference": "9bafee191d9c560827105a849e2b29d8446f0f6f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Respect/Validation/zipball/f8c90fa36859ca41c766efcf0c476d58913a7767",
-            "reference": "f8c90fa36859ca41c766efcf0c476d58913a7767",
+            "url": "https://api.github.com/repos/Respect/Validation/zipball/9bafee191d9c560827105a849e2b29d8446f0f6f",
+            "reference": "9bafee191d9c560827105a849e2b29d8446f0f6f",
             "shasum": ""
         },
         "require": {
@@ -756,7 +756,7 @@
         "require-dev": {
             "egulias/email-validator": "~1.2 || ~2.1",
             "mikey179/vfsstream": "^1.5",
-            "phpunit/phpunit": "~4.0",
+            "phpunit/phpunit": "~4.0 || ~5.0",
             "symfony/validator": "~2.6.9",
             "zendframework/zend-validator": "~2.3"
         },
@@ -768,7 +768,7 @@
             "symfony/validator": "Use Symfony validator through Respect\\Validation",
             "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
         },
-        "time": "2018-11-04T21:58:45+00:00",
+        "time": "2019-03-31T13:27:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1168,17 +1168,17 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v4.2.4",
-        "version_normalized": "4.2.4.0",
+        "version": "v4.2.5",
+        "version_normalized": "4.2.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "748464177a77011f8f4cdd076773862ce4915f8f"
+            "reference": "e46933cc31b68f51f7fc5470fb55550407520f56"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/748464177a77011f8f4cdd076773862ce4915f8f",
-            "reference": "748464177a77011f8f4cdd076773862ce4915f8f",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/e46933cc31b68f51f7fc5470fb55550407520f56",
+            "reference": "e46933cc31b68f51f7fc5470fb55550407520f56",
             "shasum": ""
         },
         "require": {
@@ -1208,7 +1208,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2019-02-27T03:31:50+00:00",
+        "time": "2019-04-01T14:13:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1243,17 +1243,17 @@
     },
     {
         "name": "twig/twig",
-        "version": "v2.7.3",
-        "version_normalized": "2.7.3.0",
+        "version": "v2.7.4",
+        "version_normalized": "2.7.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/twigphp/Twig.git",
-            "reference": "52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3"
+            "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3",
-            "reference": "52b9a5bd41c8c53a1d784f90ca25e33bf558a6b3",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
+            "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
             "shasum": ""
         },
         "require": {
@@ -1266,7 +1266,7 @@
             "symfony/debug": "^2.7",
             "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
         },
-        "time": "2019-03-21T14:53:02+00:00",
+        "time": "2019-03-23T14:28:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

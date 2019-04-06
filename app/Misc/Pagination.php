@@ -33,7 +33,7 @@ class Pagination {
 
     }
     
-    public function pageSwitcher() {
+    public static function pageSwitcher() {
        
        $currentPage = isset($_GET['page']) ? $_GET['page'] : 0;
        

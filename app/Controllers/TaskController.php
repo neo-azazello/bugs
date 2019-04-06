@@ -12,23 +12,18 @@ use App\Controllers\ChecklistController as checks;
 use App\Misc\Pagination;
 
 class TaskController extends Controller {
-
     
     //Loads tasks. If it is admin all if it is user only his tasks
     public function all($request, $response) {
-
-        if(isset($_SESSION['is_admin'])) {
-            if($_SESSION['is_admin'] == "true" ){
-
-                $view = array ('tasks' => Tasks::getAllTasks());
-
-            } else {
-            
-                $userid = $_SESSION['user'];
-                $view = array ('tasks' => Tasks::getUsersTasks($userid));
-            }
-        }
         
+        $userid = $this->container->auth->user()->id;
+        $is_admin = $this->container->auth->user()->is_admin;
+
+        if($is_admin == 'true') {
+           $view = array ('tasks' => Tasks::getAllTasks());
+        } else {
+           $view = array ('tasks' => Tasks::getUsersTasks($userid));
+        }
         
         return $this->view->render($response, 'tasks/all.twig', $view);
     }
@@ -36,35 +31,55 @@ class TaskController extends Controller {
     //Load all fulfilled tasks
     public function finished($request, $response) {
         
-        if(isset($_SESSION['is_admin'])) {
-            if($_SESSION['is_admin'] == "true" ){
+        $userid = $this->container->auth->user()->id;
+        $is_admin = $this->container->auth->user()->is_admin;
+        $page = $this->container->pagination->data(4);
 
-                $view = array ('tasks' => Tasks::getFinishedTasks());
-
-            } else {
-            
-                $userid = $_SESSION['user'];
-                $view = array ('tasks' => Tasks::getFinishedTasks($userid));
-            }
+        if($is_admin == 'true') {
+           $view = array ('tasks' => Tasks::getFinishedTasks(),
+                          'paginator' => Pagination::pageSwitcher(4));
+        } else {
+           $view = array ('tasks' => Tasks::getFinishedTasks($userid),
+                          'paginator' => Pagination::pageSwitcher(4));
         }
 
         return $this->view->render($response, 'tasks/finished.twig', $view);
     }
     
+    //Get all tested Tasks
+    public function getTestedTasks($request, $response) {
+        
+        $userid = $this->container->auth->user()->id;
+        $is_admin = $this->container->auth->user()->is_admin;
+        $page = $this->container->pagination->data(4);
+
+        if($is_admin == 'true') {
+            $view = array (
+                'tested' => Tasks::getTestedTasks(null, $page),
+                'paginator' => Pagination::pageSwitcher(4));
+         } else {
+            $view = array (
+                'tested' => Tasks::getTestedTasks($userid, $page),
+                'paginator' => Pagination::pageSwitcher(4));
+         }
+  
+        
+        return $this->view->render($response, 'tasks/tested.twig', $view);
+    }
+ 
     //Displays the create page 
     public function createPage($request, $response) {
-
-        return $this->view->render($response, 'tasks/new.twig', array (
-            'users' => Tasks::getUsers(), 
-            'types' => Tasks::getTaskTypes(),
-            'statuses' => Tasks::getTaskStatus(),
-            'projects' => Tasks::getProjects()
-        ));
+        $args['users'] = Tasks::getUsers();
+        $args['types'] = Tasks::getTaskTypes();
+        $args['statuses'] = Tasks::getTaskStatus();
+        $args['projects'] = Tasks::getProjects();
+        
+        return $this->view->render($response, 'tasks/new.twig', $args);
     }
     
     public function moveUploadedFile($directory, $uploadedFile) {
             $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-            $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+            $basename = bin2hex(random_bytes(8)); 
             $filename = sprintf('%s.%0.8s', $basename, $extension);
         
             $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
@@ -84,20 +99,6 @@ class TaskController extends Controller {
             'taskproject' =>  $request->getParam('taskproject'),
             'is_draft' =>  $request->getParam('is_draft'),
         ]); 
-        
-         //Adding task checklist
-        if(!empty($request->getParam('text'))) {
-            
-            foreach($request->getParam('text') as $key=>$text) {
-                $bulk[] = array(
-                    'taskid' => $task->id,
-                    'text' => $text,
-                    'byuser' => (int)$request->getParam('byuser')[$key]
-                    );
-            }
-    
-            $this->container->db->table('taskchecklist')->insert($bulk);
-        }
         
         
         //Adding task assigned users
@@ -132,64 +133,46 @@ class TaskController extends Controller {
         
         if($request->getParam('is_draft') == 'false') {
             
-            $this->container->NotificationController->setNotification(
-                $task->id, 
-                $request->getParam('taskauthor'), 
-                $request->getParam('assigned'), 
-                'false', 
-                $_SESSION['name'] . ' created a task and assigned it to you');
-            
             $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
            $this->telegram->tg_msg($_SESSION['name'] . " has added new task for " . $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $task->id);
         }
         
         
         return $response->withRedirect($this->router->pathFor('task', ['id' => $task->id])); 
-    }
-    
-    public function addNewTaskChecklist($request, $response) {
-        
-        $taskid = $request->getParam('taskid');
-        $text = $request->getParam('text');
-        $byuser = $request->getParam('byuser');
-        
-        $this->container->db->table('taskchecklist')->insert(array('taskid'=>$taskid, 'text'=>$text, 'byuser'=>$byuser));
-        return $response->withRedirect($this->router->pathFor('task', ['id' => $taskid])); 
-    }
+    } 
     
     public function daleteTask($request, $response, $id){
+
+        $is_admin = $this->container->auth->user()->is_admin;
         
-         if(isset($_SESSION['is_admin'])) {
-            if($_SESSION['is_admin'] == "true" ) {
-                $taskid = implode('', $id);
-                $this->telegram->tg_msg($_SESSION['name'] . " deleted task # " . $taskid);
+            if($is_admin == "true" ) {
+                $this->telegram->tg_msg($_SESSION['name'] . " deleted task # " . $id['id']);
                 $this->container->db->table('tasks')->where('taskid', $id)->delete();
                 
             } else {
-                
                 $this->container->flash->addMessage('error', 'You can not delete tasks.');
+                return $response->withRedirect($this->router->pathFor('all'));
             }
-         }
 
-        return $response->withRedirect($this->router->pathFor('home'));
+        return $response->withRedirect($this->router->pathFor('all'));
     }
-    
-    
+       
     public function details($request, $response, $id) {
-        
+        $userid = $this->container->auth->user()->id;
         $tasktype = $this->container->db->table('tasks')->select('tasktypeid')->where('taskid', $id)->value('tasktypeid');
-        
-        return $this->view->render($response, 'tasks/view.twig', array (
-            'task' => Tasks::getConcreteTask($id),
-            'taskcheklist' => Tasks::getTaskChecklist($id),
-            'files' => Tasks::getTaskFiles($id),
-            'assigned' => Tasks::getAssignedUsers($id), 
-            'statuses' => Tasks::getTaskStatus(),
-            'comments' => comment::viewTaskComments($id),
-            'users' => Tasks::getUsers(), 
-            'checks' => checks::viewTaskChecklist($id, $_SESSION['user']),
-            'anothertasks' => Tasks::getUsersAnotherTasks($_SESSION['user'], $tasktype, $id)
-        ));
+
+        $args['task'] = Tasks::getConcreteTask($id);
+        $args['taskcheklist'] = Tasks::getTaskChecklist($id);
+        $args['files'] = Tasks::getTaskFiles($id);
+        $args['assigned'] = Tasks::getAssignedUsers($id); 
+        $args['statuses'] = Tasks::getTaskStatus();
+        $args['comments'] = comment::viewTaskComments($id);
+        $args['users'] = Tasks::getUsers();
+        $args['checks'] = checks::viewTaskChecklist($id, $userid);
+        $args['anothertasks'] = Tasks::getUsersAnotherTasks($userid, $tasktype, $id);
+        $args['cheklistcomments'] = Tasks::getTaskChecklistComment($id['id']);
+
+        return $this->view->render($response, 'tasks/view.twig', $args);
     }
     
     public function markTaskChecklist($request, $response) {
@@ -206,32 +189,27 @@ class TaskController extends Controller {
         }
             return json_encode(array("status" => $status)); die();
     }
-
     
     public function editTaskPageDatas($request, $response, $id) {
         
-      if(isset($_SESSION['is_admin'])) {
-        if($_SESSION['is_admin'] == "true" ) {
-
-                return $this->view->render($response, 'tasks/edit.twig', array (
-                    'edit' => Tasks::getConcreteTask($id), 
-                    'assigned' => Tasks::getAssignedUsers($id),
-                    'files' => Tasks::getTaskFiles($id),
-                    'taskcheklist' => Tasks::getTaskChecklist($id),
-                    'users' => Tasks::getUsers(), 
-                    'types' => Tasks::getTaskTypes(),
-                    'projects' => Tasks::getProjects(),
-                    'statuses' => Tasks::getTaskStatus()
-                    )
-                );
+        $is_admin = $this->container->auth->user()->is_admin;
+        if($is_admin == "true" ) {
+            
+            $args['edit'] = Tasks::getConcreteTask($id);
+            $args['assigned'] = Tasks::getAssignedUsers($id);
+            $args['files'] = Tasks::getTaskFiles($id);
+            $args['users'] = Tasks::getUsers();
+            $args['types'] = Tasks::getTaskTypes();
+            $args['projects'] = Tasks::getProjects();
+            $args['statuses'] = Tasks::getTaskStatus();
+            
+            return $this->view->render($response, 'tasks/edit.twig', $args);
                 
-            } else {
+        } else {
                 
-                $this->container->flash->addMessage('error', 'You can not edit this task.');
-            }
-         }
-
-        return $response->withRedirect($this->router->pathFor('home'));
+            $this->container->flash->addMessage('error', 'You can not edit this task.');
+            return $response->withRedirect($this->router->pathFor('all'));
+        }
         
     }
     
@@ -258,23 +236,6 @@ class TaskController extends Controller {
         $this->container->db->table('taskassigns')->insert($insert_bulk);
         
         
-        if(!empty($request->getParam('text'))) {
-            
-            $current = $this->container->db->table('taskchecklist')->where('taskid', $request->getParam('taskid'))->delete();
-            
-            foreach($request->getParam('text') as $key=>$text) {
-                $bulk[] = array(
-                    'taskid' => $request->getParam('taskid'),
-                    'text' => $text,
-                    'is_done' => $request->getParam('is_done')[$key],
-                    'byuser' => (int)$request->getParam('byuser')[$key]
-                    );
-            }
-            
-            $this->container->db->table('taskchecklist')->insert($bulk);
-    
-        }
-        
         //Adding files to task if avvailable
         if(!empty($request->getUploadedFiles()['taskfiles'][0]->getClientFilename())) {
           
@@ -294,12 +255,6 @@ class TaskController extends Controller {
         
         if($request->getParam('is_draft') == 'false') {
             
-            $this->container->NotificationController->setNotification(
-                $request->getParam('taskid'), 
-                $request->getParam('taskauthor'), 
-                $request->getParam('assigned'), 
-                'false', 
-                $_SESSION['name'] . ' updated task where you are assigned');
             
             $users = $this->container->db->table('users')->select('telegramname')->whereIn('id', $request->getParam('assigned'))->implode('telegramname', ', ');
             $this->telegram->tg_msg($_SESSION['name'] . " just updated task # " . $request->getParam('taskid') . "\nTitle: " . $request->getParam('tasktitle') . "\nAssigned: " .  $users . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $request->getParam('taskid'));
@@ -344,7 +299,6 @@ class TaskController extends Controller {
         }
     }
     
-    
     public function deleteTaskFile($request, $response){
         
         $filename = $this->container->db->table('taskfiles')->select('filename')->where('fileid', $request->getParam('file'))->value('filename');
@@ -355,34 +309,7 @@ class TaskController extends Controller {
     }
     
     public function getDraftTasks($request, $response) {
-        
         return $this->view->render($response, 'tasks/drafts.twig', array ('drafts' => Tasks::getDraftTasks()));
     }
-    
-    
-    public function getTestedTasks($request, $response) {
-        
-        $page = $this->container->pagination->data(4);
-  
-        if(isset($_SESSION['is_admin'])) {
-            if($_SESSION['is_admin'] == "true" ){
 
-                $view = array (
-                    'tested' => Tasks::getTestedTasks(null, $page),
-                    'paginator' => Pagination::pageSwitcher(4));
-
-            } else {
-            
-                $userid = $_SESSION['user'];
-                $view = array (
-                    'tested' => Tasks::getTestedTasks($userid, $page),
-                    'paginator' => Pagination::pageSwitcher(4));
-            }
-        }
-        
-        return $this->view->render($response, 'tasks/tested.twig', $view);
-    }
-    
-
-    
 }

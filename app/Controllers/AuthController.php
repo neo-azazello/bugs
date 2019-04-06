@@ -53,7 +53,7 @@ class AuthController extends Controller {
             return $response->withRedirect($_SESSION['redirect']);
         }
 
-        return $response->withRedirect($this->router->pathFor('home'));
+        return $response->withRedirect($this->router->pathFor('all'));
 
     }
 
@@ -61,7 +61,7 @@ class AuthController extends Controller {
     public function getSignOut($request, $response) {
 
         $this->auth->logout();
-        return $response->withRedirect($this->router->pathFor('auth.signin'));
+        return $response->withRedirect($this->router->pathFor('home'));
     }
     
     

@@ -36,7 +36,7 @@ $(document).ready(function() {
   const DIV_CARD = 'div.card';
 
   /** Initialize tooltips */
-  $('[data-toggle="tooltip"]').tooltip();
+  //$('[data-toggle="tooltip"]').tooltip();
 
   /** Initialize popovers */
   $('[data-toggle="popover"]').popover({

@@ -323,4 +323,28 @@ class Tasks extends Model {
             return $new;
         }
 
+        public static function getTaskIdByTaskChecklist($id){
+          return DB::select("SELECT taskid FROM taskchecklist WHERE id = $id");
+        }
+
+        public static function getTaskIdByTaskChecklistComment($id){
+          return DB::select("SELECT taskid FROM taskchecklistcomments WHERE id = $id");
+        }
+
+        public static function getTaskChecklistComment($taskid){
+            return $select = DB::select(
+              "SELECT
+                TCHC.id,
+                TCHC.commenttext,
+                TCHC.checklistid,
+                U.name,
+                U.photo
+                FROM taskchecklistcomments TCHC
+                INNER JOIN users U ON TCHC.userid = U.id
+                WHERE TCHC.taskid = $taskid
+                ORDER BY TCHC.created_at ASC"
+              );
+        }
+
+
 }

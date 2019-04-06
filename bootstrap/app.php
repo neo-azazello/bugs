@@ -60,10 +60,6 @@ $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages;
 };
 
-$container['NotificationController'] = function ($container) {
-    return new \App\Controllers\NotificationController($container);
-}; 
-
 
 //Starting to bind everything with container
 //First the view
@@ -93,8 +89,6 @@ $container['view'] = function ($container) { //when we would use view it will re
    //Giving availibiity of flash functionality to our twig views
    $view->getEnvironment()->addGlobal('flash', $container->flash);
    
-   $view->getEnvironment()->addGlobal('notify', $container->NotificationController->getUnreadNotifications());
-   
    $markdown = new Twig_SimpleFunction('markdown', function ($text) {
           $mkparser = new \Parsedown();
           return $mkparser->text($text);
@@ -105,6 +99,9 @@ $container['view'] = function ($container) { //when we would use view it will re
    return $view;
 };
 
+$container['LandingController'] = function ($container) {
+    return new \App\Controllers\LandingController($container);
+}; 
 
 //Attach validator to our container
 $container['validator'] = function ($container) {
@@ -121,6 +118,10 @@ $container['AuthController'] = function ($container) {
 
 $container['TaskController'] = function ($container) {
     return new \App\Controllers\TaskController($container);
+};
+
+$container['TaskChecklistController'] = function ($container) {
+    return new \App\Controllers\TaskChecklistController($container);
 };
 
 $container['CommentController'] = function ($container) {

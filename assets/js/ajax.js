@@ -203,22 +203,6 @@ function imageIsLoadedA(e) {
 }
 
 
- function notification(id) {
-   
-       $.ajax({
-          url: '/updatenotify',
-          type: 'POST',
-          data: {'noty': id},
-          success: function () {
-
-          },
-          error: function () {
-              console.log('it failed!');
-          }
-      });
-   
- }
- 
  
  
  $(function() {
@@ -490,3 +474,4 @@ $(document).ready(function(){
       });
    
  }
+
