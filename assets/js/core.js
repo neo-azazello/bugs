@@ -39,9 +39,9 @@ $(document).ready(function() {
   //$('[data-toggle="tooltip"]').tooltip();
 
   /** Initialize popovers */
-  $('[data-toggle="popover"]').popover({
-    html: true
-  });
+  // $('[data-toggle="popover"]').popover({
+  //   html: true
+  // });
   
   
 
