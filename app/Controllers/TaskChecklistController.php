@@ -75,6 +75,11 @@ class TaskChecklistController extends Controller {
             'checklistid'=>$checklistid)
         );
 
+        $username = $this->container->auth->user()->name;
+        $task = $this->container->db->table('tasks')->where('taskid', $taskid)->first();
+
+        $this->telegram->tg_msg($username . " added new comment to task # " . $taskid . "\nTitle: " . $task->tasktitle . "\nLink: https://" . $_SERVER['SERVER_NAME']. "/view/" . $taskid. "#" . $checklistid);
+
         if($new_comment) {
             return $response->withRedirect($this->router->pathFor('task', ['id' => $taskid]) . "#" . $checklistid); 
         }
