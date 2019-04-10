@@ -36,7 +36,7 @@ class TaskChecklistController extends Controller {
         
         $this->container->db->table('taskchecklist')->where('id', $checklistid)->update(array('text'=>$text, 'byuser'=>$byuser, 'type'=>$type));
         
-        return $response->withRedirect($this->router->pathFor('task', ['id' => $taskid])); 
+        return $response->withRedirect($this->router->pathFor('task', ['id' => $taskid]). "#" . $checklistid); 
     }
 
     public function markTaskChecklist($request, $response) {

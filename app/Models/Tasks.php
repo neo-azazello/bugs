@@ -337,6 +337,8 @@ class Tasks extends Model {
                 TCHC.id,
                 TCHC.commenttext,
                 TCHC.checklistid,
+                TCHC.created_at,
+                TCHC.updated_at,
                 U.name,
                 U.photo
                 FROM taskchecklistcomments TCHC
