@@ -88,18 +88,18 @@
                 </div>
               
               
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-end">
-                    
-                    <li class="page-item {% if paginator == 1 %} disabled {% endif %}">
-                      <a class="page-link" href="?page={{paginator - 1}}" tabindex="-1">← Newer</a>
-                    </li>
-                    
-                    <li class="page-item {% if tested|length < 5 %} disabled {% endif %}">
-                      <a class="page-link" href="?page={{paginator + 1}}">Older →</a>
-                    </li>
-                  </ul>
-                </nav>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  
+                  <li class="page-item {% if paginator == 1 %} disabled {% endif %}">
+                    <a class="page-link" href="?page={{paginator - 1}}" tabindex="-1">← Newer</a>
+                  </li>
+                  
+                  <li class="page-item {% if (paginator * tested|length) >= (count - 1) %} disabled {% endif %}">
+                    <a class="page-link" href="?page={{paginator + 1}}">Older →</a>
+                  </li>
+                </ul>
+              </nav>
               
               
               </div>

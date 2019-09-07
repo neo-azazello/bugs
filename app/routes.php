@@ -7,20 +7,17 @@ $app->get('/', 'LandingController:index')->setName('home');
 
 //If guest go to signin
 $app->group('', function () {
-    
+
     //to signin
     $this->get('/signin', 'AuthController:getSignIn')->setName('auth.signin');
     $this->post('/signin', 'AuthController:postSignIn');
-    
-})->add(new GuestMiddleware($container));
 
+})->add(new GuestMiddleware($container));
 
 $app->group('', function () {
 
-    
     //Logging out user
     $this->get('/signout', 'AuthController:getSignOut')->setName('auth.signout');
-    
 
     //General Task Routes
     $this->get('/all', 'TaskController:all')->setName('all');
@@ -30,12 +27,15 @@ $app->group('', function () {
     $this->get('/edit/{id}', 'TaskController:editTaskPageDatas')->setName('edit');
     $this->post('/edit', 'TaskController:updateTask')->setName('postedit');
     $this->get('/delete/{id}', 'TaskController:daleteTask');
-    $this->post('/status', 'TaskController:updateStatus')->setName('status');
-    $this->post('/is_draft', 'TaskController:updatePublishStatus')->setName('is_draft');
-    $this->post('/files', 'TaskController:deleteTaskFile')->setName('files');
+
+    $this->post('/files', 'file:deleteTaskFile')->setName('files');
     $this->get('/drafts', 'TaskController:getDraftTasks')->setName('drafts');
     $this->get('/fixed', 'TaskController:finished')->setName('fixed');
     $this->get('/tested', 'TaskController:getTestedTasks')->setName('tested');
+
+    //Controll Status
+    $this->post('/status', 'StatusController:updateStatus')->setName('status');
+    $this->post('/is_draft', 'StatusController:updatePublishStatus')->setName('is_draft');
 
     //Task Comments Routes
     $this->post('/addcomment', 'CommentController:addNewComment');
@@ -51,7 +51,6 @@ $app->group('', function () {
     $this->get('/editchecklistcomment/', 'TaskChecklistController:editTaskChecklistComment');
     $this->post('/editnewtaskcheklistcomment', 'TaskChecklistController:editChecklistComment')->setName('editnewtaskcheklistcomment');
     $this->get('/deletechecklistcomment/{id}', 'TaskChecklistController:deleteChecklistComment');
-
 
     //User Own checklists
     $this->post('/addcheklist', 'ChecklistController:addNewChecklist');

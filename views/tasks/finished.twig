@@ -1,98 +1,96 @@
 {% extends 'templates/app.twig' %}
-
 {% block content %} 
-
-    <div class="container">
-          <div class="page-header">
-              <h1 class="page-title">
-                Finished tasks 
-              </h1>
-            </div> 
+<div class="container">
+  <div class="page-header">
+      <h1 class="page-title">
+        Finished tasks 
+      </h1>
+  </div> 
+                  
+  <div class="row row-cards row-deck">
+    <div class="col-12">
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
             
+            <thead>
+              <tr>
+                <th>Task title</th>
+                <th class="text-center">Task type</th>
+                <th>Assigned</th>
+                <th>Project</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
             
-            
-            <div class="row row-cards row-deck">
-              <div class="col-12">
-                <div class="card">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
-                     
-                      <thead>
-                        <tr>
-                          <th>Task title</th>
-                          <th class="text-center">Task type</th>
-                          <th>Assigned</th>
-                          <th>Project</th>
-                          <th>Status</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      
-                      <tbody>
-                        
-                      {% if tasks %} 
-                        
-                        {% for task in tasks %}
-                            <tr>
-                            
-                              
-                              <td>
-                                <div><a href="{{base_url()}}/view/{{ task.taskid }}" >{{ task.tasktitle }}</a>
-                                {% if task.checklist %}<sup {%if task.checklistdone == task.checklist%} style="color:#5eba00;"{%endif%}>{{task.checklistdone}}/{{task.checklist}}</sup>{% endif %}
-                                </div>
-                                <div class="small text-muted">
-                                 {{ task.created_at |date("d.m.Y H:i")}}
-                                </div>
-                              </td>
-                              
-                              <td class="text-center">
-                                <span class="badge badge-{{ task.tasktypecolor }}">{{ task.tasktypename }}</span>
-                              </td>
-                              
-                              <td>
-                                <div class="assignee">{{ task.assignedUsers }}</div>
-                              </td>
-                              
-                              <td>
-                                <div>{{ task.projectname }}</div>
-                                <div class="small text-muted">
-                                 {{ task.projectsartdate |date("d.m.Y")}}
-                                </div>
-                              </td>
-                              
-                              <td>
-                                  <span class="status-icon bg-{{ task.statuscolor }}"></span> {{ task.statusname }}
-                              </td>
-                              
-                              <td>
-                                <a href="{{base_url()}}/view/{{ task.taskid }}" class="btn btn-secondary btn-sm">Open</a>
-                                {% if auth.user.is_admin == "true" %} 
-                                  <a href="{{base_url()}}/edit/{{ task.taskid }}" class="btn btn-success btn-sm"><i class="fe fe-edit"></i></a>
-                                  <a href="{{base_url()}}/delete/{{ task.taskid }}" class="btn btn-danger btn-sm"><i class="fe fe-trash"></i></a>
-                                {% endif %}
-                              </td>
-
-                            </tr>
-                        {% endfor %}
-                      
-                      {% else %}
-                      
-                      <tr>
-                        <td class="text-center" colspan="7"> Finished task list is empty for now.</td>
-                      </tr>
+            <tbody>
+              
+            {% if tasks %} 
+              {% for task in tasks %}
+                  <tr>
+                    <td>
+                      <div><a href="{{base_url()}}/view/{{ task.taskid }}" >{{ task.tasktitle }}</a>
+                      {% if task.checklist %}<sup {%if task.checklistdone == task.checklist%} style="color:#5eba00;"{%endif%}>{{task.checklistdone}}/{{task.checklist}}</sup>{% endif %}
+                      </div>
+                      <div class="small text-muted">
+                        {{ task.created_at |date("d.m.Y H:i")}}
+                      </div>
+                    </td>
+                    
+                    <td class="text-center">
+                      <span class="badge badge-{{ task.tasktypecolor }}">{{ task.tasktypename }}</span>
+                    </td>
+                    
+                    <td>
+                      <div class="assignee">{{ task.assignedUsers }}</div>
+                    </td>
+                    
+                    <td>
+                      <div>{{ task.projectname }}</div>
+                      <div class="small text-muted">
+                        {{ task.projectsartdate |date("d.m.Y")}}
+                      </div>
+                    </td>
+                    
+                    <td>
+                        <span class="status-icon bg-{{ task.statuscolor }}"></span> {{ task.statusname }}
+                    </td>
+                    
+                    <td>
+                      <a href="{{base_url()}}/view/{{ task.taskid }}" class="btn btn-secondary btn-sm">Open</a>
+                      {% if auth.user.is_admin == "true" %} 
+                        <a href="{{base_url()}}/edit/{{ task.taskid }}" class="btn btn-success btn-sm"><i class="fe fe-edit"></i></a>
+                        <a href="{{base_url()}}/delete/{{ task.taskid }}" class="btn btn-danger btn-sm"><i class="fe fe-trash"></i></a>
                       {% endif %}
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+                    </td>
+
+                  </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td class="text-center" colspan="7"> Finished task list is empty for now.</td>
+              </tr>
+            {% endif %}
               
-              
-              
-              
-              
-            </div>
-          </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          
+          <li class="page-item {% if paginator == 1 %} disabled {% endif %}">
+            <a class="page-link" href="?page={{paginator - 1}}" tabindex="-1">← Newer</a>
+          </li>
+          
+          <li class="page-item {% if (paginator * tasks|length) >= (count - 1) %} disabled {% endif %}">
+            <a class="page-link" href="?page={{paginator + 1}}">Older →</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
