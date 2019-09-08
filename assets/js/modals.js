@@ -18,42 +18,42 @@
 
  function editTaskCheclistComment(id) {
 
-    $.get('../editchecklistcomment/?id=' + id,
+     $.get('../editchecklistcomment/?id=' + id,
 
-        function (data) {
-            $("#editComment").remove();
-            $('#modalEdit').fadeIn("slow", function () {
-                $(this).append(data);
-                $("#editComment").modal();
-                $("#editComment").focus(function () {
-                    simplemde.codemirror.refresh();
-                });
+         function (data) {
+             $("#editComment").remove();
+             $('#modalEdit').fadeIn("slow", function () {
+                 $(this).append(data);
+                 $("#editComment").modal();
+                 $("#editComment").focus(function () {
+                     simplemde.codemirror.refresh();
+                 });
 
-            });
+             });
 
-        });
+         });
 
-    return false;
+     return false;
 
-}
+ }
 
-function editTaskCheclist(id) {
+ function editTaskCheclist(id) {
 
-    $.get('../editchecklist/?id=' + id,
+     $.get('../editchecklist/?id=' + id,
 
-        function (data) {
-            $("#editChecklist").remove();
-            $('#modalEdit').fadeIn("slow", function () {
-                $(this).append(data);
-                $("#editChecklist").modal();
-                $("#editChecklist").focus(function () {
-                    simplemde.codemirror.refresh();
-                });
+         function (data) {
+             $("#editChecklist").remove();
+             $('#modalEdit').fadeIn("slow", function () {
+                 $(this).append(data);
+                 $("#editChecklist").modal();
+                 $("#editChecklist").focus(function () {
+                     simplemde.codemirror.refresh();
+                 });
 
-            });
+             });
 
-        });
+         });
 
-    return false;
+     return false;
 
-}
+ }

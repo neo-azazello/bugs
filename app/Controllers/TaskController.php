@@ -183,7 +183,6 @@ class TaskController extends Controller
         $args['comments'] = comment::viewTaskComments($id);
         $args['users'] = Tasks::getUsers();
         $args['checks'] = checks::viewTaskChecklist($id, $userid);
-        $args['anothertasks'] = Tasks::getUsersAnotherTasks($userid, $tasktype, $id);
         $args['cheklistcomments'] = Tasks::getTaskChecklistComment($id['id']);
 
         return $this->view->render($response, 'tasks/view.twig', $args);
@@ -266,7 +265,6 @@ class TaskController extends Controller
 
     }
 
-    
     public function getDraftTasks($request, $response)
     {
         return $this->view->render($response, 'tasks/drafts.twig', array('drafts' => Tasks::getDraftTasks()));

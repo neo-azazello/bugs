@@ -1,0 +1,80 @@
+{# Task Checklist #}
+{% if taskcheklist %}
+    <div class="row">
+        {% for checks in taskcheklist %}
+            <div class="col-md-12" >
+            <a id="{{checks.id}}"></a>
+            <div class="card p-3 tableview">
+                <div class="d-flex align-items-center">
+                <span class="stamp-md mr-3">
+                    <label class="colorinput">
+                    <input type="checkbox" 
+                            class="colorinput-input" 
+                            {% if checks.is_done == '2' %} checked  {% endif %}
+                            {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %}/>
+                    <span class="colorinput-color {% if auth.user.id == checks.byuser %} bg-{{one.tasktypecolor}} {% else %} bg-secondary {% endif %}"></span>
+                    </label>
+                </span>
+                <div class="{% if checks.is_done == '2' %} task-finished {% endif %}" id="check_{{checks.id}}" style="width: 100%;">
+                    <span class="m-0">{{checks.name}}</span>
+                
+                    {% if auth.user.is_admin == "true" %}
+                    <span class="admin-check">
+                        <label class="colorinput">
+                        <input type="checkbox" class="colorinput-input"  {% if checks.is_done == '2' %} checked  {% endif %} onclick="finished({{checks.id}})" />
+                        <span class="colorinput-color bg-red"></span>
+                        </label>
+
+                        <div class="btn btn-icon btn-primary btn-success btn-sm admin-edit" onclick="editTaskCheclist('{{checks.id}}')">
+                        <i class="fe fe-edit"></i>
+                        </div>
+                    </span>
+                    {% endif %}
+
+                    <div>
+                    <p class="list-group-item-text">{{ markdown(checks.text) | raw }}</p>
+                    </div>
+                    {% if cheklistcomments %}
+                    <ul class="list-group card-list-group tableview checklistcomment">
+                    {% for ts in cheklistcomments %}
+                        {% if ts.checklistid == checks.id %}
+                        <li class="py-5">
+                            <div class="media">
+                            <div class="d-none d-sm-none d-md-table-cell media-object avatar avatar-md mr-4 " style="background-image: url({{ts.photo}})"></div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                <small class="float-right text-muted">{{ts.created_at|date("d.m.Y H:i")}}
+                                    {% if ts.name == auth.user.name %}
+                                <b onclick="editTaskCheclistComment('{{ts.id}}')"  class="fe fe-edit ikon"></b>
+                                    {% endif %} 
+                                </small>
+                                <h5>{{ts.name}}</h5>
+                                </div>
+                                <div>{{ markdown(ts.commenttext) | raw }}</div>
+                            </div>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                </div>
+
+            <div class="btn btn-primary btn-sm ml-auto mt-4" onclick="addTaskCheclistComment({{checks.id}})">Add Comment</div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{# Files attached to Task #}
+{% if files %}
+    <div class="alert alert-icon alert-primary" role="alert">
+        <i class="fe fe-download mr-2" aria-hidden="true"></i> 
+        {% for file in files %}
+            <a href="{{ base_url() }}/assets/uploads/{{file.filename}}" target="_blank">{{file.filename}}</a><br>
+        {% endfor %}
+    </div>
+{% endif %}

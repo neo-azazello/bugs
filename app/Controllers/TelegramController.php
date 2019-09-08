@@ -36,4 +36,11 @@ class TelegramController extends Controller
         $this->telegram->tg_msg($username . " updated task status to → " . $taskstatus . "\nTitle: " . $tasktitle . "\nLink: http://" . $_SERVER['SERVER_NAME'] . "/view/" . $taskid);
     }
 
+    public function addNewTaskChecklistComment($taskid, $checklistid)
+    {
+        $username = $this->container->auth->user()->name;
+        $task = $this->container->db->table('tasks')->where('taskid', $taskid)->first();
+        $this->telegram->tg_msg($username . " added new comment to task # " . $taskid . "\nTitle: " . $task->tasktitle . "\nLink: https://" . $_SERVER['SERVER_NAME'] . "/view/" . $taskid . "#" . $checklistid);
+    }
+
 }

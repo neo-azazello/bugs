@@ -14,302 +14,97 @@
 
 {% for one in task %}
 <div class="container">
-      <div class="page-header">
-          <h1 class="page-title">View task | Project: {{one.projectname}} </h1>  
-          {% if one.is_draft == 'true' %} &nbsp; &nbsp; <span class="badge badge-warning ">Viewing Draft Task</span>{% endif%}
-      </div> 
-            
-        {% include 'templates/partials/flash.twig' %} 
-        
-        <div class="row">
+  {#TASK VIEW PAGE TITLE #}
+  <div class="page-header">
+      <h1 class="page-title">View task | Project: {{one.projectname}} </h1>  
+      {% if one.is_draft == 'true' %} &nbsp; &nbsp; <span class="badge badge-warning ">Viewing Draft Task</span>{% endif%}
+  </div> 
+              
+  {% include 'templates/partials/flash.twig' %} 
           
-          {# TASK BODY#}
-          <div class="col-md-7">
+  <div class="row">
+    {#TASK BODY CONTAINER#}
+    <div class="col-md-12">
+      <div class="card border-{{one.tasktypecolor}}">
+        <div class="card-header 
+          {% if one.tasktypecolor != "default" %} text-white {% endif %} bg-{{one.tasktypecolor}}">
+            <h3 class="card-title">{{one.tasktitle}}</h3>
+            {% include 'tasks/taskcheklistaddform.twig' %}
+        </div>
+          
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
               
-              <div class="card border-{{one.tasktypecolor}}">
-              <div class="card-header {% if one.tasktypecolor != "default" %} text-white {% endif %} bg-{{one.tasktypecolor}}" >
-                <h3 class="card-title">{{one.tasktitle}}</h3>
-                {% include 'tasks/taskcheklistaddform.twig' %}
-              </div>
+              {#TABS SELECTOR#}
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
               
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                          <i class="fe fe-activity"></i> Task details</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                          <i class="fe fe-check-square"></i> Todo list <span class="text-right tab-comment-count" id="checklist-count">{{checks|length}}</span></a>
-                      </li>
-                    </ul>
-                    
-                    
-                    <div class="tab-content" id="myTabContent">
-                      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    
-                    {# General Deskription of Task #}
-                    <div class="form-group mb-0">
-                        <div class="form-control-plaintext">{{ markdown(one.tasktext) | raw }}</div>
-                    </div>
-       
-                    {# Task Checklist #}
-                    {% if taskcheklist %}
-                      <div class="row">
-                      {% for checks in taskcheklist %}
-                        <div class="col-md-12" >
-                        <a id="{{checks.id}}"></a>
-                          <div class="card p-3 tableview">
-                            <div class="d-flex align-items-center">
-                              <span class="stamp-md mr-3">
-                                <label class="colorinput">
-                                  <input type="checkbox" 
-                                          class="colorinput-input" 
-                                          {% if checks.is_done == '2' %} checked  {% endif %}
-                                          {% if auth.user.id == checks.byuser %} onclick="finished({{checks.id}})" {% else %} disabled {% endif %}/>
-                                  <span class="colorinput-color {% if auth.user.id == checks.byuser %} bg-{{one.tasktypecolor}} {% else %} bg-secondary {% endif %}"></span>
-                                </label>
-                              </span>
-                              <div class="{% if checks.is_done == '2' %} task-finished {% endif %}" id="check_{{checks.id}}" style="width: 100%;">
-                                <span class="m-0">{{checks.name}}</span>
-                               
-                                {% if auth.user.is_admin == "true" %}
-                                  <span class="admin-check">
-                                    <label class="colorinput">
-                                      <input type="checkbox" class="colorinput-input"  {% if checks.is_done == '2' %} checked  {% endif %} onclick="finished({{checks.id}})" />
-                                      <span class="colorinput-color bg-red"></span>
-                                    </label>
+                {# ALL TASKS #}
+                <li class="nav-item">
+                  <a class="nav-link active" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">
+                    <i class="fe fe-activity"></i> Task details</a>
+                </li>
 
-                                    <div class="btn btn-icon btn-primary btn-success btn-sm admin-edit" onclick="editTaskCheclist('{{checks.id}}')">
-                                      <i class="fe fe-edit"></i>
-                                    </div>
-                                  </span>
-                                {% endif %}
-
-                                <div>
-                                  <p class="list-group-item-text">{{ markdown(checks.text) | raw }}</p>
-                                </div>
-                                 {% if cheklistcomments %}
-                                  <ul class="list-group card-list-group tableview checklistcomment">
-                                  {% for ts in cheklistcomments %}
-                                    {% if ts.checklistid == checks.id %}
-                                    <li class="py-5">
-                                        <div class="media">
-                                          <div class="d-none d-sm-none d-md-table-cell media-object avatar avatar-md mr-4 " style="background-image: url({{ts.photo}})"></div>
-                                          <div class="media-body">
-                                            <div class="media-heading">
-                                              <small class="float-right text-muted">{{ts.created_at|date("d.m.Y H:i")}}
-                                                {% if ts.name == auth.user.name %}
-                                              <b onclick="editTaskCheclistComment('{{ts.id}}')"  class="fe fe-edit ikon"></b>
-                                                {% endif %} 
-                                              </small>
-                                              <h5>{{ts.name}}</h5>
-                                            </div>
-                                            <div>{{ markdown(ts.commenttext) | raw }}</div>
-                                          </div>
-                                        </div>
-                                    </li>
-                                   {% endif %}
-
-                                  {% endfor %}
-                                  </ul>
-                                 {% endif %}
-                              </div>
-                            </div>
-
-                          <div class="btn btn-primary btn-sm ml-auto mt-4" onclick="addTaskCheclistComment({{checks.id}})">Add Comment</div>
-                          </div>
-                        </div>
-                      {% endfor %}
-                      </div>
-                    {% endif %}
+                {# Task discussion #}
+                <li class="nav-item">
+                  <a class="nav-link" id="discussion-tab" data-toggle="tab" href="#discussion" role="tab" aria-controls="discussion" aria-selected="true">
+                    <i class="fe fe-message-square"></i> Task discussion 
+                    <span class="text-right tab-comment-count" id="comment-count">{{comments|length}}</span>
+                  </a>
+                </li>
+              
+                {# Task details/settings #}
+                <li class="nav-item">
+                  <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="true">
+                    <i class="fe fe-settings"></i> Task details 
                     
-                    {# Files attached to Task #}
-                    {% if files %}
-                      <div class="alert alert-icon alert-primary" role="alert">
-                        <i class="fe fe-download mr-2" aria-hidden="true"></i> 
-                          {% for file in files %}
-                            <a href="{{ base_url() }}/assets/uploads/{{file.filename}}" target="_blank">{{file.filename}}</a><br>
-                          {% endfor %}
-                      </div>
-                    {% endif %}
-                    
-                    </div>
+                  </a>
+                </li>
+              
+                {# USERS TODO LIST#}
+                <li class="nav-item">
+                  <a class="nav-link" id="todolist-tab" data-toggle="tab" href="#todolist" role="tab" aria-controls="todolist" aria-selected="false">
+                    <i class="fe fe-check-square"></i> Todo list 
+                    <span class="text-right tab-comment-count" id="checklist-count">{{checks|length}}</span>
+                  </a>
+                </li>
 
-                      {# User own checlist tab #}
-                      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                        
-                        {% include 'checklist/view.twig' %}
-                      
-                      </div>
-                    </div>
-                    
+              </ul>
+              
+              <div class="tab-content" id="myTabContent">
+                
+                {# ALL TASKS CONTENT #}
+                <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+                  <div class="form-group mb-0">
+                      <div class="form-control-plaintext">{{ markdown(one.tasktext) | raw }}</div>
+                        {% include 'tasks/viewpagetemplates/taskdetails.twig' %}
                   </div>
-
                 </div>
+
+                {# TASK DISCUSSION #}
+                <div class="tab-pane fade" id="discussion" role="tabpanel" aria-labelledby="discussion-tab">
+                  {% include 'tasks/viewpagetemplates/taskdiscussion.twig' %}  
+                </div>
+
+                {# Task details/settings #}
+                <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    {% include 'tasks/viewpagetemplates/tasksettings.twig' %}
+                </div>
+
+                {# USERS TODO LIST#}
+                <div class="tab-pane fade" id="todolist" role="tabpanel" aria-labelledby="todolist-tab">
+                  {% include 'tasks/viewpagetemplates/usertodolist.twig' %}
+                </div>
+
               </div>
               
             </div>
-                        
           </div>
-
-          {# TASK SETTINGS #}
-          <div class="col-md-5">
-        
-            {% include 'comments/view.twig' %}   
-
-            <div class="card">
-              <div class="card-status bg-{{one.tasktypecolor}}"></div>
-              <div class="card-header">
-                <h3 class="card-title">Task details</h3>
-                  <div class="card-options">
-                    {% if auth.user.is_admin == "true" %} 
-                      <a href="{{base_url()}}/edit/{{ one.taskid }}" class="btn btn-success btn-sm">Edit</a>
-                      <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/{{ one.taskid }}"  class="btn btn-danger btn-sm ml-2">Delete</a>
-                    {% endif %}
-                    
-                  </div>
-              </div>
-                <div class="card-body">
-                  
-                  
-                {% if auth.user.is_admin == "true" %} 
-                  <div class="form-group">
-                        <label class="form-label">Publish status</label>
-                    <div class="selectgroup w-100" >
-
-                      <label class="selectgroup-item">
-                        <input type="radio" onclick="is_draft(false, {{one.taskid}})" 
-                                name="is_draft" 
-                                value="false"
-                                class="selectgroup-input" 
-                                {% if  one.is_draft == 'false' %} checked="" {% endif %}
-                                > 
-                        <span class="selectgroup-button">Published</span>
-                      </label>
-                      <label class="selectgroup-item">
-                        <input type="radio" 
-                                onclick="is_draft(true, {{one.taskid}})" 
-                                name="is_draft" 
-                                value="true" 
-                                class="selectgroup-input" 
-                                {% if  one.is_draft == 'true' %} checked="" {% endif %}
-                                > 
-                        <span class="selectgroup-button">Draft</span>
-                      </label>
-
-                      </div>
-                      </div>
-                    
-                    {% endif %}
-                  
-                  
-                  <div class="form-group">
-                        <label class="form-label">Created at</label>
-                  <span>{{one.created_at|date("d.m.Y H:i")}} </span>
-                  </div>
-                  
-                  <div class="form-group">
-                        <label class="form-label">Task Status</label>
-
-                          
-                  {% if auth.user.is_admin == "true" %} 
-
-                    <div class="selectgroup w-100" >
-                      {% for status in statuses %}
-                              <label class="selectgroup-item">
-                                <input type="radio" 
-                                        onclick="send({{status.statusid}}, {{one.taskid}})" 
-                                        name="taskstatus" 
-                                        value="{{status.statusid}}" 
-                                        class="selectgroup-input" 
-                                        {% if one.taskstatus == status.statusid %} checked="" {% endif %}
-                                        > 
-                                <span class="selectgroup-button">{{status.statusname}}</span>
-                              </label>
-                      {% endfor %}
-                      </div>
-                    
-                    {% else %}
-                    
-                    <div class="selectgroup w-100" {% if auth.user.id not in brands %} data-toggle="tooltip" title="" data-original-title="Only task assigned can change task status" {% endif %}>
-                          {% for status in statuses %}
-                            <label class="selectgroup-item">
-                              <input type="radio" 
-                                      {% if (auth.user.id in brands) and one.taskstatus != 4 %} onclick="send({{status.statusid}}, {{one.taskid}})" {% endif %}
-                                      name="taskstatus" 
-                                      value="{{status.statusid}}" 
-                                      class="selectgroup-input" 
-                                      {% if one.taskstatus == status.statusid %} checked="" {% endif %}
-                                      {% if (auth.user.id not in brands) %} disabled {% endif %}
-                                      {% if one.taskstatus == 4 %} disabled {% endif %}
-                                      > 
-                              <span class="selectgroup-button">{{status.statusname}}</span>
-                            </label>
-                          {% endfor %}
-                      </div>
-                    
-                    {% endif %}    
-                        
-                    </div>
-                    
-                  <div class="form-group">
-                        <label class="form-label">Task Type</label>
-                            <div class="selectgroup selectgroup-pills">
-                              <label class="selectgroup-item">
-                                <input type="radio" class="selectgroup-input" checked="">
-                                <span class="selectgroup-button selectgroup-button-icon">{{one.tasktypename}}</span>
-                              </label>
-                            </div>
-                      </div>
-
-                  <div class="form-group">
-                          <label class="form-label">Assigned to</label>
-                          <div class="row gutters-sm">
-                            {% for user in assigned %}
-                                <div class="col-6 col-sm-4">
-                                  <label class="imagecheck mb-4">
-                                    <input type="checkbox" class="imagecheck-input" checked disabled>
-                                    <figure class="imagecheck-figure">
-                                      <img src="{{ user.photo }}" alt="}" class="imagecheck-image">
-                                    </figure>
-                                  </label>
-                                </div>
-                              {% endfor %}
-                          </div>
-                        </div>
-                  
-                </div>
-            </div>
-                                  
-            {% if anothertasks %}
-              <div class="card">
-                  <div class="card-status card-status-left bg-{{one.tasktypecolor}}"></div>
-                  <div class="card-header">
-                    <h3 class="card-title">Another {{one.tasktypename}} tasks</h3>
-                    <div class="card-options">
-                      <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <ul style="margin-left: -30px;">
-                    {% for a in anothertasks %}
-                    <li><a href="{{base_url()}}/view/{{ a.taskid }}">{{a.tasktitle}}</a> 
-                        {% if a.checklist %}<sup {%if a.checklistdone == a.checklist %} style="color:#5eba00;"{% endif %}>{{a.checklistdone}}/{{a.checklist}}</sup>{% endif %}
-                    </li>
-                    {% endfor %}
-                    </ul>
-                  </div>
-              </div>
-            {% endif %}
-
-         </div>
-
+        </div>
+          
+      </div>          
+    </div>
   </div>
-</div
-        
+</div> 
 {% endfor %}
 {% endblock %}

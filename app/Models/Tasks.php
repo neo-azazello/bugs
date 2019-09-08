@@ -87,33 +87,6 @@ class Tasks extends Model
         return DB::select($select);
     }
 
-    public static function getUsersAnotherTasks($userid, $tasktype, $taskid)
-    {
-
-        $id = implode(', ', $taskid);
-
-        return $select = DB::select(
-            "SELECT
-                  T.taskid,
-                  T.tasktitle,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND tch.byuser = $userid) AS checklist,
-                (SELECT  COUNT(*) FROM taskchecklist tch WHERE tch.taskid = T.taskid AND is_done = 2 AND tch.byuser = $userid) AS checklistdone
-                FROM tasks T
-                INNER JOIN users U ON U.id = T.taskauthor
-                INNER JOIN projects P ON P.projectid = T.taskproject
-                LEFT JOIN taskassigns TA ON TA.taskid = T.taskid
-                LEFT JOIN  users AU ON TA.userid = AU.id
-                WHERE TA.userid = $userid
-                AND T.tasktypeid = $tasktype
-                AND T.taskid != $id
-                AND T.taskstatus != 3
-                AND T.taskstatus != 4
-                AND T.is_draft = 'false'
-                GROUP BY T.taskid
-                ORDER BY T.taskid DESC"
-        );
-    }
-
     public static function getDraftTasks()
     {
 

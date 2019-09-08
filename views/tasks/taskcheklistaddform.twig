@@ -1,54 +1,56 @@
-                    {% if auth.user.is_admin == "true" %}
-                      <div class="card-options">
-                        <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewTaskChecklist">New Checklist</a>
-                        
-                          <div class="modal fade" id="addNewTaskChecklist" tabindex="-1" data-keyboard="false"  data-backdrop="static">
-                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header text-white bg-{{one.tasktypecolor}}">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">New Checklist</h5>
-                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
-                                  </div>
-                                  <form action="{{ path_for('addnewtaskcheklist') }}" method="post" autocomplete="off">
-                                  <div class="modal-body">
-                                 <div class="row" >
-                                    
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <select class="form-control custom-select" name="byuser">
-                                          {% for u in users %}
-                                            <option value="{{ u.id }}">{{ u.name }}</option>
-                                          {% endfor %}
-                                        </select>
-                                      </div>
-                                    </div>
+{% if auth.user.is_admin == "true" %}
+  <div class="card-options">
+    <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewTaskChecklist">New Checklist</a>
+    <a href="{{base_url()}}/edit/{{ one.taskid }}" class="btn btn-success btn-sm ml-1" >Edit task</a>
+    <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/{{ one.taskid }}" class="btn btn-danger btn-sm ml-1" >Delete task</a>
+    
+      <div class="modal fade" id="addNewTaskChecklist" tabindex="-1" data-keyboard="false"  data-backdrop="static">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header text-white bg-{{one.tasktypecolor}}">
+                <h5 class="modal-title" id="exampleModalLongTitle">New Checklist</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+              </div>
+              <form action="{{ path_for('addnewtaskcheklist') }}" method="post" autocomplete="off">
+              <div class="modal-body">
+              <div class="row" >
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="form-control custom-select" name="byuser">
+                      {% for u in users %}
+                        <option value="{{ u.id }}">{{ u.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
 
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <select class="form-control custom-select" name="type">
-                                            <option value="frontend">Frontend</option>
-                                            <option value="backend">Backend</option>
-                                        </select>
-                                      </div>
-                                    </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="form-control custom-select" name="type">
+                        <option value="frontend">Frontend</option>
+                        <option value="backend">Backend</option>
+                    </select>
+                  </div>
+                </div>
 
-                                    <div class="col-md-12 simple-mde"> 
-                                      <div class="form-group">
-                                          <textarea rows="3" class="form-control textarea" name="text" id="id_0" ></textarea>
-                                      </div>
-                                    </div>       
-  
-                                       <input type="hidden" name="taskid" value="{{one.taskid}}">
-                                       
-                                  </div>
+                <div class="col-md-12 simple-mde"> 
+                  <div class="form-group">
+                      <textarea rows="3" class="form-control textarea" name="text" id="id_0" ></textarea>
+                  </div>
+                </div>       
 
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Create</button>
-                                  </div>
-                                  </form>
-                                </div>
-                              </div>
-                          </div>
-                      </div>
-                    {% endif %}
+                    <input type="hidden" name="taskid" value="{{one.taskid}}">
+                    
+              </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create</button>
+              </div>
+              </form>
+            </div>
+          </div>
+      </div>
+  </div>
+{% endif %}

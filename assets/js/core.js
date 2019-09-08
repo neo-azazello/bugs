@@ -1,7 +1,7 @@
 /**
  *
  */
-let hexToRgba = function(hex, opacity) {
+let hexToRgba = function (hex, opacity) {
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   let rgb = result ? {
     r: parseInt(result[1], 16),
@@ -12,26 +12,25 @@ let hexToRgba = function(hex, opacity) {
   return 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + opacity + ')';
 };
 
-$(document).on('change','.up', function(){
- 	var names = [];
- 	var length = $(this).get(0).files.length;
-    for (var i = 0; i < $(this).get(0).files.length; ++i) {
-        names.push($(this).get(0).files[i].name);
-    }
-    // $("input[name=file]").val(names);
-	if(length>2){
-	  var fileName = names.join(', ');
-	  $(this).closest('.form-group').find('.form-control').attr("value",length+" files selected");
-	}
-	else{
-		$(this).closest('.form-group').find('.form-control').attr("value",names);
-	}
+$(document).on('change', '.up', function () {
+  var names = [];
+  var length = $(this).get(0).files.length;
+  for (var i = 0; i < $(this).get(0).files.length; ++i) {
+    names.push($(this).get(0).files[i].name);
+  }
+  // $("input[name=file]").val(names);
+  if (length > 2) {
+    var fileName = names.join(', ');
+    $(this).closest('.form-group').find('.form-control').attr("value", length + " files selected");
+  } else {
+    $(this).closest('.form-group').find('.form-control').attr("value", names);
+  }
 });
 
 /**
  *
  */
-$(document).ready(function() {
+$(document).ready(function () {
   /** Constant div card */
   const DIV_CARD = 'div.card';
 
@@ -42,22 +41,22 @@ $(document).ready(function() {
   // $('[data-toggle="popover"]').popover({
   //   html: true
   // });
-  
-  
 
-$('#checkBtn').click(function() {
-  checked = $("input[type=checkbox]:checked").length;
 
-  if(!checked) {
-    alert("At least one person must be assigned to task.");
-    return false;
-  }
 
-});
+  $('#checkBtn').click(function () {
+    checked = $("input[type=checkbox]:checked").length;
+
+    if (!checked) {
+      alert("At least one person must be assigned to task.");
+      return false;
+    }
+
+  });
 
 
   /** Function for remove card */
-  $('[data-toggle="card-remove"]').on('click', function(e) {
+  $('[data-toggle="card-remove"]').on('click', function (e) {
     let $card = $(this).closest(DIV_CARD);
 
     $card.remove();
@@ -67,7 +66,7 @@ $('#checkBtn').click(function() {
   });
 
   /** Function for collapse card */
-  $('[data-toggle="card-collapse"]').on('click', function(e) {
+  $('[data-toggle="card-collapse"]').on('click', function (e) {
     let $card = $(this).closest(DIV_CARD);
 
     $card.toggleClass('card-collapsed');
@@ -77,7 +76,7 @@ $('#checkBtn').click(function() {
   });
 
   /** Function for fullscreen card */
-  $('[data-toggle="card-fullscreen"]').on('click', function(e) {
+  $('[data-toggle="card-fullscreen"]').on('click', function (e) {
     let $card = $(this).closest(DIV_CARD);
 
     $card.toggleClass('card-fullscreen').removeClass('card-collapsed');
@@ -88,7 +87,7 @@ $('#checkBtn').click(function() {
 
   /**  */
   if ($('[data-sparkline]').length) {
-    let generateSparkline = function($elem, data, params) {
+    let generateSparkline = function ($elem, data, params) {
       $elem.sparkline(data, {
         type: $elem.attr('data-sparkline-type'),
         height: '100%',
@@ -104,8 +103,8 @@ $('#checkBtn').click(function() {
       });
     };
 
-    require(['sparkline'], function() {
-      $('[data-sparkline]').each(function() {
+    require(['sparkline'], function () {
+      $('[data-sparkline]').each(function () {
         let $chart = $(this);
 
         generateSparkline($chart, JSON.parse($chart.attr('data-sparkline')), {
@@ -117,8 +116,8 @@ $('#checkBtn').click(function() {
 
   /**  */
   if ($('.chart-circle').length) {
-    require(['circle-progress'], function() {
-      $('.chart-circle').each(function() {
+    require(['circle-progress'], function () {
+      $('.chart-circle').each(function () {
         let $this = $(this);
 
         $this.circleProgress({

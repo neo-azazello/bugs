@@ -1,0 +1,108 @@
+<div class="card-body">
+    
+    {#CHECK PUBLISHED STATUS#}
+    {% if auth.user.is_admin == "true" %} 
+    <div class="form-group">
+        <label class="form-label">Publish status</label>
+            <div class="selectgroup selectgroup-view " >
+
+                <label class="selectgroup-item">
+                    <input type="radio" onclick="is_draft(false, {{one.taskid}})" 
+                            name="is_draft" 
+                            value="false"
+                            class="selectgroup-input" 
+                            {% if  one.is_draft == 'false' %} checked="" {% endif %}> 
+                    <span class="selectgroup-button">Published</span>
+                </label>
+                
+                <label class="selectgroup-item">
+                    <input type="radio" 
+                            onclick="is_draft(true, {{one.taskid}})" 
+                            name="is_draft" 
+                            value="true" 
+                            class="selectgroup-input" 
+                            {% if  one.is_draft == 'true' %} checked="" {% endif %}
+                            > 
+                    <span class="selectgroup-button">Draft</span>
+                </label>
+
+            </div>
+    </div>
+    {% endif %}
+    
+    {#TASK CREATION DATE AND TIME#}
+    <div class="form-group">
+        <label class="form-label">Created at</label>
+        <span>{{one.created_at|date("d.m.Y H:i")}} </span>
+    </div>
+    
+    {#TASK PROCESS EXECUTION STATUS#} 
+    <div class="form-group">
+        <label class="form-label">Task Status</label>       
+            {% if auth.user.is_admin == "true" %} 
+                <div class="selectgroup selectgroup-view " >
+                    {% for status in statuses %}
+                            <label class="selectgroup-item">
+                                <input type="radio" 
+                                        onclick="send({{status.statusid}}, {{one.taskid}})" 
+                                        name="taskstatus" 
+                                        value="{{status.statusid}}" 
+                                        class="selectgroup-input" 
+                                        {% if one.taskstatus == status.statusid %} checked="" {% endif %}
+                                        > 
+                                <span class="selectgroup-button">{{status.statusname}}</span>
+                            </label>
+                    {% endfor %}
+                </div>
+            {% else %}
+        
+            <div class="selectgroup selectgroup-view " {% if auth.user.id not in brands %} data-toggle="tooltip" title="" data-original-title="Only task assigned can change task status" {% endif %}>
+                {% for status in statuses %}
+                    <label class="selectgroup-item">
+                    <input type="radio" 
+                            {% if (auth.user.id in brands) and one.taskstatus != 4 %} onclick="send({{status.statusid}}, {{one.taskid}})" {% endif %}
+                            name="taskstatus" 
+                            value="{{status.statusid}}" 
+                            class="selectgroup-input" 
+                            {% if one.taskstatus == status.statusid %} checked="" {% endif %}
+                            {% if (auth.user.id not in brands) %} disabled {% endif %}
+                            {% if one.taskstatus == 4 %} disabled {% endif %}
+                            > 
+                    <span class="selectgroup-button">{{status.statusname}}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        
+            {% endif %}    
+            
+    </div>
+
+    {#TYPE OF ADDED TASK#} 
+    <div class="form-group">
+        <label class="form-label">Task Type</label>
+            <div class="selectgroup selectgroup-pills">
+                <label class="selectgroup-item">
+                    <input type="radio" class="selectgroup-input" checked="">
+                    <span class="selectgroup-button selectgroup-button-icon">{{one.tasktypename}}</span>
+                </label>
+            </div>
+    </div>
+
+    {#PEOPLE WHOME THIS TASK HAS BEEN ASSIGNED#}
+    <div class="form-group">
+        <label class="form-label">Assigned to</label>
+        <div class="row gutters-sm">
+            {% for user in assigned %}
+                <div class="">
+                    <label class="imagecheck mb-2">
+                        <input type="checkbox" class="imagecheck-input" checked disabled>
+                        <figure class="imagecheck-figure">
+                            <img src="{{ user.photo }}" alt="}" class="imagecheck-image imagecheck-image-view">
+                        </figure>
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+</div>

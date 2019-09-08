@@ -1,5 +1,4 @@
 {% extends 'templates/app.twig' %}
-
 {% block content %} 
 
 <div class="container">
@@ -9,133 +8,140 @@
       </h1>
     </div> 
         
-              {% include 'templates/partials/flash.twig' %} 
+    {% include 'templates/partials/flash.twig' %} 
             
     <div class="row">
-              
-  
-            <div class="col-lg-4">
-              
-              <div class="card">
-               <div class="card-status bg-red"></div>
-                <div class="card-header">
-                  <h3 class="card-title">Projects</h3>
-                  <div class="card-options">
-                      <a href="#" class="btn btn-red btn-sm" data-toggle="modal" data-target="#addProject">Add new</a>
-                  </div>
-                </div>
+      <div class="col-lg-4">
+        
+        {#PROJECT SETTINGS#}
+        <div class="card">
+          <div class="card-status bg-red"></div>
+          <div class="card-header">
+            <h3 class="card-title">Projects</h3>
+            <div class="card-options">
+                <a href="#" class="btn btn-red btn-sm" data-toggle="modal" data-target="#addProject">Add new</a>
+            </div>
+          </div>
+          
+          <table class="table card-table">
+            <tbody>
+            {% for p in projects%}
+              <tr>
+                <td width="1"><span class="avatar avatar-sm" style="background-image: url({{p.projectlogo}})"></span></td>
+                <td>{{p.projectname}}</td>
+                <td class="text-right"><span class="text-muted">{{p.projectsartdate|date("d.m.Y")}}</span></td>
+                <td class="text-right">
+                  <a data-toggle="modal" 
+                     data-target="#projectedit" 
+                     data-projectname="{{p.projectname}}" 
+                     data-projectsartdate="{{p.projectsartdate|date("d.m.Y")}}" 
+                     data-projectlogo="{{p.projectlogo}}" 
+                     data-projectid="{{p.projectid}}" class="icon">
+                      <i class="fe fe-edit"></i>
+                  </a>
+                  <a  onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/projects/projectid/{{ p.projectid }}" class="icon"><i class="fe fe-trash"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        
+
+        <div class="card">
+          <div class="card-status bg-teal"></div>
+          <div class="card-header">
+            <h3 class="card-title">Task types</h3>
+            <div class="card-options">
+                <a href="#" class="btn btn-teal btn-sm" data-toggle="modal" data-target="#addTaskType">Add new</a>
+            </div>
+          </div>
+          <table class="table card-table">
+            <tbody>
+            {% for t in types%}
+              <tr>
+                <td width="1"><span class="avatar avatar-sm bg-{{t.tasktypecolor}}"></span></td>
+                <td>{{t.tasktypename}}</td>
+                <td class="text-right">
+                  <a href="#" class="icon"><i class="fe fe-edit"></i></a>
+                  <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/tasktypes/tasktypeid/{{ t.tasktypeid }}"  class="icon"><i class="fe fe-trash"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      
+
+        <div class="card">
+          <div class="card-status bg-orange"></div>
+          <div class="card-header">
+            <h3 class="card-title">Task statuses</h3>
+            <div class="card-options">
+                <a href="#" class="btn btn-orange btn-sm" data-toggle="modal" data-target="#addTaskStatus">Add new</a>
+            </div>
+          </div>
+          <table class="table card-table">
+            <tbody>
+            {% for s in statuses%}
+              <tr>
+                <td width="1"><span class="avatar avatar-sm bg-{{s.statuscolor}}"></span></td>
+                <td>{{s.statusname}}</td>
+                <td class="text-right">
+                  <a href="#" class="icon"><i class="fe fe-edit"></i></a>
+                  <a  onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/taskstatus/statusid/{{ s.statusid }}" class="icon"><i class="fe fe-trash"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-status bg-purple"></div>
+          <div class="card-header">
+            <h3 class="card-title">Users</h3>
+            <div class="card-options">
+                <a href="#" class="btn btn-purple btn-sm" data-toggle="modal" data-target="#addUser">Add new</a>
+            </div>
+          </div>
+          <div class="table-responsive">
+              <table class="table card-table table-striped table-vcenter">
+                <thead>
+                  <tr>
+                    <th colspan="2">User</th>
+                    <th>Telegram</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
                 
-                <table class="table card-table">
-                  <tbody>
-                  {% for p in projects%}
-                    <tr>
-                      <td width="1"><span class="avatar avatar-sm" style="background-image: url({{p.projectlogo}})"></span></td>
-                      <td>{{p.projectname}}</td>
-                      <td class="text-right"><span class="text-muted">{{p.projectsartdate|date("d.m.Y")}}</span></td>
-                      <td class="text-right">
-                        <a href="#" class="icon"><i class="fe fe-edit"></i></a>
-                        <a  onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/projects/projectid/{{ p.projectid }}" class="icon"><i class="fe fe-trash"></i></a>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-
-              
-
-              <div class="card">
-               <div class="card-status bg-teal"></div>
-                <div class="card-header">
-                  <h3 class="card-title">Task types</h3>
-                  <div class="card-options">
-                      <a href="#" class="btn btn-teal btn-sm" data-toggle="modal" data-target="#addTaskType">Add new</a>
-                  </div>
-                </div>
-                <table class="table card-table">
-                  <tbody>
-                  {% for t in types%}
-                    <tr>
-                      <td width="1"><span class="avatar avatar-sm bg-{{t.tasktypecolor}}"></span></td>
-                      <td>{{t.tasktypename}}</td>
-                      <td class="text-right">
-                        <a href="#" class="icon"><i class="fe fe-edit"></i></a>
-                        <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/tasktypes/tasktypeid/{{ t.tasktypeid }}"  class="icon"><i class="fe fe-trash"></i></a>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-
-            
-
-              <div class="card">
-               <div class="card-status bg-orange"></div>
-                <div class="card-header">
-                  <h3 class="card-title">Task statuses</h3>
-                  <div class="card-options">
-                      <a href="#" class="btn btn-orange btn-sm" data-toggle="modal" data-target="#addTaskStatus">Add new</a>
-                  </div>
-                </div>
-                <table class="table card-table">
-                  <tbody>
-                  {% for s in statuses%}
-                    <tr>
-                      <td width="1"><span class="avatar avatar-sm bg-{{s.statuscolor}}"></span></td>
-                      <td>{{s.statusname}}</td>
-                      <td class="text-right">
-                        <a href="#" class="icon"><i class="fe fe-edit"></i></a>
-                        <a  onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/taskstatus/statusid/{{ s.statusid }}" class="icon"><i class="fe fe-trash"></i></a>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+                <tbody>
+                {% for u in users %}      
+                  <tr {% if u.is_active == 2 %} class="bg-gray-dark text-white" {% endif %}>
+                    <td class="w-1"><span class="avatar" style="background-image: url({{u.photo}})"></span></td>
+                    <td>{{u.name}}</td>
+                    <td>{{u.telegramname}}</td>
+                    <td class="text-nowrap">{{u.email}}</td>
+                <td class="text-right">
+                  <a href="{{base_url()}}/profile/{{ u.id }}" class="icon"><i class="fe fe-edit"></i></a>
+                  <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/users/id/{{ u.id }}" class="icon"><i class="fe fe-trash"></i></a>
+                </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
             </div>
-            
-            <div class="col-lg-8">
-              <div class="card">
-               <div class="card-status bg-purple"></div>
-                <div class="card-header">
-                  <h3 class="card-title">Users</h3>
-                  <div class="card-options">
-                      <a href="#" class="btn btn-purple btn-sm" data-toggle="modal" data-target="#addUser">Add new</a>
-                  </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table card-table table-striped table-vcenter">
-                      <thead>
-                        <tr>
-                          <th colspan="2">User</th>
-                          <th>Telegram</th>
-                          <th>Email</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      
-                      <tbody>
-                      {% for u in users %}      
-                        <tr {% if u.is_active == 2 %} class="bg-gray-dark text-white" {% endif %}>
-                          <td class="w-1"><span class="avatar" style="background-image: url({{u.photo}})"></span></td>
-                          <td>{{u.name}}</td>
-                          <td>{{u.telegramname}}</td>
-                          <td class="text-nowrap">{{u.email}}</td>
-                      <td class="text-right">
-                        <a href="{{base_url()}}/profile/{{ u.id }}" class="icon"><i class="fe fe-edit"></i></a>
-                        <a onclick="return confirm('Are you shure?');" href="{{base_url()}}/delete/users/id/{{ u.id }}" class="icon"><i class="fe fe-trash"></i></a>
-                      </td>
-                        </tr>
-                      {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-              </div>
-              
-            </div>
-              
+        </div>
+        
+      </div>      
     </div>
+
+    {% include 'settings/projecteditmodal.twig' %}
     
      {% include 'templates/partials/modals.twig' %} 
     
