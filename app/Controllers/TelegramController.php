@@ -27,7 +27,7 @@ class TelegramController extends Controller
             ->whereIn('id', $assigned)
             ->implode('telegramname', ', ');
 
-        $this->tg_msg($username . " has added new task for " . $users . "\nLink: https://" . $_SERVER['SERVER_NAME'] . "/view/" . $task->id);
+        $this->tg_msg($username . " has added new task for " . $users . "\nLink: https://" . $_SERVER['SERVER_NAME'] . "/view/" . $taskid);
     }
 
     public function updateStatus($taskstatus, $tasktitle, $taskid)
