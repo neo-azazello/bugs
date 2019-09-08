@@ -218,7 +218,7 @@ class Tasks extends Model
 
     public static function getTaskAssigners($taskid, $userid)
     {
-
+        $new = array();
         $select = DB::select("SELECT userid FROM taskassigns WHERE taskid = $taskid AND userid != $userid ");
 
         foreach ($select as $key => $value) {
