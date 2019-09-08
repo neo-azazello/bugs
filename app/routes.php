@@ -60,7 +60,7 @@ $app->group('', function () {
     //Routes for Profile settings
     $this->post('/adduser', 'ProfileController:addNewUser')->setName('adduser');
     $this->post('/settingsprofile', 'ProfileController:settingsProfile')->setName('settingsprofile');
-    $this->get('/profile/{id}', 'ProfileController:getProfileDetails')->setName('profile');
+    $this->get('/profile', 'ProfileController:getProfileDetails')->setName('profile');
     $this->post('/updateprofile', 'ProfileController:updateProfile')->setName('updateprofile');
 
     //Routes for Settings

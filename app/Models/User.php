@@ -4,30 +4,27 @@
 // as include once or require once;
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Model {
+class User extends Model
+{
 
-        protected $table = 'users';
+    protected $table = 'users';
 
-        protected $fillable = [
-            'name',
-            'code',
-            'photo',
-            'email',
-            'telegramname',
-            'updated_at',
-            'created_at',
-        ];
-        
-        public static function getUserDetails($userId) {
-            
-            $id = implode('', $userId);
-            
-            return DB::select("SELECT * FROM users WHERE id = $id");
+    protected $fillable = [
+        'name',
+        'code',
+        'photo',
+        'email',
+        'telegramname',
+        'updated_at',
+        'created_at',
+    ];
 
-        }
-
+    public static function getUserDetails($userId)
+    {
+        return DB::select("SELECT * FROM users WHERE id = $userId");
+    }
 
 }
