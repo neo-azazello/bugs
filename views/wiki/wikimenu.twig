@@ -1,0 +1,25 @@
+<a href="#" data-toggle="modal" data-target="#addwikimenu" class="btn btn-block btn-primary mb-6">
+  <i class="fe fe-plus-square mr-2"></i> Add new data
+</a>
+
+{% include 'wiki/modals/addmenu.twig' %}
+
+
+<div class="list-group list-group-transparent mb-0">
+{# for active menu add active #}
+  {% for k, s in menu %}
+    <a href="{{base_url()}}/wiki/{{projectname}}/{{s.wikimenuslug}}" class="list-group-item list-group-item-action {% if s.wikimenuslug == wikislug %} active {% endif %}">
+      {{s.wikimenuname}}
+    </a>
+      {% for u in s.children %}
+        <a href="{{base_url()}}/wiki/{{projectname}}/{{u.wikimenuslug}}" class="ml-2 list-group-item list-group-item-action {% if u.wikimenuslug == wikislug %} active {% endif %}">
+          {{u.wikimenuname}}
+        </a>
+          {% for z in u.children %}
+            <a href="{{base_url()}}/wiki/{{projectname}}/{{z.wikimenuslug}}" class="ml-4 list-group-item list-group-item-action {% if z.wikimenuslug == wikislug %} active {% endif %}">
+              {{z.wikimenuname}}
+            </a>
+          {% endfor %}
+      {% endfor %}
+  {% endfor %}
+</div>

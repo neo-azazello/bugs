@@ -13,6 +13,12 @@
     {% for k, s in tasks %} 
 
       <div class="badge badge-primary mb-4">{{k}} / {{tasks[k]['tasks']|length}}</div>
+      <span class="float-right wiki-docs">
+        <a href="{{base_url()}}/wiki/{{k}}">
+          <img class="wiki-logo" src="{{base_url()}}/assets/images/wiki.png"/> Project Documents
+        </a>
+      </span>
+      
       <div class="row row-cards row-deck">
         <div class="col-12">
           <div class="card">

@@ -57,3 +57,24 @@
      return false;
 
  }
+
+ function editWikiArticle(id) {
+
+     $.get('/editwikiarticle/?wikiarticleid=' + id,
+
+         function (data) {
+             $("#editwikiarticle").remove();
+             $('#modalEdit').fadeIn("slow", function () {
+                 $(this).append(data);
+                 $("#editwikiarticle").modal();
+                 $("#editwikiarticle").focus(function () {
+                     simplemde.codemirror.refresh();
+                 });
+
+             });
+
+         });
+
+     return false;
+
+ }

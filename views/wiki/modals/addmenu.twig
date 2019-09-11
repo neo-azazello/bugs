@@ -1,0 +1,40 @@
+<div class="modal fade" id="addwikimenu" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add item</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      
+      <form action="{{ path_for('addwikimenu') }}" method="post" autocomplete="off">
+      <div class="modal-body">
+        
+        <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="wikimenuname" required>
+        </div>
+        
+        <div class="form-group">
+        <label class="form-label">Parent name</label>
+            <select name="parentid" id="select-beast" class="form-control custom-select">
+                {% if wikimenu is empty %}
+                    <option selected disabled>No parent available</option>  
+                {% else %}
+                        <option value="0">This item has no parent</option>
+                    {% for parent in wikimenu %}
+                        <option value="{{parent.wikimenuid}}">{{parent.wikimenuname}}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+       
+        <input type="hidden" name="projectname" value="{{projectname}}" />
+      
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

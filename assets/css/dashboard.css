@@ -20312,3 +20312,23 @@ svg {
   right: 33px;
   top: 0;
 }
+
+.wiki-logo {
+  width: 17px;
+  vertical-align: text-top;
+  line-height: 1;
+}
+
+.wiki-docs {
+  text-transform: uppercase;
+}
+
+.wiki-docs a {
+  text-decoration: none;
+}
+
+.wiki-article-edit {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}

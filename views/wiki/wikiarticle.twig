@@ -1,0 +1,31 @@
+{% extends 'templates/app.twig' %}
+{% block content %} 
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">
+            Documentation of <strong>{{projectname}}</strong> project
+        </h1>
+    </div> 
+
+    <div class="row">
+        <div class="col-lg-3 order-lg-1 mb-4">
+            {% include 'wiki/wikimenu.twig'%}
+        </div>
+        <div class="col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-wrap p-lg-6">
+                    {% if article %}
+                    <span onclick="editWikiArticle('{{article.wikiarticleid}}')" class="btn btn-success btn-sm wiki-article-edit" >Edit article</span>
+                    {{ markdown(article.wikitext) | raw }}
+                    {% else %}
+                        {% include 'wiki/welcomeblankarticle.twig' %}
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  {% endblock %}

@@ -124,6 +124,10 @@ $container['SettingsController'] = function ($container) {
     return new \App\Controllers\SettingsController($container);
 };
 
+$container['WikiController'] = function ($container) {
+    return new \App\Controllers\WikiController($container);
+};
+
 $container['helper'] = function ($container) {
     return new \App\Controllers\HelperController($container);
 };

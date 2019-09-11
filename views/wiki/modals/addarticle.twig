@@ -1,0 +1,37 @@
+<div class="modal fade" id="addwikiarticle" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-primary">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Article</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      
+      <form action="{{ path_for('addwikiarticle') }}" method="post" autocomplete="off">
+      <div class="modal-body">
+
+        <div class="form-group simple-mde">
+            <textarea rows="3" class="form-control textarea" name="wikitext" id="addwikiarticleMDE" ></textarea>
+        </div>
+
+        <script>
+            var simplemde = new SimpleMDE({
+                element: document.getElementById("addwikiarticleMDE"),
+                forceSync: true,
+                autofocus: true,
+                showIcons: ["code", "table"],
+                spellChecker: false
+            });
+        </script>
+
+        
+        <input type="hidden" name="projectname" value="{{projectname}}" />
+        <input type="hidden" name="wikimenuslug" value="{{wikislug}}" />
+      
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

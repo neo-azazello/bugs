@@ -70,4 +70,12 @@ $app->group('', function () {
     $this->post('/addtaskstatus', 'SettingsController:newTaskStatus')->setName('addtaskstatus');
     $this->get('/delete/{table}/{column}/{id}', 'SettingsController:deleteSettingsData');
 
+    //Project Documents (Wiki)
+    $this->get('/wiki/{projectname}', 'WikiController:loadWikiPage')->setName('loadwiki');
+    $this->post('/addwikimenu', 'WikiController:addWikiMenu')->setName('addwikimenu');
+    $this->get('/wiki/{projectname}/{wikislug}', 'WikiController:getWikiArticle')->setName('getwiki');
+    $this->post('/addwikiarticle', 'WikiController:addWikiArticle')->setName('addwikiarticle');
+    $this->get('/editwikiarticle/', 'WikiController:editWikiArticle');
+    $this->post('/updatewikiarticle', 'WikiController:updateWikiArticle')->setName('updatewikiarticle');
+
 })->add(new AuthMiddleware($container));
