@@ -20328,7 +20328,18 @@ svg {
 }
 
 .wiki-article-edit {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.wiki-menuitem-wrapper {
+  position: relative;
+}
+
+.wiki-menu-edit {
+  position: absolute;
+  right: -20px;
+  top: 8px;
+  cursor: pointer;
 }

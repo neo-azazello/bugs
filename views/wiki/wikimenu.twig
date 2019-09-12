@@ -7,25 +7,56 @@
 
 <div class="list-group list-group-transparent mb-0">
   
-  {% set s_count = 0 %}
-  {% for k, s in menu %}
-    <a href="{{base_url()}}/wiki/{{projectname}}/{{s.wikimenuslug}}" class="list-group-item list-group-item-action {% if s.wikimenuslug == wikislug %} active {% endif %}">
-      <span class="icon mr-3">{% set s_count = s_count + 1 %} {{s_count}}</span>{{s.wikimenuname}}
-    </a>
-      
-      {% set u_count = 0 %}
-      {% for u in s.children %}
-        <a href="{{base_url()}}/wiki/{{projectname}}/{{u.wikimenuslug}}" class="ml-2 list-group-item list-group-item-action {% if u.wikimenuslug == wikislug %} active {% endif %}">
-          <span class="icon mr-3">{% set u_count = u_count + 1 %} {{s_count}}.{{u_count}}</span>{{u.wikimenuname}}
-        </a>
-          
+          {#FIRST MENU ITEM#}
+          {% set s_count = 0 %}
+          {% for k, s in menu %}
+          <span class="wiki-menuitem-wrapper">
+            <a href="{{base_url()}}/wiki/{{projectname}}/{{s.wikimenuslug}}" class="list-group-item list-group-item-action {% if s.wikimenuslug == wikislug %} active {% endif %}">
+              <span class="icon mr-3">
+                {% set s_count = s_count + 1 %} {{s_count}}
+              </span>{{s.wikimenuname}}
+            </a>
+            {% if s.wikimenuslug == wikislug %} 
+              <span class="icon ml-3 wiki-menu-edit">
+                <i class="fe fe-edit-3"></i>
+              </span> 
+            {% endif %}
+          </span>
+
+          {#SECOND CHILD MENU ITEM#}
+          {% set u_count = 0 %}
+          {% for u in s.children %}
+          <span class="wiki-menuitem-wrapper">
+            <a href="{{base_url()}}/wiki/{{projectname}}/{{u.wikimenuslug}}" class="pl-5 list-group-item list-group-item-action {% if u.wikimenuslug == wikislug %} active {% endif %}">
+              <span class="icon mr-3">
+                {% set u_count = u_count + 1 %} {{s_count}}.{{u_count}}
+              </span>{{u.wikimenuname}}
+            </a>
+            {% if u.wikimenuslug == wikislug %} 
+              <span class="icon ml-3 wiki-menu-edit">
+                <i class="fe fe-edit-3"></i>
+              </span> 
+            {% endif %}
+          </span>
+
+          {#THIRD CHILD MENU ITEM#}
           {% set z_count = 0 %}
           {% for z in u.children %}
-            <a href="{{base_url()}}/wiki/{{projectname}}/{{z.wikimenuslug}}" class="ml-4 list-group-item list-group-item-action {% if z.wikimenuslug == wikislug %} active {% endif %}">
-              <span class="icon mr-3">{% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}}</span>{{z.wikimenuname}}
-            </a>
-            
+           <span class="wiki-menuitem-wrapper">
+              <a href="{{base_url()}}/wiki/{{projectname}}/{{z.wikimenuslug}}" class="pl-6 list-group-item list-group-item-action {% if z.wikimenuslug == wikislug %} active {% endif %}">
+                <span class="icon mr-3">{% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}}</span>{{z.wikimenuname}}
+
+              </a>
+              {% if z.wikimenuslug == wikislug %} 
+                <span class="icon ml-3 wiki-menu-edit">
+                  <i class="fe fe-edit-3"></i>
+                </span> 
+              {% endif %}
+            </span>
+
+
           {% endfor %}
       {% endfor %}
   {% endfor %}
+
 </div>
