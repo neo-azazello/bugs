@@ -12,7 +12,10 @@
             <div class="card">
                 <div class="card-body text-center">
                     <div class="h5">Frontend Tasks</div>
-                    <div class="display-4 font-weight-bold mb-4">{{frontenddone + frontendnotdone}}</div>
+                    <div class="display-4 font-weight-bold mb-4">
+                         <span class="text-red" title="Still open tasks">{{frontendnotdone}}</span> / 
+                         <span class="text-green" title="All finished tasks">{{frontenddone}}</span> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -21,7 +24,10 @@
             <div class="card">
                 <div class="card-body text-center">
                     <div class="h5">Backend Tasks</div>
-                    <div class="display-4 font-weight-bold mb-4">{{backenddone + backendnotdone}}</div>
+                    <div class="display-4 font-weight-bold mb-4">
+                         <span class="text-red" title="Still open tasks">{{backendnotdone}}</span> / 
+                         <span class="text-green" title="All finished tasks">{{backenddone}}</span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,19 +6,25 @@
 
 
 <div class="list-group list-group-transparent mb-0">
-{# for active menu add active #}
+  
+  {% set s_count = 0 %}
   {% for k, s in menu %}
     <a href="{{base_url()}}/wiki/{{projectname}}/{{s.wikimenuslug}}" class="list-group-item list-group-item-action {% if s.wikimenuslug == wikislug %} active {% endif %}">
-      {{s.wikimenuname}}
+      <span class="icon mr-3">{% set s_count = s_count + 1 %} {{s_count}}</span>{{s.wikimenuname}}
     </a>
+      
+      {% set u_count = 0 %}
       {% for u in s.children %}
         <a href="{{base_url()}}/wiki/{{projectname}}/{{u.wikimenuslug}}" class="ml-2 list-group-item list-group-item-action {% if u.wikimenuslug == wikislug %} active {% endif %}">
-          {{u.wikimenuname}}
+          <span class="icon mr-3">{% set u_count = u_count + 1 %} {{s_count}}.{{u_count}}</span>{{u.wikimenuname}}
         </a>
+          
+          {% set z_count = 0 %}
           {% for z in u.children %}
             <a href="{{base_url()}}/wiki/{{projectname}}/{{z.wikimenuslug}}" class="ml-4 list-group-item list-group-item-action {% if z.wikimenuslug == wikislug %} active {% endif %}">
-              {{z.wikimenuname}}
+              <span class="icon mr-3">{% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}}</span>{{z.wikimenuname}}
             </a>
+            
           {% endfor %}
       {% endfor %}
   {% endfor %}

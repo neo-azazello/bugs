@@ -40,6 +40,8 @@ class WikiController extends Controller
             ->first();
     }
 
+    /////////////////////////// METHODS FOR WIKI MENU /////////////////////////////////////
+
     public function loadWikiPage($request, $response, $arg)
     {
         $data['article'] = $this->container->db
@@ -81,6 +83,8 @@ class WikiController extends Controller
             'wikislug' => $wikimenuslug])
         );
     }
+
+    /////////////////////////// METHODS FOR WIKI ARTICLES ///////////////////////////////
 
     public function getWikiArticle($request, $response, $arg)
     {
