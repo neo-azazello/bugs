@@ -6,8 +6,13 @@ class WikiController extends Controller
 {
 
     //CREATES TREE FROM PLAIN LIST
-    private function getChildren($source)
+    private function getChildren($projectname)
     {
+        $source = $this->container->db
+            ->table('wikimenu')
+            ->where('projectid', $this->getProjectId($projectname)->projectid)
+            ->get();
+
         $childs = array();
 
         foreach ($source as $item) {
@@ -44,16 +49,11 @@ class WikiController extends Controller
 
     public function loadWikiPage($request, $response, $arg)
     {
+        $data['projectname'] = $arg['projectname'];
         $data['article'] = $this->container->db
             ->table('wikiarticle')
-
             ->first();
-        $data['projectname'] = $arg['projectname'];
-        $data['wikimenu'] = $this->container->db
-            ->table('wikimenu')
-            ->where('projectid', $this->getProjectId($data['projectname'])->projectid)
-            ->get();
-        $data['menu'] = $this->getChildren($data['wikimenu']);
+        $data['menu'] = $this->getChildren($data['projectname']);
 
         return $this->view->render($response, 'wiki/main.twig', $data);
     }
@@ -84,6 +84,35 @@ class WikiController extends Controller
         );
     }
 
+    public function editWikiMenu($request, $response)
+    {
+        $args['data'] = $this->container->db
+            ->table('wikimenu')
+            ->where('wikimenuslug', $request->getParam('wikimenuslug'))
+            ->first();
+        $args['menu'] = $this->getChildren(
+            $this->getProjectName(
+                $request->getParam('wikimenuslug'))
+                ->projectname);
+
+            return $this->view->render($response, 'wiki/modals/editmenu.twig', $args);
+    }
+
+    public function updateWikiMenu($request, $response)
+    {
+        $this->container->db
+            ->table('wikimenu')
+            ->where('wikimenuslug', $request->getParam('wikimenuslug'))
+            ->update(array(
+                'wikimenuname' => $request->getParam('wikimenuname'),
+                'parentid' => $request->getParam('parentid'),
+            ));
+        return $response->withRedirect($this->router->pathFor('getwiki', [
+            'projectname' => $this->getProjectName($request->getParam('wikimenuslug'))->projectname,
+            'wikislug' => $request->getParam('wikimenuslug')])
+        );
+    }
+
     /////////////////////////// METHODS FOR WIKI ARTICLES ///////////////////////////////
 
     public function getWikiArticle($request, $response, $arg)
@@ -96,11 +125,7 @@ class WikiController extends Controller
             ->where('wikimenuslug', $data['wikislug'])
             ->first();
 
-        $data['wikimenu'] = $this->container->db
-            ->table('wikimenu')
-            ->where('projectid', $this->getProjectId($data['projectname'])->projectid)
-            ->get();
-        $data['menu'] = $this->getChildren($data['wikimenu']);
+        $data['menu'] = $this->getChildren($data['projectname']);
 
         return $this->view->render($response, 'wiki/wikiarticle.twig', $data);
     }

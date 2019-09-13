@@ -1,0 +1,52 @@
+<div class="modal fade" id="editwikimenu" tabindex="-1" data-keyboard="false" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit item</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> </button>
+      </div>
+      
+      <form action="{{ path_for('updatewikimenu') }}" method="post" autocomplete="off">
+      <div class="modal-body">
+
+        <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="wikimenuname" value="{{data.wikimenuname}}" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Parent name</label>
+          <select name="parentid" id="select-beast" class="form-control custom-select">
+            {% if menu is empty %}
+                <option value="0">No parent available</option> 
+            {% else %}
+                  <option value="0">This item has no parent</option> 
+                  {% set s_count = 0 %}
+                    {% for k, s in menu %}
+                    <option value="{{s.wikimenuid}}" {% if s.wikimenuslug == data.wikimenuslug %} selected {% endif %}>
+                        {% set s_count = s_count + 1 %} {{s_count}} {{s.wikimenuname}}
+                    </option>
+                        
+                        {% set u_count = 0 %}
+                        {% for u in s.children %}
+                        <option value="{{u.wikimenuid}}" {% if u.wikimenuslug == data.wikimenuslug %} selected {% endif %}> &nbsp; &nbsp; {% set u_count = u_count + 1 %} {{s_count}}.{{u_count}} {{u.wikimenuname}}</option>
+                            {% set z_count = 0 %}
+                            {% for z in u.children %}
+                            <option value="{{z.wikimenuid}}" {% if z.wikimenuslug == data.wikimenuslug %} selected {% endif %}> &nbsp; &nbsp; &nbsp; {% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}} {{z.wikimenuname}}</option>
+                            {% endfor %} 
+                        {% endfor %}
+                    {% endfor %}
+            {% endif %}
+            </select>
+        </div>
+       
+        <input type="hidden" name="wikimenuslug" value="{{data.wikimenuslug}}" />
+      
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

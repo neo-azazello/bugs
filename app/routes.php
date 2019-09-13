@@ -77,5 +77,7 @@ $app->group('', function () {
     $this->post('/addwikiarticle', 'WikiController:addWikiArticle')->setName('addwikiarticle');
     $this->get('/editwikiarticle/', 'WikiController:editWikiArticle');
     $this->post('/updatewikiarticle', 'WikiController:updateWikiArticle')->setName('updatewikiarticle');
+    $this->get('/editwikimenu/', 'WikiController:editWikiMenu');
+    $this->post('/updatewikimenu', 'WikiController:updateWikiMenu')->setName('updatewikimenu');
 
 })->add(new AuthMiddleware($container));

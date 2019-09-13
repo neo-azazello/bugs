@@ -78,3 +78,20 @@
      return false;
 
  }
+
+ function editWikiMenu(id) {
+
+     $.get('/editwikimenu/?wikimenuslug=' + id,
+
+         function (data) {
+             $("#editwikimenu").remove();
+             $('#modalEdit').fadeIn("slow", function () {
+                 $(this).append(data);
+                 $("#editwikimenu").modal();
+             });
+
+         });
+
+     return false;
+
+ }

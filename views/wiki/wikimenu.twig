@@ -17,7 +17,7 @@
               </span>{{s.wikimenuname}}
             </a>
             {% if s.wikimenuslug == wikislug %} 
-              <span class="icon ml-3 wiki-menu-edit">
+              <span class="icon ml-3 wiki-menu-edit" onclick="editWikiMenu('{{s.wikimenuslug}}')">
                 <i class="fe fe-edit-3"></i>
               </span> 
             {% endif %}
@@ -33,7 +33,7 @@
               </span>{{u.wikimenuname}}
             </a>
             {% if u.wikimenuslug == wikislug %} 
-              <span class="icon ml-3 wiki-menu-edit">
+              <span class="icon ml-3 wiki-menu-edit" onclick="editWikiMenu('{{u.wikimenuslug}}')">
                 <i class="fe fe-edit-3"></i>
               </span> 
             {% endif %}
@@ -48,7 +48,7 @@
 
               </a>
               {% if z.wikimenuslug == wikislug %} 
-                <span class="icon ml-3 wiki-menu-edit">
+                <span class="icon ml-3 wiki-menu-edit" onclick="editWikiMenu('{{z.wikimenuslug}}')">
                   <i class="fe fe-edit-3"></i>
                 </span> 
               {% endif %}
