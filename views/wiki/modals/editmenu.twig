@@ -8,7 +8,6 @@
       
       <form action="{{ path_for('updatewikimenu') }}" method="post" autocomplete="off">
       <div class="modal-body">
-
         <div class="form-group">
             <label class="form-label">Name</label>
             <input type="text" class="form-control" name="wikimenuname" value="{{data.wikimenuname}}" required>
@@ -23,16 +22,16 @@
                   <option value="0">This item has no parent</option> 
                   {% set s_count = 0 %}
                     {% for k, s in menu %}
-                    <option value="{{s.wikimenuid}}" {% if s.wikimenuslug == data.wikimenuslug %} selected {% endif %}>
+                    <option value="{{s.wikimenuid}}" {% if s.wikimenuid == data.parentid %} selected {% endif %}>
                         {% set s_count = s_count + 1 %} {{s_count}} {{s.wikimenuname}}
                     </option>
                         
                         {% set u_count = 0 %}
                         {% for u in s.children %}
-                        <option value="{{u.wikimenuid}}" {% if u.wikimenuslug == data.wikimenuslug %} selected {% endif %}> &nbsp; &nbsp; {% set u_count = u_count + 1 %} {{s_count}}.{{u_count}} {{u.wikimenuname}}</option>
+                        <option value="{{u.wikimenuid}}" {% if u.wikimenuid == data.parentid %} selected {% endif %}> &nbsp; &nbsp; {% set u_count = u_count + 1 %} {{s_count}}.{{u_count}} {{u.wikimenuname}}</option>
                             {% set z_count = 0 %}
                             {% for z in u.children %}
-                            <option value="{{z.wikimenuid}}" {% if z.wikimenuslug == data.wikimenuslug %} selected {% endif %}> &nbsp; &nbsp; &nbsp; {% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}} {{z.wikimenuname}}</option>
+                            <option value="{{z.wikimenuid}}" {% if z.wikimenuid == data.parentid %} selected {% endif %}> &nbsp; &nbsp; &nbsp; {% set z_count = z_count + 1 %} {{s_count}}.{{u_count}}.{{z_count}} {{z.wikimenuname}}</option>
                             {% endfor %} 
                         {% endfor %}
                     {% endfor %}
